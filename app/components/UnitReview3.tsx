@@ -55,7 +55,7 @@ export default function UnitReview3() {
         subtitle="Pon a prueba tus conocimientos sobre comunicación entre procesos en Linux." 
       />
       <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <MiniQuiz questions={questions} />
+        <MiniQuiz title="Evaluación Unidad 3" questions={questions} />
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ interface Props {
   title: string;
   language?: string;
   code: string;
-  explanation: string;
+  explanation?: string;
   output?: string;
 }
 
@@ -45,11 +45,13 @@ export default function CodeBlock({ title, language = "C", code, explanation, ou
           }
         </div>
       </div>
-      <div style={{ background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderTop: "none", borderRadius: "0 0 12px 12px", padding: "1rem 1.25rem" }}>
-        <span style={{ color: "var(--text-secondary)", fontSize: "0.85rem", lineHeight: 1.6 }}>
-          <span style={{ color: "var(--accent-blue)", fontWeight: 700 }}>💡 Explicación: </span>{explanation}
-        </span>
-      </div>
+      {explanation && (
+        <div style={{ background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderTop: "none", borderRadius: "0 0 12px 12px", padding: "1rem 1.25rem" }}>
+          <span style={{ color: "var(--text-secondary)", fontSize: "0.85rem", lineHeight: 1.6 }}>
+            <span style={{ color: "var(--accent-blue)", fontWeight: 700 }}>💡 Explicación: </span>{explanation}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

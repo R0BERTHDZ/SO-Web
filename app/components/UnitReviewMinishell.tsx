@@ -60,7 +60,7 @@ export default function UnitReviewMinishell() {
         subtitle="Verifica tu comprensión sobre la implementación interna de los comandos de tu shell." 
       />
       <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <MiniQuiz questions={questions} />
+        <MiniQuiz title="Evaluación Minishell" questions={questions} />
       </div>
     </div>
   );
