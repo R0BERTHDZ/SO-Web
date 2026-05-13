@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 export default function QuickCommand() {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>(["Bienvenido al Shell del Dashboard.", "Escribe 'help' para ver los comandos disponibles."]);
+  const [isRoot, setIsRoot] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,18 +18,42 @@ export default function QuickCommand() {
     if (!input.trim()) return;
 
     const cmd = input.toLowerCase().trim();
-    const newHistory = [...history, `user@so:~$ ${input}`];
+    const prompt = isRoot ? "root@so:#" : "user@so:~$";
+    const newHistory = [...history, `${prompt} ${input}`];
 
     switch (cmd) {
+      case "su root":
+      case "sudo su":
+      case "su":
+        if (!isRoot) {
+          setIsRoot(true);
+          newHistory.push("Autenticación exitosa. Cambiando a superusuario (root)...");
+          newHistory.push("⚠️ Advertencia: ¡Con un gran poder conlleva una gran responsabilidad!");
+        } else {
+          newHistory.push("Ya eres root.");
+        }
+        break;
+      case "exit":
+        if (isRoot) {
+          setIsRoot(false);
+          newHistory.push("Sesión de superusuario terminada. Regresando a usuario normal.");
+        } else {
+          newHistory.push("Cerrando sesión de terminal...");
+        }
+        break;
       case "help":
-        newHistory.push("Comandos disponibles:", "- help: Muestra esta ayuda", "- clear: Limpia la terminal", "- goto [tema]: Navega a un tema (ej: goto 2.1)", "- info: Información del sistema", "- whoami: ¿Quién eres?");
+        newHistory.push("Comandos disponibles:", "- help: Muestra esta ayuda", "- clear: Limpia la terminal", "- goto [tema]: Navega a un tema", "- info: Información del sistema", "- whoami: ¿Quién eres?", "- su root: Escalar privilegios a superusuario", "- exit: Salir de la sesión actual");
         break;
       case "clear":
         setHistory([]);
         setInput("");
         return;
       case "whoami":
-        newHistory.push("Eres un estudiante de Ingeniería en Computación explorando el Kernel.");
+        if (isRoot) {
+          newHistory.push("root - Tienes control absoluto sobre el sistema.");
+        } else {
+          newHistory.push("Eres un estudiante de Ingeniería en Computación explorando el Kernel.");
+        }
         break;
       case "info":
         newHistory.push("Plataforma Educativa de Sistemas Operativos v2.0", "Desarrollado con Next.js y React.", "Corriendo en modo interactivo.");
@@ -84,7 +109,9 @@ export default function QuickCommand() {
         ))}
       </div>
       <form onSubmit={handleCommand} style={{ display: "flex", alignItems: "center", gap: "0.5rem", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "0.5rem" }}>
-        <span style={{ color: "#10b981" }}>user@so:~$</span>
+        <span style={{ color: isRoot ? "#ef4444" : "#10b981", fontWeight: isRoot ? "bold" : "normal" }}>
+          {isRoot ? "root@so:#" : "user@so:~$"}
+        </span>
         <input
           type="text"
           value={input}
