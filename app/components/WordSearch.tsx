@@ -42,6 +42,17 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
     generateGrid();
   }, [items]);
 
+  useEffect(() => {
+    if (foundWords.length > 0) {
+      setTimeout(() => {
+        const element = document.getElementById("glosario-conceptos");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    }
+  }, [foundWords]);
+
   const generateGrid = () => {
     const newGrid = Array(size).fill(null).map(() => Array(size).fill(""));
     const words = [...targetWords].map(w => w.toUpperCase());
@@ -296,12 +307,12 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
       
       {/* Meanings (Bottom) */}
       {foundWords.length > 0 && (
-        <div style={{ marginTop: "2rem", borderTop: "2px solid var(--border-color)", paddingTop: "2rem" }}>
+        <div id="glosario-conceptos" style={{ marginTop: "2rem", borderTop: "2px solid var(--border-color)", paddingTop: "2rem" }}>
           <h4 style={{ fontSize: "1.2rem", fontWeight: 900, color: "var(--accent-primary)", marginBottom: "1.5rem" }}>
-            📚 Glosario de Conceptos Encontrados
+            📚 Concepto Encontrado
           </h4>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}>
-            {items.filter(i => foundWords.includes(i.word.toUpperCase())).map(item => {
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "1.5rem" }}>
+            {items.filter(i => i.word.toUpperCase() === foundWords[foundWords.length - 1]).map(item => {
               const wordColor = getWordColor(item.word);
               return (
                 <div key={`meaning-${item.word}`} style={{ 
