@@ -36,8 +36,8 @@ export function InfoCard({ title, items }: { title: string; items: string[] }) {
 export function NextTopicButton({ targetId, text = "Siguiente Subtema ➔" }: { targetId: string, text?: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "2rem", marginBottom: "1rem", paddingTop: "1rem", borderTop: "1px solid rgba(0,0,0,0.05)" }}>
-      <button 
-        className="btn-primary" 
+      <button
+        className="btn-primary"
         onClick={() => {
           window.dispatchEvent(new CustomEvent("os_navigate", { detail: targetId }));
         }}
@@ -126,9 +126,9 @@ function ForkDiagram() {
         <text x="80" y="108" textAnchor="middle" fontWeight="800" fontSize="13" fill="var(--accent-primary)">PROCESO</text>
         <text x="80" y="124" textAnchor="middle" fontWeight="800" fontSize="13" fill="var(--accent-primary)">PADRE</text>
         <text x="80" y="145" textAnchor="middle" fontSize="11" fill="var(--text-muted)">PID = 1000</text>
-        <rect x="25" y="155" width="110" height="18" rx="4" fill="var(--accent-primary)" opacity="0.15"/>
+        <rect x="25" y="155" width="110" height="18" rx="4" fill="var(--accent-primary)" opacity="0.15" />
         <text x="80" y="168" textAnchor="middle" fontSize="10" fill="var(--text-primary)">Texto · Datos · Heap · Stack</text>
-        <rect x="25" y="178" width="110" height="18" rx="4" fill="var(--accent-primary)" opacity="0.15"/>
+        <rect x="25" y="178" width="110" height="18" rx="4" fill="var(--accent-primary)" opacity="0.15" />
         <text x="80" y="191" textAnchor="middle" fontSize="10" fill="var(--text-primary)">Archivos abiertos</text>
         {/* fork() label */}
         <text x="220" y="140" textAnchor="middle" fontSize="16" fontWeight="900" fill="var(--accent-primary)">fork()</text>
@@ -142,14 +142,14 @@ function ForkDiagram() {
         <text x="330" y="65" textAnchor="middle" fontWeight="800" fontSize="13" fill="var(--accent-primary)">PADRE</text>
         <text x="330" y="82" textAnchor="middle" fontSize="11" fill="var(--text-muted)">PID = 1000</text>
         <text x="330" y="99" textAnchor="middle" fontSize="11" fill="var(--text-muted)">retorna: PID_hijo</text>
-        <rect x="270" y="108" width="120" height="16" rx="4" fill="var(--accent-primary)" opacity="0.15"/>
+        <rect x="270" y="108" width="120" height="16" rx="4" fill="var(--accent-primary)" opacity="0.15" />
         <text x="330" y="120" textAnchor="middle" fontSize="10" fill="var(--text-primary)">Copia virtual (COW)</text>
         {/* Hijo */}
         <rect x="255" y="160" width="150" height="100" rx="10" fill="url(#gc)" stroke="#3b82f6" strokeWidth="2" />
         <text x="330" y="185" textAnchor="middle" fontWeight="800" fontSize="13" fill="#3b82f6">HIJO</text>
         <text x="330" y="202" textAnchor="middle" fontSize="11" fill="var(--text-muted)">PID = 1001</text>
         <text x="330" y="219" textAnchor="middle" fontSize="11" fill="var(--text-muted)">retorna: 0</text>
-        <rect x="270" y="228" width="120" height="16" rx="4" fill="#3b82f6" opacity="0.15"/>
+        <rect x="270" y="228" width="120" height="16" rx="4" fill="#3b82f6" opacity="0.15" />
         <text x="330" y="240" textAnchor="middle" fontSize="10" fill="var(--text-primary)">Copia virtual (COW)</text>
         {/* COW arrow */}
         <line x1="408" y1="90" x2="490" y2="90" stroke="var(--accent-primary)" strokeWidth="1.5" strokeDasharray="4,3" markerEnd="url(#fa)" />
@@ -179,26 +179,26 @@ function WaitDiagram() {
         <text x="610" y="175" fontSize="11" fill="var(--text-muted)">tiempo</text>
         {/* PADRE lane */}
         <text x="14" y="55" fontSize="11" fontWeight="800" fill="var(--accent-primary)" textAnchor="middle" transform="rotate(-90, 14, 55)">PADRE</text>
-        <rect x="30" y="30" width="120" height="28" rx="6" fill="rgba(155, 28, 46, 0.1)" stroke="var(--accent-primary)" strokeWidth="1.5"/>
+        <rect x="30" y="30" width="120" height="28" rx="6" fill="rgba(155, 28, 46, 0.1)" stroke="var(--accent-primary)" strokeWidth="1.5" />
         <text x="90" y="49" textAnchor="middle" fontSize="11" fill="var(--text-primary)" fontWeight="700">Ejecutando</text>
-        <rect x="152" y="30" width="160" height="28" rx="6" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="4,2"/>
+        <rect x="152" y="30" width="160" height="28" rx="6" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="4,2" />
         <text x="232" y="49" textAnchor="middle" fontSize="11" fill="#f59e0b" fontWeight="700">BLOQUEADO en wait()</text>
-        <rect x="314" y="30" width="120" height="28" rx="6" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" strokeWidth="1.5"/>
+        <rect x="314" y="30" width="120" height="28" rx="6" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" strokeWidth="1.5" />
         <text x="374" y="49" textAnchor="middle" fontSize="11" fill="#10b981" fontWeight="700">Continúa 🎉</text>
         {/* Fork arrow */}
-        <line x1="152" y1="90" x2="152" y2="110" stroke="var(--text-muted)" strokeWidth="1.5" markerEnd="url(#wa)"/>
+        <line x1="152" y1="90" x2="152" y2="110" stroke="var(--text-muted)" strokeWidth="1.5" markerEnd="url(#wa)" />
         <text x="152" y="88" textAnchor="middle" fontSize="10" fill="var(--text-muted)">fork()</text>
         {/* wait arrow */}
-        <line x1="232" y1="58" x2="232" y2="75" stroke="#f59e0b" strokeWidth="1.5" markerEnd="url(#wa)"/>
+        <line x1="232" y1="58" x2="232" y2="75" stroke="#f59e0b" strokeWidth="1.5" markerEnd="url(#wa)" />
         <text x="232" y="72" textAnchor="middle" fontSize="9" fill="#f59e0b">wait()</text>
         {/* HIJO lane */}
         <text x="14" y="135" fontSize="11" fontWeight="800" fill="#3b82f6" textAnchor="middle" transform="rotate(-90, 14, 135)">HIJO</text>
-        <rect x="152" y="110" width="140" height="28" rx="6" fill="rgba(59, 130, 246, 0.1)" stroke="#3b82f6" strokeWidth="1.5"/>
+        <rect x="152" y="110" width="140" height="28" rx="6" fill="rgba(59, 130, 246, 0.1)" stroke="#3b82f6" strokeWidth="1.5" />
         <text x="222" y="129" textAnchor="middle" fontSize="11" fill="#3b82f6" fontWeight="700">Ejecutando tarea</text>
-        <rect x="294" y="110" width="42" height="28" rx="6" fill="rgba(239, 68, 68, 0.1)" stroke="#ef4444" strokeWidth="1.5"/>
+        <rect x="294" y="110" width="42" height="28" rx="6" fill="rgba(239, 68, 68, 0.1)" stroke="#ef4444" strokeWidth="1.5" />
         <text x="315" y="129" textAnchor="middle" fontSize="10" fill="#ef4444" fontWeight="700">exit()</text>
         {/* SIGCHLD */}
-        <line x1="315" y1="110" x2="315" y2="58" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4,2" markerEnd="url(#wa)"/>
+        <line x1="315" y1="110" x2="315" y2="58" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4,2" markerEnd="url(#wa)" />
         <text x="340" y="86" fontSize="9" fill="#ef4444">SIGCHLD</text>
       </svg>
     </div>
@@ -211,10 +211,10 @@ function ThreadDiagram() {
       <p style={{ textAlign: "center", fontWeight: 800, color: "var(--text-primary)", marginBottom: "1rem", fontSize: "1rem" }}>🧵 Proceso con múltiples hilos</p>
       <svg width="660" height="270" viewBox="0 0 660 270" style={{ maxWidth: "100%", height: "auto", fontFamily: "system-ui, sans-serif" }}>
         {/* Process container */}
-        <rect x="10" y="10" width="640" height="250" rx="14" fill="var(--bg-primary)" stroke="var(--border-color)" strokeWidth="2" strokeDasharray="6,3"/>
+        <rect x="10" y="10" width="640" height="250" rx="14" fill="var(--bg-primary)" stroke="var(--border-color)" strokeWidth="2" strokeDasharray="6,3" />
         <text x="330" y="34" textAnchor="middle" fontWeight="800" fontSize="14" fill="var(--accent-primary)">PROCESO (PID = 2000)</text>
         {/* Shared resources box */}
-        <rect x="30" y="45" width="600" height="55" rx="8" fill="rgba(16, 185, 129, 0.05)" stroke="#10b981" strokeWidth="1.5"/>
+        <rect x="30" y="45" width="600" height="55" rx="8" fill="rgba(16, 185, 129, 0.05)" stroke="#10b981" strokeWidth="1.5" />
         <text x="330" y="65" textAnchor="middle" fontWeight="800" fontSize="12" fill="#10b981">RECURSOS COMPARTIDOS POR TODOS LOS HILOS</text>
         <text x="160" y="86" textAnchor="middle" fontSize="10" fill="var(--text-primary)">📄 Segmento Texto</text>
         <text x="280" y="86" textAnchor="middle" fontSize="10" fill="var(--text-primary)">🗂 Variables Globales</text>
@@ -231,15 +231,15 @@ function ThreadDiagram() {
           const [bg, stroke] = colors[i];
           return (
             <g key={i}>
-              <rect x={x} y="118" width="190" height="120" rx="8" fill={bg} stroke={stroke} strokeWidth="1.5"/>
-              <text x={x+95} y="138" textAnchor="middle" fontWeight="800" fontSize="12" fill={stroke}>Hilo {i+1} (TID={2001+i})</text>
-              <rect x={x+10} y="148" width="170" height="20" rx="4" fill={stroke} opacity="0.15"/>
-              <text x={x+95} y="162" textAnchor="middle" fontSize="10" fill="var(--text-primary)">🔢 Registros propios</text>
-              <rect x={x+10} y="173" width="170" height="20" rx="4" fill={stroke} opacity="0.15"/>
-              <text x={x+95} y="187" textAnchor="middle" fontSize="10" fill="var(--text-primary)">📍 Contador de Programa</text>
-              <rect x={x+10} y="198" width="170" height="20" rx="4" fill={stroke} opacity="0.15"/>
-              <text x={x+95} y="212" textAnchor="middle" fontSize="10" fill="var(--text-primary)">📚 Stack propio</text>
-              <text x={x+95} y="232" textAnchor="middle" fontSize="9" fill="var(--text-muted)">ejecuta start_routine()</text>
+              <rect x={x} y="118" width="190" height="120" rx="8" fill={bg} stroke={stroke} strokeWidth="1.5" />
+              <text x={x + 95} y="138" textAnchor="middle" fontWeight="800" fontSize="12" fill={stroke}>Hilo {i + 1} (TID={2001 + i})</text>
+              <rect x={x + 10} y="148" width="170" height="20" rx="4" fill={stroke} opacity="0.15" />
+              <text x={x + 95} y="162" textAnchor="middle" fontSize="10" fill="var(--text-primary)">🔢 Registros propios</text>
+              <rect x={x + 10} y="173" width="170" height="20" rx="4" fill={stroke} opacity="0.15" />
+              <text x={x + 95} y="187" textAnchor="middle" fontSize="10" fill="var(--text-primary)">📍 Contador de Programa</text>
+              <rect x={x + 10} y="198" width="170" height="20" rx="4" fill={stroke} opacity="0.15" />
+              <text x={x + 95} y="212" textAnchor="middle" fontSize="10" fill="var(--text-primary)">📚 Stack propio</text>
+              <text x={x + 95} y="232" textAnchor="middle" fontSize="9" fill="var(--text-muted)">ejecuta start_routine()</text>
             </g>
           );
         })}
@@ -343,10 +343,6 @@ export function Chapter1_1() {
           "Administración de Recursos: Uso equitativo y eficiente de procesadores, medios de almacenamiento y E/S."
         ]} />
 
-        <DidYouKnow>
-          El software de navegación del <strong>Apolo 11</strong> que llevó al hombre a la luna operaba con principios fundamentales de un <em>sistema operativo de tiempo real</em>. Sorprendentemente, esa computadora era mucho menos potente que el microprocesador de un horno de microondas actual. ¡La eficiencia del diseño del SO fue la verdadera clave de su éxito!
-        </DidYouKnow>
-
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "2.5rem 0 1rem", padding: "2rem 1.5rem", background: "var(--bg-primary)", borderRadius: "12px", border: "1px dashed var(--border-color)" }}>
           <div style={{ background: "#3b82f6", color: "white", padding: "0.8rem 2rem", borderRadius: "8px", fontWeight: 700, width: "240px", textAlign: "center", marginBottom: "0.5rem", boxShadow: "0 4px 10px rgba(59,130,246,0.2)" }}>Usuarios / Aplicaciones</div>
           <div style={{ fontSize: "1.8rem", color: "var(--text-muted)", margin: "0.1rem 0", fontWeight: 800 }}>↕</div>
@@ -362,59 +358,59 @@ export function Chapter1_1() {
           El software de navegación del <strong>Apolo 11</strong> que llevó al hombre a la luna operaba con principios fundamentales de un <em>sistema operativo de tiempo real</em>, garantizando la atención inmediata de tareas críticas. Sorprendentemente, esa computadora era mucho menos potente que el microprocesador de un horno de microondas actual. ¡La eficiencia del diseño del SO fue la verdadera clave de su éxito!
         </DidYouKnow>
 
-        <WordSearch 
-          title="Sopa de Letras: Conceptos Base" 
+        <WordSearch
+          title="Sopa de Letras: Conceptos Base"
           items={[
-            { 
-              word: "KERNEL", 
-              meaning: "Es el componente central y más interno del sistema operativo. Actúa como el puente principal entre las aplicaciones de software y el procesamiento de datos realizado a nivel de hardware, gestionando recursos de manera segura y eficiente.", 
+            {
+              word: "KERNEL",
+              meaning: "Es el componente central y más interno del sistema operativo. Actúa como el puente principal entre las aplicaciones de software y el procesamiento de datos realizado a nivel de hardware, gestionando recursos de manera segura y eficiente.",
               importance: "Sin el Kernel, el software no podría comunicarse con el hardware. Es responsable de la gestión de memoria, el sistema de archivos, y el manejo de interrupciones, garantizando la estabilidad total del equipo.",
               hint: "Es el corazón o núcleo del sistema operativo."
             },
-            { 
-              word: "PROCESO", 
-              meaning: "Se define como una instancia de un programa en ejecución. Incluye el código del programa, sus datos, su pila, su contador de programa y otros registros de la CPU necesarios para su control por parte del SO.", 
+            {
+              word: "PROCESO",
+              meaning: "Se define como una instancia de un programa en ejecución. Incluye el código del programa, sus datos, su pila, su contador de programa y otros registros de la CPU necesarios para su control por parte del SO.",
               importance: "La gestión de procesos permite el multiprocesamiento y la multitarea. El sistema operativo debe decidir qué proceso obtiene la CPU y por cuánto tiempo, evitando conflictos y asegurando que ninguna tarea bloquee el sistema.",
               hint: "Un programa en ejecución."
             },
-            { 
-              word: "MEMORIA", 
-              meaning: "Se refiere principalmente a la RAM (Random Access Memory), el espacio de almacenamiento temporal de alta velocidad donde el procesador guarda los datos y las instrucciones de los programas que se están usando activamente.", 
+            {
+              word: "MEMORIA",
+              meaning: "Se refiere principalmente a la RAM (Random Access Memory), el espacio de almacenamiento temporal de alta velocidad donde el procesador guarda los datos y las instrucciones de los programas que se están usando activamente.",
               importance: "Una gestión de memoria eficiente es vital para el rendimiento. El SO debe asignar y liberar memoria dinámicamente, además de implementar memoria virtual para permitir que los programas usen más espacio del que físicamente existe.",
               hint: "Espacio de almacenamiento temporal RAM."
             },
-            { 
-              word: "HARDWARE", 
-              meaning: "Engloba todos los componentes físicos y tangibles de una computadora, desde la Unidad Central de Procesamiento (CPU) y la placa base hasta los dispositivos periféricos de entrada y salida como discos y monitores.", 
+            {
+              word: "HARDWARE",
+              meaning: "Engloba todos los componentes físicos y tangibles de una computadora, desde la Unidad Central de Procesamiento (CPU) y la placa base hasta los dispositivos periféricos de entrada y salida como discos y monitores.",
               importance: "El hardware proporciona la capacidad de cómputo bruta. El sistema operativo existe para abstraer la complejidad del hardware, permitiendo que los desarrolladores escriban software sin preocuparse por los detalles eléctricos de cada chip.",
               hint: "La parte física que puedes tocar."
             },
-            { 
-              word: "INTERFAZ", 
-              meaning: "Es el punto de interacción entre el usuario y el sistema operativo. Puede ser una Interfaz de Línea de Comandos (CLI), basada en texto, o una Interfaz Gráfica de Usuario (GUI), basada en ventanas e iconos.", 
+            {
+              word: "INTERFAZ",
+              meaning: "Es el punto de interacción entre el usuario y el sistema operativo. Puede ser una Interfaz de Línea de Comandos (CLI), basada en texto, o una Interfaz Gráfica de Usuario (GUI), basada en ventanas e iconos.",
               importance: "La interfaz determina la accesibilidad y la experiencia del usuario (UX). Permite que humanos sin conocimientos técnicos profundos puedan operar máquinas complejas de manera intuitiva y productiva.",
               hint: "Punto de contacto entre usuario y sistema."
             },
-            { 
-              word: "SISTEMA", 
-              meaning: "Se refiere al ecosistema completo donde coexisten el hardware, el firmware y el software. Es un conjunto de elementos relacionados que funcionan como un todo para procesar información y resolver problemas.", 
+            {
+              word: "SISTEMA",
+              meaning: "Se refiere al ecosistema completo donde coexisten el hardware, el firmware y el software. Es un conjunto de elementos relacionados que funcionan como un todo para procesar información y resolver problemas.",
               importance: "La visión sistémica permite entender la computadora como una unidad coordinada. El sistema operativo actúa como el director de orquesta de este ecosistema, asegurando que todos los componentes colaboren sin errores.",
               hint: "Conjunto ordenado de elementos que interactúan."
             },
-            { 
-              word: "LINUX", 
-              meaning: "Es un núcleo de sistema operativo de tipo Unix, multitararea y multiusuario, desarrollado originalmente por Linus Torvalds bajo una licencia de código abierto (GPL). Es el ejemplo más exitoso de software libre.", 
+            {
+              word: "LINUX",
+              meaning: "Es un núcleo de sistema operativo de tipo Unix, multitararea y multiusuario, desarrollado originalmente por Linus Torvalds bajo una licencia de código abierto (GPL). Es el ejemplo más exitoso de software libre.",
               importance: "Linux es fundamental en la computación moderna: impulsa casi todos los supercomputadores del mundo, la gran mayoría de los servidores de internet y es la base de sistemas como Android, ofreciendo seguridad y personalización extrema.",
               hint: "El sistema operativo del pingüino."
             },
-            { 
-              word: "SHELL", 
-              meaning: "Es un programa que actúa como interfaz entre el usuario y el núcleo del sistema operativo. Recibe los comandos del usuario en lenguaje natural o scripts y los traduce en instrucciones que el Kernel puede entender.", 
+            {
+              word: "SHELL",
+              meaning: "Es un programa que actúa como interfaz entre el usuario y el núcleo del sistema operativo. Recibe los comandos del usuario en lenguaje natural o scripts y los traduce en instrucciones que el Kernel puede entender.",
               importance: "El Shell (como Bash en Linux) es la herramienta más poderosa para administradores de sistemas. Permite la automatización de tareas complejas mediante scripts, algo que sería extremadamente lento o imposible de hacer manualmente.",
               hint: "Intérprete de comandos."
             }
-          ]} 
-          size={10} 
+          ]}
+          size={10}
         />
       </div>
     </section>
@@ -602,16 +598,16 @@ export function Chapter2_1() {
         ]}
       />
 
-      <Crossword 
+      <Crossword
         title="Crucigrama: Gestión de Procesos"
         size={10}
         clues={[
-          { number: 1, direction: "across", row: 1, col: 1, answer: "PCB", clue: "Bloque de Control de Proceso (siglas).", hint: "Process Control Block." },
-          { number: 2, direction: "across", row: 3, col: 0, answer: "ZOMBI", clue: "Proceso que terminó pero sigue en la tabla.", hint: "No ha sido 'enterrado' por su padre con wait()." },
-          { number: 3, direction: "down", row: 0, col: 4, answer: "READY", clue: "Estado en que el proceso espera la CPU.", hint: "Listo en inglés." },
-          { number: 4, direction: "down", row: 2, col: 7, answer: "FORK", clue: "Llamada al sistema para crear procesos.", hint: "Suena a 'tenedor' en inglés." },
-          { number: 5, direction: "across", row: 6, col: 2, answer: "KERNEL", clue: "Núcleo del sistema operativo.", hint: "El corazón del SO." },
-          { number: 6, direction: "down", row: 5, col: 3, answer: "EXEC", clue: "Llamada para cargar un nuevo programa.", hint: "Abreviatura de ejecutar en inglés." }
+          { number: 1, direction: "across", row: 8, col: 3, answer: "PCB", clue: "Bloque de Control de Proceso (siglas).", hint: "Process Control Block." },
+          { number: 2, direction: "across", row: 3, col: 2, answer: "ZOMBI", clue: "Proceso que terminó pero sigue en la tabla.", hint: "No ha sido 'enterrado' por su padre con wait()." },
+          { number: 3, direction: "down", row: 4, col: 7, answer: "READY", clue: "Estado en que el proceso espera la CPU.", hint: "Listo en inglés." },
+          { number: 4, direction: "down", row: 2, col: 3, answer: "FORK", clue: "Llamada al sistema para crear procesos.", hint: "Suena a 'tenedor' en inglés." },
+          { number: 5, direction: "across", row: 5, col: 3, answer: "KERNEL", clue: "Núcleo del sistema operativo.", hint: "El corazón del SO." },
+          { number: 6, direction: "down", row: 5, col: 4, answer: "EXEC", clue: "Llamada para cargar un nuevo programa.", hint: "Abreviatura de ejecutar en inglés." }
         ]}
       />
 
@@ -912,7 +908,7 @@ Proceso PID=2000, PPID=1999`;
           <div style={{ color: "#569cd6", marginBottom: "1rem" }}>#include &lt;unistd.h&gt;</div>
           <div><span style={{ color: "#4ec9b0" }}>pid_t</span> <span style={{ color: "#dcdcaa" }}>getpid</span>(<span style={{ color: "#569cd6" }}>void</span>);</div>
         </div>
-        
+
         <div style={{ background: "#1e1e1e", color: "#d4d4d4", padding: "1.5rem", borderRadius: "8px", fontFamily: "monospace" }}>
           <div style={{ color: "#6a9955", marginBottom: "0.5rem" }}>// Obtener PPID</div>
           <div style={{ color: "#569cd6", marginBottom: "0.5rem" }}>#include &lt;sys/types.h&gt;</div>
@@ -1000,7 +996,7 @@ export function Chapter2_5() {
         <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", lineHeight: 1.8, marginBottom: "1.5rem" }}>
           La llamada <code>wait()</code> suspende la ejecución del proceso padre hasta que se cumple una de estas condiciones:
         </p>
-        
+
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.5rem" }}>
           {[
             "Un proceso hijo termina su ejecución de forma normal o anormal.",
@@ -1056,7 +1052,7 @@ export function Chapter2_5() {
 
         <h4 style={{ fontWeight: 800, color: "var(--text-primary)", marginBottom: "0.5rem" }}>El parámetro options (Banderas):</h4>
         <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 1rem 0" }}>El parámetro *wstatus cumple la misma función que stat_loc en wait(). El parámetro options permite modificar el comportamiento de la llamada mediante una combinación de las siguientes banderas:</p>
-        
+
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
           {[
             { name: "WEXITED", desc: "Espera por hijos que hayan terminado." },
@@ -1072,7 +1068,7 @@ export function Chapter2_5() {
             </div>
           ))}
         </div>
-        
+
         <SectionText>
           Las banderas WUNTRACED y WCONTINUED solo tienen efecto si la opción <code>SA_NOCLDSTOP</code> no ha sido establecida para la señal SIGCHLD.
         </SectionText>
@@ -1333,7 +1329,7 @@ Padre: hijo recolectado`;
       </div>
 
       <ZombieActivity />
-      
+
 
     </section>
   );
@@ -1345,7 +1341,7 @@ export function Chapter2_8() {
       <ChapterHeader num="2.8" title="Hilos (Threads)" subtitle="Mecanismo de ejecución concurrente." />
 
       <SectionText>
-        Los hilos o <em>threads</em> representan un mecanismo de ejecución concurrente dentro de un mismo proceso, y constituyen una alternativa más ligera que la creación de procesos independientes. A diferencia de los procesos, los hilos no son entidades completamente aisladas, sino que comparten el mismo espacio de direcciones, los mismos archivos abiertos y otros recursos del proceso al que pertenecen. 
+        Los hilos o <em>threads</em> representan un mecanismo de ejecución concurrente dentro de un mismo proceso, y constituyen una alternativa más ligera que la creación de procesos independientes. A diferencia de los procesos, los hilos no son entidades completamente aisladas, sino que comparten el mismo espacio de direcciones, los mismos archivos abiertos y otros recursos del proceso al que pertenecen.
       </SectionText>
 
       <SectionText>
@@ -1441,7 +1437,7 @@ export function Chapter2_8_1() {
         <span style={{ color: "var(--accent-primary)", fontSize: "1.5rem" }}>🛑</span> Terminación de un hilo
       </h3>
       <SectionText>Un hilo puede finalizar su ciclo de vida por diversas causas:</SectionText>
-      
+
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.2rem", marginTop: "1.5rem", marginBottom: "3rem" }}>
         {[
           { icon: "🚪", title: "pthread_exit()", desc: "Terminación explícita con estado final disponible para otros hilos mediante pthread_join()." },
