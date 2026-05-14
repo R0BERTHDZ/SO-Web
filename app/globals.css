@@ -679,44 +679,79 @@ body {
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 15px;
+  padding: 20px;
   background: var(--bg-card);
-  border-radius: 20px;
+  border-radius: 24px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  box-shadow: 0 15px 45px rgba(0,0,0,0.08);
   display: block !important;
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
 }
 
-/* Scroll Hint for Mobile */
-@media (max-width: 768px) {
-  .game-grid-scroll::after {
-    content: "↔ Desliza para ver más";
-    display: block;
-    text-align: center;
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: var(--accent-primary);
-    margin-top: 10px;
-    opacity: 0.6;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-}
-
+/* Custom Scrollbar Styles - Always Visible */
 .game-grid-scroll::-webkit-scrollbar {
-  height: 6px;
+  height: 10px; /* Thicker for easier touch */
+  display: block;
 }
 
 .game-grid-scroll::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 10px;
+  margin: 0 20px;
 }
 
 .game-grid-scroll::-webkit-scrollbar-thumb {
   background: var(--accent-primary);
   border-radius: 10px;
-  opacity: 0.5;
+  border: 2px solid var(--bg-card);
+}
+
+/* Edge Indicators (Fading shadows) */
+.game-grid-scroll::before,
+.game-grid-scroll::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.game-grid-scroll::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-card), transparent);
+  opacity: 0.2;
+}
+
+.game-grid-scroll::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-card), transparent);
+  opacity: 0.2;
+}
+
+/* Scroll Hint for Mobile */
+@media (max-width: 768px) {
+  .game-grid-scroll::after {
+    content: "↔ Desliza para ver los laterales";
+    position: relative;
+    right: auto;
+    background: none;
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    margin-top: 15px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    z-index: 1;
+  }
 }
 
 .game-grid-scroll > div {
