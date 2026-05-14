@@ -115,7 +115,7 @@ export default function Hero() {
             </button>
           </div>
 
-          <SystemMonitor />
+          <SystemMonitor isRoot={isRoot} />
         </div>
 
       </div>

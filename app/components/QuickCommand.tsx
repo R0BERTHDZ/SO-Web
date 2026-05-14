@@ -31,12 +31,17 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
       case "sudo su":
       case "su":
       case "sudo":
+      case "root":
+      case "login root":
         if (!isRoot) {
           setIsRoot(true);
-          newHistory.push("Autenticación exitosa. Cambiando a superusuario (root)...");
-          newHistory.push("⚠️ Advertencia: ¡Privilegios de administrador activados!");
+          console.log("Root access activated via terminal");
+          newHistory.push("-------------------------------------------");
+          newHistory.push("ACCESO ROOT ACTIVADO");
+          newHistory.push("Privilegios de administrador concedidos.");
+          newHistory.push("-------------------------------------------");
         } else {
-          newHistory.push("Ya eres superusuario.");
+          newHistory.push("Ya tienes privilegios de superusuario.");
         }
         break;
       case "exit":
