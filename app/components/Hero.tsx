@@ -5,6 +5,7 @@ import QuickCommand from "./QuickCommand";
 
 export default function Hero() {
   const [completedQuizzes, setCompletedQuizzes] = useState<string[]>([]);
+  const [isRoot, setIsRoot] = useState(false);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -18,8 +19,6 @@ export default function Hero() {
     window.addEventListener("os_progress_update", updateProgress);
     return () => window.removeEventListener("os_progress_update", updateProgress);
   }, []);
-
-  const [isRoot, setIsRoot] = useState(false);
 
   const totalChapters = 2;
   const progressPercent = Math.min(100, Math.round((completedQuizzes.length / totalChapters) * 100));
@@ -35,7 +34,7 @@ export default function Hero() {
 
   return (
     <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "3rem 1.5rem" }} className="animate-fadeInUp">
-      <div className="hero-grid">
+      <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "2.5rem", alignItems: "start" }}>
 
         {/* Left Column: Welcome & Progress */}
         <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
@@ -121,7 +120,7 @@ export default function Hero() {
 
       <style>{`
         @media (max-width: 1024px) { 
-          div[style*="gridTemplateColumns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+          .hero-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
