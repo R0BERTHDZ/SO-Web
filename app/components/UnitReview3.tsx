@@ -5,6 +5,10 @@ import FillInBlanks from './FillInBlanks';
 import Crossword from './Crossword';
 import WordSearch from './WordSearch';
 
+/**
+ * UnitReview3 - Práctica Global
+ * Consolida todos los temas: Introducción, Procesos, IPC y Proyectos.
+ */
 export default function UnitReview3() {
   const fillInBlanksItems = [
     {
@@ -115,117 +119,112 @@ export default function UnitReview3() {
   ];
 
   const minishellCrosswordClues = [
-    { number: 1, direction: "across" as const, row: 0, col: 0, answer: "FORK", clue: "Crea un clon exacto del proceso actual.", hint: "Devuelve 0 al hijo y el PID del hijo al padre." },
-    { number: 2, direction: "down" as const, row: 0, col: 1, answer: "OPEN", clue: "Llamada para obtener un descriptor de archivo.", hint: "Se usa antes de read o write." },
-    { number: 3, direction: "across" as const, row: 1, col: 1, answer: "PIPE", clue: "Mecanismo de comunicación unidireccional (tubería).", hint: "Se crea enviando un array de 2 enteros." },
-    { number: 4, direction: "down" as const, row: 1, col: 4, answer: "EXEC", clue: "Sustituye la imagen del proceso por un nuevo programa.", hint: "Si tiene éxito, nunca regresa al código original." },
-    { number: 5, direction: "across" as const, row: 5, col: 0, answer: "READ", clue: "Obtiene información desde un descriptor de archivo.", hint: "Se bloquea si el pipe está vacío." },
-    { number: 6, direction: "down" as const, row: 4, col: 0, answer: "WRITE", clue: "Envía información a un descriptor de archivo.", hint: "Es la contraparte de read()." },
-    { number: 7, direction: "across" as const, row: 8, col: 0, answer: "EXIT", clue: "Finaliza la ejecución de un proceso.", hint: "Envía un código de estado al padre." },
-    { number: 8, direction: "down" as const, row: 6, col: 2, answer: "WAIT", clue: "El padre se bloquea hasta que un hijo termina.", hint: "Evita la creación de procesos zombies." }
+    { number: 1, direction: "down" as const, row: 0, col: 3, answer: "UNLINK", clue: "Llamada al sistema para eliminar un archivo.", hint: "Quita el enlace duro (link) del inodo." },
+    { number: 2, direction: "across" as const, row: 0, col: 10, answer: "LS", clue: "Lista el contenido de un directorio.", hint: "Usa internamente opendir() y readdir()." },
+    { number: 3, direction: "down" as const, row: 0, col: 11, answer: "STATVFS", clue: "Llamada para obtener información de particiones (bloques libres).", hint: "Acrónimo de stat Virtual File System." },
+    { number: 4, direction: "across" as const, row: 1, col: 1, answer: "RENAME", clue: "Llamada para cambiar el nombre o ruta de un archivo.", hint: "En la terminal usas 'mv', a bajo nivel es..." },
+    { number: 5, direction: "down" as const, row: 1, col: 5, answer: "MAC", clue: "Dirección física de 48 bits del hardware de red.", hint: "Obtenida con la bandera SIOCGIFHWADDR." },
+    { number: 6, direction: "across" as const, row: 2, col: 9, answer: "UNAME", clue: "Comando que devuelve info del Kernel (sysname, release).", hint: "Unix Name." },
+    { number: 7, direction: "across" as const, row: 3, col: 5, answer: "CD", clue: "Comando para cambiar de directorio actual.", hint: "Usa internamente la llamada chdir()." },
+    { number: 8, direction: "across" as const, row: 5, col: 2, answer: "MKDIR", clue: "Crea un nuevo directorio en el sistema de archivos.", hint: "Recibe el nombre y los permisos (ej. 0755)." },
+    { number: 9, direction: "down" as const, row: 5, col: 5, answer: "IP", clue: "Protocolo lógico cuya dirección se lee iterando con getifaddrs().", hint: "Internet Protocol." },
+    { number: 10, direction: "across" as const, row: 5, col: 11, answer: "FREE", clue: "Comando que muestra la memoria RAM total y disponible.", hint: "Usa sysinfo()." },
+    { number: 11, direction: "down" as const, row: 5, col: 13, answer: "EXIT", clue: "Termina la ejecución del ciclo de la minishell.", hint: "Función homónima de la librería estándar." },
+    { number: 12, direction: "across" as const, row: 8, col: 10, answer: "STAT", clue: "Extrae metadatos precisos de un archivo (inodo, tamaño, permisos).", hint: "Estructura de datos homónima." },
+    { number: 13, direction: "down" as const, row: 9, col: 2, answer: "PWD", clue: "Imprime la ruta absoluta del directorio de trabajo actual.", hint: "Print Working Directory (usa getcwd)." },
+    { number: 14, direction: "down" as const, row: 9, col: 4, answer: "CAT", clue: "Lee un archivo bloque por bloque y lo imprime en pantalla.", hint: "Abre con open(), lee con read()." },
+    { number: 15, direction: "across" as const, row: 11, col: 2, answer: "DATE", clue: "Muestra la fecha y hora actual del sistema.", hint: "Usa time() y ctime()." },
+    { number: 16, direction: "across" as const, row: 13, col: 8, answer: "WHO", clue: "Muestra los usuarios conectados actualmente.", hint: "Lee registros utmp con getutent()." }
   ];
 
   const globalWordSearchWords = [
-    { 
-      word: "KERNEL", 
-      meaning: "El corazón del sistema operativo que se carga al arrancar y reside permanentemente en la memoria principal.", 
-      importance: "Es el encargado de la gestión de recursos, el despacho de procesos, la administración de memoria y la interfaz de bajo nivel con el hardware." 
-    },
-    { 
-      word: "INODO", 
-      meaning: "Estructura de datos que contiene la descripción de un archivo, incluyendo su tamaño, permisos, propietario y ubicación física en el disco.", 
-      importance: "Permite al sistema operativo localizar y gestionar archivos de manera eficiente sin depender del nombre del archivo, que es solo un enlace al inodo." 
-    },
-    { 
-      word: "FTOK", 
-      meaning: "Función (File To Key) utilizada para convertir la ruta de un archivo y un ID de proyecto en una clave única de tipo key_t.", 
-      importance: "Es fundamental en System V IPC para que procesos independientes puedan 'acordar' una misma clave para acceder a una memoria compartida o cola de mensajes." 
-    },
-    { 
-      word: "ZOMBIE", 
-      meaning: "Estado de un proceso que ha finalizado su ejecución pero que aún permanece en la tabla de procesos del sistema.", 
-      importance: "Indica que el proceso padre aún no ha ejecutado la llamada wait() para recolectar el estado de salida de su hijo, manteniendo ocupados recursos limitados del kernel." 
-    },
-    { 
-      word: "PIPE", 
-      meaning: "Mecanismo de comunicación unidireccional que conecta la salida estándar de un proceso con la entrada estándar de otro.", 
-      importance: "Es la base de la filosofía Unix ('hacer una cosa y hacerla bien'), permitiendo encadenar comandos simples para realizar tareas complejas mediante el flujo de datos." 
-    },
-    { 
-      word: "EXEC", 
-      meaning: "Familia de funciones que cargan un nuevo programa binario en el espacio de memoria del proceso actual, reemplazando su código y datos.", 
-      importance: "Permite que un proceso 'evolucione' a otro programa totalmente distinto después de haber sido creado mediante fork(), manteniendo el mismo PID." 
-    },
-    { 
-      word: "WAIT", 
-      meaning: "Llamada al sistema que suspende la ejecución del proceso padre hasta que uno de sus procesos hijos termine o cambie de estado.", 
-      importance: "Es crucial para la sincronización de procesos y para la limpieza de recursos, evitando que el sistema se llene de procesos en estado zombie." 
-    },
-    { 
-      word: "READDIR", 
-      meaning: "Función de la librería dirent.h que lee la siguiente entrada de un flujo de directorio abierto previamente con opendir().", 
-      importance: "Es la herramienta principal para implementar comandos como 'ls', permitiendo iterar sobre los nombres de archivos e inodos contenidos en una carpeta." 
-    },
-    { 
-      word: "STAT", 
-      meaning: "Llamada al sistema que devuelve información detallada sobre el estado de un archivo consultando directamente su inodo.", 
-      importance: "Proporciona metadatos exactos como marcas de tiempo de acceso/modificación, tamaño en bytes y tipo de archivo (directorio, socket, etc.)." 
-    },
-    { 
-      word: "SYSINFO", 
-      meaning: "Función específica de Linux que devuelve estadísticas globales sobre el uso de recursos del sistema.", 
-      importance: "Permite monitorear la carga del sistema, la cantidad de memoria RAM libre/total y el número de procesos activos en un momento dado." 
-    },
-    { 
-      word: "IOCTL", 
-      meaning: "Input/Output Control; una llamada al sistema para manipular los parámetros de dispositivos de caracteres y bloques.", 
-      importance: "Se utiliza para operaciones que no encajan en el modelo estándar de lectura/escritura, como configurar tarjetas de red o interactuar con drivers específicos." 
-    },
-    { 
-      word: "UNLINK", 
-      meaning: "Llamada al sistema que elimina un nombre del sistema de archivos y decrementa el contador de enlaces del inodo correspondiente.", 
-      importance: "Es la forma real en que se 'borra' un archivo; cuando el contador llega a cero y ningún proceso tiene el archivo abierto, el espacio en disco se libera." 
-    },
-    { 
-      word: "FORK", 
-      meaning: "Llamada al sistema que crea un nuevo proceso (hijo) que es una copia exacta del proceso llamador (padre).", 
-      importance: "Es el único mecanismo en sistemas tipo Unix para iniciar nuevos procesos, permitiendo la multitarea y el paralelismo de forma robusta." 
-    }
+    { word: "KERNEL", meaning: "Núcleo del sistema operativo.", importance: "Gestiona memoria, procesos y hardware." },
+    { word: "INODO", meaning: "Estructura de datos en ext4/ufs.", importance: "Almacena metadatos críticos de archivos (permisos, fechas)." },
+    { word: "FTOK", meaning: "Función para generar claves IPC (File TO Key).", importance: "Permite a procesos no emparentados referenciar la misma memoria/cola." },
+    { word: "ZOMBIE", meaning: "Estado de un proceso terminado.", importance: "Un proceso hijo esperando que su padre lea su código de salida." },
+    { word: "PIPE", meaning: "Tubería anónima de comunicación IPC.", importance: "Comunica procesos relacionados (padre/hijo) unidireccionalmente." },
+    { word: "EXEC", meaning: "Familia de llamadas al sistema.", importance: "Reemplaza el código del proceso actual con un nuevo programa." },
+    { word: "WAIT", meaning: "Llamada para esperar a un hijo.", importance: "Recoge el estado de salida y limpia el proceso zombie." },
+    { word: "READDIR", meaning: "Llamada POSIX para directorios.", importance: "Lee iterativamente el contenido de un directorio abierto." },
+    { word: "STAT", meaning: "Llamada que obtiene info de un inodo.", importance: "Saca metadata exacta de un archivo." },
+    { word: "SYSINFO", meaning: "Llamada que reporta métricas.", importance: "Indica uso de RAM y SWAP global del sistema." },
+    { word: "IOCTL", meaning: "Input/Output Control.", importance: "Manipula parámetros de dispositivos a bajo nivel (ej. direcciones MAC)." },
+    { word: "UNLINK", meaning: "Elimina una referencia a un archivo.", importance: "Cuando las referencias a un inodo llegan a 0, el archivo se borra." },
+    { word: "FORK", meaning: "Crea un proceso clon.", importance: "Unica manera estándar de originar procesos en UNIX." }
   ];
 
   return (
-    <div className="review-page animate-fadeInUp">
+    <div className="review-page animate-fadeInUp" style={{ paddingBottom: "5rem" }}>
       <ChapterHeader 
         num="REPASO GLOBAL" 
         title="Práctica Global de Sistemas Operativos" 
         subtitle="Consolida todos los conocimientos adquiridos a lo largo del curso mediante ejercicios interactivos." 
       />
       
-      <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 1rem" }}>
-        {/* Completar Frases */}
-        <FillInBlanks 
-          title="Autocompletado: Conceptos Fundamentales" 
-          items={fillInBlanksItems} 
-        />
+      {/* Mobile Navigation Shortcuts */}
+      <div style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto 3rem", 
+        padding: "0 1rem", 
+        display: "flex", 
+        gap: "0.8rem", 
+        flexWrap: "wrap", 
+        justifyContent: "center" 
+      }}>
+        <button onClick={() => document.getElementById('fill-blanks-sec')?.scrollIntoView({ behavior: 'smooth' })}
+          style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--bg-card)", border: "1px solid var(--border-color)", color: "var(--text-secondary)", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          📝 Autocompletado
+        </button>
+        <button onClick={() => document.getElementById('crossword-sec')?.scrollIntoView({ behavior: 'smooth' })}
+          style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--bg-card)", border: "1px solid var(--border-color)", color: "var(--text-secondary)", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          🧩 Crucigrama
+        </button>
+        <button onClick={() => document.getElementById('wordsearch-sec')?.scrollIntoView({ behavior: 'smooth' })}
+          style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--bg-card)", border: "1px solid var(--border-color)", color: "var(--text-secondary)", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          🔍 Sopa de Letras
+        </button>
+      </div>
 
-        <div style={{ margin: "4rem 0" }}></div>
+      <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 clamp(0.5rem, 3vw, 1rem)" }}>
+        {/* Completar Frases */}
+        <div id="fill-blanks-sec" style={{ marginBottom: "4rem" }}>
+          <FillInBlanks 
+            title="Autocompletado: Conceptos Fundamentales" 
+            items={fillInBlanksItems} 
+          />
+        </div>
 
         {/* Crucigrama Minishell */}
-        <Crossword 
-          title="Crucigrama: Llamadas al Sistema (Variación)"
-          size={10}
-          clues={minishellCrosswordClues}
-        />
-
-        <div style={{ margin: "4rem 0" }}></div>
+        <div id="crossword-sec" style={{ marginBottom: "4rem" }}>
+          <Crossword 
+            title="Crucigrama: Comandos del Minishell"
+            size={15}
+            clues={minishellCrosswordClues}
+          />
+        </div>
 
         {/* Sopa de Letras */}
-        <WordSearch 
-          title="Sopa de Letras: Funciones IPC y Procesos"
-          items={globalWordSearchWords}
-        />
+        <div id="wordsearch-sec" style={{ marginBottom: "4rem" }}>
+          <WordSearch 
+            title="Sopa de Letras: Funciones IPC y Procesos"
+            items={globalWordSearchWords}
+            size={12}
+          />
+        </div>
         
-        <div style={{ margin: "4rem 0" }}></div>
+        <div style={{ 
+          marginTop: "4rem", 
+          padding: "2rem", 
+          background: "rgba(155, 28, 46, 0.05)", 
+          borderRadius: "20px", 
+          border: "1px solid rgba(155, 28, 46, 0.1)",
+          textAlign: "center"
+        }}>
+          <h4 style={{ color: "var(--accent-primary)", fontWeight: 900, marginBottom: "0.5rem" }}>¡Felicidades por llegar aquí!</h4>
+          <p style={{ color: "var(--text-secondary)", margin: 0, fontSize: "0.95rem" }}>
+            Has completado el repaso global. Estos conceptos son la base para entender cualquier arquitectura de software moderna.
+          </p>
+        </div>
       </div>
     </div>
   );

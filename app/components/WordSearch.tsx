@@ -191,66 +191,76 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
       </h3>
       
       <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center", alignItems: "flex-start", marginBottom: "2rem" }}>
-        {/* Grid (Left) */}
-        <div 
-          style={{ 
-            display: "grid", 
-            gridTemplateColumns: `repeat(${size}, 1fr)`, 
-            gap: "2px", 
-            background: "var(--bg-primary)", 
-            padding: "8px", 
-            borderRadius: "12px",
-            userSelect: "none",
-            touchAction: "none",
-            border: "1px solid var(--border-color)",
-            boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-            maxWidth: "100%",
-            overflow: "auto"
-          }}
-          onMouseLeave={() => { setIsSelecting(false); setSelectedCells([]); }}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {grid.map((row, r) => row.map((char, c) => {
-            const foundColor = getCellFoundColor(r, c);
-            const isSelected = isCellSelected(r, c);
-            return (
-              <div
-                key={`${r}-${c}`}
-                data-coords={`${r}-${c}`}
-                onMouseDown={() => handleMouseDown(r, c)}
-                onMouseEnter={() => handleMouseEnter(r, c)}
-                onMouseUp={handleMouseUp}
-                onTouchStart={(e) => handleTouchStart(e, r, c)}
-                style={{
-                  width: "clamp(24px, 8vw, 36px)",
-                  height: "clamp(24px, 8vw, 36px)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: isSelected 
-                    ? "var(--accent-primary)" 
-                    : foundColor 
-                      ? `${foundColor}25` 
-                      : "var(--bg-secondary)",
-                  color: isSelected 
-                    ? "white" 
-                    : foundColor 
-                      ? foundColor 
-                      : "var(--text-primary)",
-                  borderRadius: "4px",
-                  fontSize: "clamp(0.7rem, 3.5vw, 1rem)",
-                  fontWeight: 800,
-                  cursor: "pointer",
-                  transition: "all 0.1s ease",
-                  border: foundColor ? `1px solid ${foundColor}` : "1px solid var(--border-color)",
-                  boxShadow: foundColor ? `0 2px 8px ${foundColor}15` : "none"
-                }}
-              >
-                {char}
-              </div>
-            );
-          }))}
+        {/* Grid Container for Scrolling */}
+        <div style={{ 
+          maxWidth: "100%", 
+          overflowX: "auto", 
+          padding: "10px",
+          background: "var(--bg-secondary)",
+          borderRadius: "16px",
+          border: "1px solid var(--border-color)",
+          boxShadow: "inset 0 2px 10px rgba(0,0,0,0.05)"
+        }}>
+          <div 
+            style={{ 
+              display: "grid", 
+              gridTemplateColumns: `repeat(${size}, clamp(28px, 8vw, 36px))`, 
+              gap: "2px", 
+              background: "var(--bg-primary)", 
+              padding: "8px", 
+              borderRadius: "12px",
+              userSelect: "none",
+              touchAction: "none",
+              border: "1px solid var(--border-color)",
+              boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
+              width: "max-content",
+              margin: "0 auto"
+            }}
+            onMouseLeave={() => { setIsSelecting(false); setSelectedCells([]); }}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {grid.map((row, r) => row.map((char, c) => {
+              const foundColor = getCellFoundColor(r, c);
+              const isSelected = isCellSelected(r, c);
+              return (
+                <div
+                  key={`${r}-${c}`}
+                  data-coords={`${r}-${c}`}
+                  onMouseDown={() => handleMouseDown(r, c)}
+                  onMouseEnter={() => handleMouseEnter(r, c)}
+                  onMouseUp={handleMouseUp}
+                  onTouchStart={(e) => handleTouchStart(e, r, c)}
+                  style={{
+                    width: "clamp(28px, 8vw, 36px)",
+                    height: "clamp(28px, 8vw, 36px)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: isSelected 
+                      ? "var(--accent-primary)" 
+                      : foundColor 
+                        ? `${foundColor}25` 
+                        : "var(--bg-secondary)",
+                    color: isSelected 
+                      ? "white" 
+                      : foundColor 
+                        ? foundColor 
+                        : "var(--text-primary)",
+                    borderRadius: "4px",
+                    fontSize: "clamp(0.7rem, 3.5vw, 1rem)",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    transition: "all 0.1s ease",
+                    border: foundColor ? `1px solid ${foundColor}` : "1px solid var(--border-color)",
+                    boxShadow: foundColor ? `0 2px 8px ${foundColor}15` : "none"
+                  }}
+                >
+                  {char}
+                </div>
+              );
+            }))}
+          </div>
         </div>
 
         {/* Word List (Right) */}
