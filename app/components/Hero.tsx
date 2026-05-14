@@ -59,8 +59,8 @@ export default function Hero() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {[
-                { label: "TEORÍA", val: "82%", color: "var(--accent-primary)" },
-                { label: "PRÁCTICAS", val: "45%", color: "var(--accent-blue)" }
+                { label: "TEORÍA", val: "0%", color: "var(--accent-primary)" },
+                { label: "PRÁCTICAS", val: "0%", color: "var(--accent-blue)" }
               ].map(stat => (
                 <div key={stat.label} style={{ background: "var(--bg-secondary)", padding: "1.2rem 1rem", borderRadius: "14px", textAlign: "center", border: "1px solid var(--border-color)", transition: "transform 0.3s ease" }}>
                   <div style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "1.5px", color: "var(--text-muted)", marginBottom: "0.5rem" }}>{stat.label}</div>
