@@ -122,22 +122,28 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
       </h3>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center", alignItems: "flex-start" }}>
-        {/* Crossword Grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${size}, 1fr)`,
-          gap: "2px",
-          background: "var(--border-color)",
-          padding: "8px",
-          borderRadius: "12px",
-          width: "fit-content",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+        {/* Crossword Grid Container */}
+        <div style={{ 
+          maxWidth: "100%", 
+          overflowX: "auto", 
+          padding: "10px",
+          background: "var(--bg-secondary)",
+          borderRadius: "16px",
           border: "1px solid var(--border-color)",
-          maxWidth: "100%",
-          overflow: "auto"
+          boxShadow: "inset 0 2px 10px rgba(0,0,0,0.05)"
         }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${size}, clamp(32px, 8vw, 44px))`,
+            gap: "2px",
+            background: "var(--border-color)",
+            padding: "4px",
+            borderRadius: "8px",
+            width: "max-content",
+            margin: "0 auto"
+          }}>
           {grid.map((row, r) => row.map((cell, c) => (
-            <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(30px, 8vw, 44px)", height: "clamp(30px, 8vw, 44px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "4px", overflow: "hidden" }}>
+            <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(32px, 8vw, 44px)", height: "clamp(32px, 8vw, 44px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "4px", overflow: "hidden" }}>
               {cell !== "#" && (
                 <>
                   {getNumber(r, c) && (
@@ -173,6 +179,7 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
               )}
             </div>
           )))}
+          </div>
         </div>
 
         {/* Clues */}
