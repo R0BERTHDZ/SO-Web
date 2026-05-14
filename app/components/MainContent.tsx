@@ -44,7 +44,7 @@ const TOPICS: { id: string; label: string; component: React.ReactNode }[] = [
   { id: "repaso-minishell",   label: "🧠 Repaso: Minishell",                component: <UnitReviewMinishell /> },
   { id: "examen-parcial2",    label: "📝 Examen: 2do Parcial",               component: <PartialExam2 /> },
   { id: "examen-parcial3",    label: "📝 Examen: 3er Parcial",               component: <PartialExam3 /> },
-  { id: "ejercicios",         label: "Ejercicios",                           component: <><ExercisesSection /><CrosswordSection /></> },
+  { id: "ejercicios",         label: "Práctica Global",                      component: <UnitReview3 /> },
   { id: "creditos",             label: "Créditos",                            component: <CreditsSection /> },
 ];
 

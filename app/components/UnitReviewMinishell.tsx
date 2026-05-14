@@ -1,57 +1,9 @@
 "use client";
 import React from 'react';
-import MiniQuiz from './MiniQuiz';
+import FillInBlanks from './FillInBlanks';
 import { ChapterHeader } from './Chapters12';
 
 export default function UnitReviewMinishell() {
-  const questions = [
-    {
-      question: "¿Qué función se utiliza en la minishell para cambiar el directorio de trabajo?",
-      options: ["cd()", "chdir()", "setdir()", "getcwd()"],
-      correct: 1,
-      explanation: "chdir() es la llamada al sistema en C para cambiar el directorio de trabajo actual del proceso.",
-      hint: "Busca el nombre que parece una abreviatura de 'Change Directory'."
-    },
-    {
-      question: "¿Cuál es el propósito de la función strtok() en el bucle principal de la shell?",
-      options: [
-        "Ejecutar el comando en segundo plano",
-        "Dividir la cadena de entrada en tokens (comando y argumentos)",
-        "Copiar el comando en un buffer de seguridad",
-        "Limpiar la pantalla de la terminal"
-      ],
-      correct: 1,
-      explanation: "strtok() permite trocear la cadena ingresada por el usuario usando delimitadores (como el espacio) para separar el comando de sus parámetros.",
-      hint: "La terminación 'tok' viene de 'Tokenize'."
-    },
-    {
-      question: "¿Qué llamada al sistema permite obtener la dirección MAC de una interfaz de red?",
-      options: ["getmac()", "ioctl() con SIOCGIFHWADDR", "socket(AF_PACKET)", "read(/proc/net/dev)"],
-      correct: 1,
-      explanation: "ioctl() con la constante SIOCGIFHWADDR se utiliza para consultar la dirección física (MAC) del hardware de red.",
-      hint: "Es una función genérica de control de entrada/salida (I/O Control)."
-    },
-    {
-      question: "¿Para qué sirve la llamada statvfs() implementada en el proyecto?",
-      options: [
-        "Para ver los permisos de un archivo",
-        "Para obtener estadísticas del sistema de archivos (bloques totales/libres)",
-        "Para listar los procesos activos",
-        "Para verificar la versión del kernel"
-      ],
-      correct: 1,
-      explanation: "statvfs() devuelve información sobre un sistema de archivos montado, permitiendo calcular el espacio total y disponible.",
-      hint: "La terminación 'vfs' se refiere a Virtual File System."
-    },
-    {
-      question: "Si el comando ingresado es 'cat hola.txt', ¿qué llamada al sistema se usa para abrir el archivo?",
-      options: ["fopen()", "open()", "read()", "access()"],
-      correct: 1,
-      explanation: "open() es la llamada al sistema de bajo nivel utilizada por comandos como cat para obtener un descriptor de archivo y poder leer su contenido.",
-      hint: "Es la operación básica opuesta a close()."
-    }
-  ];
-
   return (
     <div className="review-page animate-fadeInUp">
       <ChapterHeader 
@@ -59,8 +11,117 @@ export default function UnitReviewMinishell() {
         title="Evaluación Técnica: Minishell" 
         subtitle="Verifica tu comprensión sobre la implementación interna de los comandos de tu shell." 
       />
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <MiniQuiz title="Evaluación Minishell" questions={questions} />
+      <div style={{ maxWidth: "800px", margin: "0 auto", marginTop: "3rem" }}>
+        <FillInBlanks 
+          title="Completar Llamadas al Sistema"
+          items={[
+            {
+              id: 1,
+              textBefore: "Para leer el contenido de un directorio con el comando ls, se usan las funciones opendir() y",
+              textAfter: ".",
+              answer: "readdir()",
+              hint: "Lee la siguiente entrada de directorio."
+            },
+            {
+              id: 2,
+              textBefore: "Al ejecutar cd, la minishell cambia el directorio de trabajo actual invocando la llamada al sistema",
+              textAfter: "() internamente.",
+              answer: "chdir",
+              hint: "CHange DIRectory."
+            },
+            {
+              id: 3,
+              textBefore: "Para extraer la memoria RAM libre del sistema (comando free), se utiliza la función y estructura",
+              textAfter: "().",
+              answer: "sysinfo",
+              hint: "System Info."
+            },
+            {
+              id: 4,
+              textBefore: "Borrar un archivo a bajo nivel significa quitar el enlace duro de su inodo, para lo cual se invoca",
+              textAfter: "().",
+              answer: "unlink",
+              hint: "Quitar el link (desvincular)."
+            },
+            {
+              id: 5,
+              textBefore: "El comando stat extrae los metadatos de un archivo (como tamaño y permisos) desde su respectivo",
+              textAfter: "en el disco duro.",
+              answer: "inodo",
+              hint: "La estructura de datos principal de Unix para archivos."
+            },
+            {
+              id: 6,
+              textBefore: "Para imprimir el directorio de trabajo actual (pwd), la llamada correcta es",
+              textAfter: "().",
+              answer: "getcwd",
+              hint: "Get Current Working Directory."
+            },
+            {
+              id: 7,
+              textBefore: "El comando who lee las sesiones de usuario iterando sobre los registros con la función",
+              textAfter: "().",
+              answer: "getutent",
+              hint: "Get UTmp ENTry."
+            },
+            {
+              id: 8,
+              textBefore: "Para cambiar el nombre de un archivo o moverlo a otra ubicación (equivalente al comando mv), la shell invoca",
+              textAfter: "().",
+              answer: "rename",
+              hint: "Renombrar en inglés."
+            },
+            {
+              id: 9,
+              textBefore: "El comando uname permite obtener información sobre el sistema (como Linux x86_64) utilizando la estructura llamada",
+              textAfter: ".",
+              answer: "utsname",
+              hint: "Unix Time-Sharing Name."
+            },
+            {
+              id: 10,
+              textBefore: "La función que permite crear un nuevo directorio en el sistema de archivos recibiendo la ruta y los permisos numéricos es",
+              textAfter: "().",
+              answer: "mkdir",
+              hint: "MaKe DIRectory."
+            },
+            {
+              id: 11,
+              textBefore: "Para leer un archivo en el comando cat, primero se debe obtener su descriptor de archivo usando la llamada",
+              textAfter: "().",
+              answer: "open",
+              hint: "Lo contrario de close()."
+            },
+            {
+              id: 12,
+              textBefore: "El comando statvfs extrae la cantidad de bloques libres. Las siglas VFS significan",
+              textAfter: ".",
+              answer: "Virtual File System",
+              hint: "Sistema de archivos abstracto del núcleo."
+            },
+            {
+              id: 13,
+              textBefore: "Para finalizar de forma limpia el ciclo principal de nuestra minishell y regresar el estado al SO, usamos",
+              textAfter: "().",
+              answer: "exit",
+              hint: "Salida."
+            },
+            {
+              id: 14,
+              textBefore: "Al interpretar los comandos, la cadena de texto ingresada por el usuario es separada en múltiples tokens usando",
+              textAfter: "().",
+              answer: "strtok",
+              hint: "STRing TOKenize."
+            },
+            {
+              id: 15,
+              textBefore: "Para obtener la dirección MAC de la tarjeta de red, la shell envía la solicitud SIOCGIFHWADDR mediante la llamada",
+              textAfter: "().",
+              answer: "ioctl",
+              hint: "Input/Output ConTroL."
+            }
+          ]}
+        />
       </div>
     </div>
   );

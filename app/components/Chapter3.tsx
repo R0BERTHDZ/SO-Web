@@ -731,11 +731,11 @@ export function Chapter3_2_2() {
         title="Crucigrama: Mecanismos IPC"
         size={10}
         clues={[
-          { number: 1, direction: "across", row: 1, col: 1, answer: "SHMGET", clue: "Llamada para crear memoria compartida." },
-          { number: 2, direction: "across", row: 3, col: 0, answer: "SEMOP", clue: "Operación atómica sobre semáforos." },
-          { number: 3, direction: "down", row: 0, col: 5, answer: "FTOK", clue: "Genera una llave única (key_t)." },
-          { number: 4, direction: "down", row: 2, col: 7, answer: "ATAR", clue: "Acción de shmat (unir memoria)." },
-          { number: 5, direction: "across", row: 6, col: 2, answer: "FIFO", clue: "Tubería con nombre en disco." }
+          { number: 1, direction: "down", row: 0, col: 2, answer: "MENSAJE", clue: "Bloque de información que se envía a una cola (IPC).", hint: "Unidad discreta de datos que viaja de un proceso a otro." },
+          { number: 2, direction: "across", row: 1, col: 1, answer: "SEMAFORO", clue: "Mecanismo para sincronizar procesos y proteger secciones críticas.", hint: "Controla el paso de los procesos, así como lo hace en el tráfico vial." },
+          { number: 3, direction: "across", row: 3, col: 2, answer: "SOCKET", clue: "Punto final de comunicación usado también en redes IP.", hint: "Término en inglés para enchufe; conecta procesos localmente o por internet." },
+          { number: 4, direction: "down", row: 3, col: 7, answer: "TUBERIA", clue: "Canal de comunicación unidireccional clásico (pipe).", hint: "Traducción al español de 'pipe'." },
+          { number: 5, direction: "across", row: 7, col: 3, answer: "MEMORIA", clue: "Cuando es 'compartida', es el mecanismo IPC más rápido.", hint: "Espacio RAM al que múltiples procesos acceden directamente." }
         ]}
       />
     </section>
@@ -882,13 +882,13 @@ export function Chapter3_3_1() {
 // 3.4 Colas de Mensajes
 export function Chapter3_3_2() {
   const codeMCola = `/* compilar: gcc -Wall mcola.c -o mcola */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
-#include <errno.h>
-#include <sys/msg.h>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;time.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/msg.h&gt;
 
 struct msgbuf {
     long mtype;       /* Tipo de mensaje (> 0) */

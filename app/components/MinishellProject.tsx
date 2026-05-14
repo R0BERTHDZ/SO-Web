@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChapterHeader, SectionText, InfoCard } from './Chapters12';
 import CodeBlock from './CodeBlock';
+import Crossword from './Crossword';
 
 function CommandDetail({ cmd, desc, params, sysCalls, code, category, context, output, hint }: { cmd: string, desc: string, params: string, sysCalls: string[], code: string, category: string, context: string, output: string, hint: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -196,28 +197,28 @@ function CommandDetail({ cmd, desc, params, sysCalls, code, category, context, o
 }
 
 export default function MinishellProject() {
-  const fullCode = `#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <errno.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <time.h>
-#include <sys/statfs.h>
-#include <sys/statvfs.h>
-#include <sys/sysmacros.h>
-#include <utmp.h>
-#include <pwd.h>
-#include <grp.h>
-#include <sys/utsname.h>
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
-#include <arpa/inet.h>
-#include <ifaddrs.h>
-#include <sys/sysinfo.h>
+  const fullCode = `#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;dirent.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;time.h&gt;
+#include &lt;sys/statfs.h&gt;
+#include &lt;sys/statvfs.h&gt;
+#include &lt;sys/sysmacros.h&gt;
+#include &lt;utmp.h&gt;
+#include &lt;pwd.h&gt;
+#include &lt;grp.h&gt;
+#include &lt;sys/utsname.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;net/if.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;ifaddrs.h&gt;
+#include &lt;sys/sysinfo.h&gt;
 
 #define MAX_PATH  512
 #define MAX_BUF   1024
@@ -458,6 +459,66 @@ int main(void) {
     if (getcwd(cwd_buf, sizeof(cwd_buf))) printf("%s\\n", cwd_buf);
 }`}
         />
+        <CommandDetail 
+          category="Sistema de Archivos"
+          cmd="cd" 
+          context="Cambio de directorio de trabajo."
+          desc="Modifica el directorio de trabajo actual del proceso de la minishell usando la llamada chdir(). Si no se provee un argumento, intenta cambiar al directorio HOME." 
+          params="/home/usuario"
+          output={"# Directorio cambiado"}
+          sysCalls={["chdir()", "getenv()"]}
+          hint="chdir() solo afecta al proceso actual. Por eso los scripts no pueden cambiar el directorio del shell padre sin usar comandos como 'source'."
+          code={`void cmd_cd(const char *dir) {
+    if (!dir) dir = getenv("HOME");
+    if (chdir(dir != NULL ? dir : "/") != 0) 
+        fprintf(stderr, "cd: error al cambiar de directorio\\n");
+}`}
+        />
+        <CommandDetail 
+          category="Sistema de Archivos"
+          cmd="mkdir" 
+          context="Creación de nuevos directorios."
+          desc="Crea un nuevo directorio en el sistema de archivos especificando la ruta y los permisos en formato octal." 
+          params="nuevo_directorio"
+          output={"# Directorio creado exitosamente"}
+          sysCalls={["mkdir()"]}
+          hint="El segundo argumento de mkdir() es el modo (permisos). 0755 es la norma general (rwxr-xr-x) para directorios."
+          code={`void cmd_mkdir(const char *nombre) {
+    if (!nombre) { puts("mkdir: falta el nombre"); return; }
+    if (mkdir(nombre, 0755) != 0) 
+        fprintf(stderr, "mkdir: no se pudo crear\\n");
+}`}
+        />
+        <CommandDetail 
+          category="Sistema de Archivos"
+          cmd="unlink" 
+          context="Eliminación de archivos (hard links)."
+          desc="Elimina un nombre del sistema de archivos. Si ese nombre era el último enlace al archivo y ningún proceso lo tiene abierto, el archivo se elimina." 
+          params="documento.txt"
+          output={"# Archivo eliminado"}
+          sysCalls={["unlink()"]}
+          hint="En Unix, borrar un archivo es realmente desvincular (unlink) su nombre del inodo."
+          code={`void cmd_unlink(const char *archivo) {
+    if (!archivo) { puts("unlink: falta archivo"); return; }
+    if (unlink(archivo) != 0) 
+        fprintf(stderr, "unlink: error al eliminar\\n");
+}`}
+        />
+        <CommandDetail 
+          category="Sistema de Archivos"
+          cmd="rename" 
+          context="Renombrar o mover archivos."
+          desc="Cambia el nombre o la ubicación de un archivo. Equivalente al comando 'mv' en un shell estándar." 
+          params="viejo.txt nuevo.txt"
+          output={"# Archivo renombrado exitosamente"}
+          sysCalls={["rename()"]}
+          hint="rename() realiza la operación de manera atómica, garantizando que el archivo siempre exista durante el proceso, sin quedar en un estado corrupto."
+          code={`void cmd_rename(const char *viejo, const char *nuevo) {
+    if (!viejo || !nuevo) { puts("rename: faltan argumentos"); return; }
+    if (rename(viejo, nuevo) != 0) 
+        fprintf(stderr, "rename: error al renombrar\\n");
+}`}
+        />
       </div>
 
       {/* CATEGORÍA 2: SISTEMA */}
@@ -510,6 +571,38 @@ int main(void) {
     printf("%s %s %s", u.sysname, u.release, u.machine);
 }`}
         />
+        <CommandDetail 
+          category="Kernel"
+          cmd="statvfs" 
+          context="Estadísticas del sistema de archivos."
+          desc="Recupera información global sobre un sistema de archivos montado, como el tamaño de bloque, total de bloques y bloques disponibles." 
+          params="/"
+          output={"ID de bloque: 4096 | Bloques totales: 61049511"}
+          sysCalls={["statvfs()", "struct statvfs"]}
+          hint="Es inmensamente útil para calcular el espacio libre general en disco sin tener que recorrer recursivamente todos los directorios."
+          code={`void cmd_statvfs(const char *ruta) {
+    if (!ruta) ruta = "/";
+    struct statvfs vfs;
+    if (statvfs(ruta, &vfs) == 0) {
+        printf("ID de bloque: %lu | Bloques totales: %lu\\n", 
+               vfs.f_bsize, vfs.f_blocks);
+    }
+}`}
+        />
+        <CommandDetail 
+          category="Sistema"
+          cmd="date" 
+          context="Reloj del sistema."
+          desc="Obtiene la hora actual del sistema en formato de marca de tiempo (Epoch) y la convierte a una cadena legible alfanumérica." 
+          params="Ninguno"
+          output={"Wed May 13 14:02:45 2026"}
+          sysCalls={["time()", "ctime()"]}
+          hint="time() devuelve los segundos desde el 1 de enero de 1970, y ctime() hace todo el formateo de zona horaria y calendario por ti."
+          code={`void cmd_date(void) {
+    time_t t = time(NULL);
+    printf("%s", ctime(&t));
+}`}
+        />
       </div>
 
       {/* CATEGORÍA 3: RED */}
@@ -553,6 +646,83 @@ int main(void) {
 }`}
         />
       </div>
+
+      {/* CATEGORÍA 4: USUARIOS */}
+      <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "var(--text-primary)", marginTop: "4rem", marginBottom: "2rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+        <span style={{ background: "var(--accent-primary)", color: "white", width: "45px", height: "45px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>👥</span>
+        Usuarios y Sesiones
+      </h3>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <CommandDetail 
+          category="Sesiones"
+          cmd="who" 
+          context="Listar usuarios conectados."
+          desc="Lee el archivo especial utmp para determinar quién está conectado actualmente en el sistema y en qué terminales (tty/pts)." 
+          params="Ninguno"
+          output={"usuario    tty7         (:0)"}
+          sysCalls={["setutent()", "getutent()", "endutent()", "struct utmp"]}
+          hint="Iterar sobre registros utmp requiere abrir el archivo con setutent(), leer secuencialmente con getutent(), y cerrarlo con endutent() al terminar."
+          code={`void cmd_who(void) {
+    struct utmp *u;
+    setutent();
+    while ((u = getutent())) {
+        if (u->ut_type == USER_PROCESS) 
+            printf("%-10s %-12s (%s)\\n", u->ut_user, u->ut_line, u->ut_host);
+    }
+    endutent();
+}`}
+        />
+      </div>
+
+      {/* CATEGORÍA 5: CONTROL */}
+      <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "var(--text-primary)", marginTop: "4rem", marginBottom: "2rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+        <span style={{ background: "var(--accent-primary)", color: "white", width: "45px", height: "45px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>🛑</span>
+        Control de la Shell
+      </h3>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <CommandDetail 
+          category="Control"
+          cmd="exit" 
+          context="Terminación del proceso principal."
+          desc="Finaliza la ejecución de la minishell de manera limpia enviando el código de estado de retorno al sistema operativo o shell padre." 
+          params="Ninguno"
+          output={"Hasta luego."}
+          sysCalls={["exit()"]}
+          hint="Un código de estado 0 indica éxito al proceso padre. Cualquier otro número indica un error específico."
+          code={`void cmd_exit(void) {
+    puts("Hasta luego.");
+    exit(0);
+}`}
+        />
+      </div>
+
+      {/* CRUCIGRAMA MINISHELL */}
+      <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "var(--text-primary)", marginTop: "4rem", marginBottom: "2rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+        <span style={{ background: "var(--accent-primary)", color: "white", width: "45px", height: "45px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>🧩</span>
+        Repaso: Comandos y Funciones
+      </h3>
+      <Crossword 
+        title="Crucigrama: Proyecto Minishell"
+        size={15}
+        clues={[
+          { number: 1, direction: "down", row: 0, col: 3, answer: "UNLINK", clue: "Llamada al sistema para eliminar un archivo.", hint: "Quita el enlace duro (link) del inodo." },
+          { number: 2, direction: "across", row: 0, col: 10, answer: "LS", clue: "Lista el contenido de un directorio.", hint: "Usa internamente opendir() y readdir()." },
+          { number: 3, direction: "down", row: 0, col: 11, answer: "STATVFS", clue: "Llamada para obtener información de particiones (bloques libres).", hint: "Acrónimo de stat Virtual File System." },
+          { number: 4, direction: "across", row: 1, col: 1, answer: "RENAME", clue: "Llamada para cambiar el nombre o ruta de un archivo.", hint: "En la terminal usas 'mv', a bajo nivel es..." },
+          { number: 5, direction: "down", row: 1, col: 5, answer: "MAC", clue: "Dirección física de 48 bits del hardware de red.", hint: "Obtenida con la bandera SIOCGIFHWADDR." },
+          { number: 6, direction: "across", row: 2, col: 9, answer: "UNAME", clue: "Comando que devuelve info del Kernel (sysname, release).", hint: "Unix Name." },
+          { number: 7, direction: "across", row: 3, col: 5, answer: "CD", clue: "Comando para cambiar de directorio actual.", hint: "Usa internamente la llamada chdir()." },
+          { number: 8, direction: "across", row: 5, col: 2, answer: "MKDIR", clue: "Crea un nuevo directorio en el sistema de archivos.", hint: "Recibe el nombre y los permisos (ej. 0755)." },
+          { number: 9, direction: "down", row: 5, col: 5, answer: "IP", clue: "Protocolo lógico cuya dirección se lee iterando con getifaddrs().", hint: "Internet Protocol." },
+          { number: 10, direction: "across", row: 5, col: 11, answer: "FREE", clue: "Comando que muestra la memoria RAM total y disponible.", hint: "Usa sysinfo()." },
+          { number: 11, direction: "down", row: 5, col: 13, answer: "EXIT", clue: "Termina la ejecución del ciclo de la minishell.", hint: "Función homónima de la librería estándar." },
+          { number: 12, direction: "across", row: 8, col: 10, answer: "STAT", clue: "Extrae metadatos precisos de un archivo (inodo, tamaño, permisos).", hint: "Estructura de datos homónima." },
+          { number: 13, direction: "down", row: 9, col: 2, answer: "PWD", clue: "Imprime la ruta absoluta del directorio de trabajo actual.", hint: "Print Working Directory (usa getcwd)." },
+          { number: 14, direction: "down", row: 9, col: 4, answer: "CAT", clue: "Lee un archivo bloque por bloque y lo imprime en pantalla.", hint: "Abre con open(), lee con read()." },
+          { number: 15, direction: "across", row: 11, col: 2, answer: "DATE", clue: "Muestra la fecha y hora actual del sistema.", hint: "Usa time() y ctime()." },
+          { number: 16, direction: "across", row: 13, col: 8, answer: "WHO", clue: "Muestra los usuarios conectados actualmente.", hint: "Lee registros utmp con getutent()." }
+        ]}
+      />
 
       <div style={{ marginTop: "6rem", padding: "4rem", background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)", borderRadius: "32px", color: "white", boxShadow: "0 30px 60px rgba(0,0,0,0.4)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-20px", right: "-20px", width: "150px", height: "150px", background: "var(--accent-primary)", opacity: 0.1, borderRadius: "50%" }}></div>

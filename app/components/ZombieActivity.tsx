@@ -114,8 +114,16 @@ export default function ZombieActivity() {
             ¡Excelente! Has limpiado la tabla de procesos y dominado el concepto zombi. 🚀
           </div>
         ) : (
-          <div className="animate-fadeInUp" style={{ marginTop: "2rem", padding: "1.5rem", background: "rgba(239, 68, 68, 0.1)", border: "2px dashed rgba(239, 68, 68, 0.5)", borderRadius: "12px", color: "#fca5a5", fontWeight: "bold", textAlign: "center", fontSize: "1.1rem" }}>
-            Aún quedan zombis en el sistema. Revisa tus respuestas e inténtalo de nuevo. 🧟
+          <div className="animate-fadeInUp" style={{ marginTop: "2rem", padding: "1.5rem", background: "rgba(239, 68, 68, 0.1)", border: "2px dashed rgba(239, 68, 68, 0.5)", borderRadius: "12px", color: "#fca5a5" }}>
+            <div style={{ fontWeight: "bold", textAlign: "center", fontSize: "1.1rem", marginBottom: "1rem" }}>
+              Aún quedan zombis en el sistema. 🧟 Aquí tienes la corrección:
+            </div>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, fontSize: "0.95rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {answers.q1 !== correctAnswers.q1 && <li>❌ Pregunta 1: Elegiste un valor incorrecto. La llamada correcta es <strong style={{ color: "white" }}>wait()</strong>.</li>}
+              {answers.q2 !== correctAnswers.q2 && <li>❌ Pregunta 2: Los zombis ya no ocupan memoria RAM. Siguen ocupando una entrada en la <strong style={{ color: "white" }}>tabla de procesos</strong>.</li>}
+              {answers.q3 !== correctAnswers.q3 && <li>❌ Pregunta 3: El Kernel no adopta directamente; el proceso padre definitivo que adopta huérfanos es <strong style={{ color: "white" }}>PID 1 (init/systemd)</strong>.</li>}
+              {answers.q4 !== correctAnswers.q4 && <li>❌ Pregunta 4: La letra que identifica el estado Zombi en 'ps' es la <strong style={{ color: "white" }}>Z</strong>.</li>}
+            </ul>
           </div>
         )
       )}

@@ -22,6 +22,7 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
   const [foundWordsWithCells, setFoundWordsWithCells] = useState<{ word: string; cells: { r: number; c: number }[] }[]>([]);
   const [isSelecting, setIsSelecting] = useState(false);
   const [activeHints, setActiveHints] = useState<string[]>([]);
+  const glosarioRef = React.useRef<HTMLDivElement>(null);
 
   const colors = [
     "var(--accent-blue)",
@@ -45,11 +46,10 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
   useEffect(() => {
     if (foundWords.length > 0) {
       setTimeout(() => {
-        const element = document.getElementById("glosario-conceptos");
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (glosarioRef.current) {
+          glosarioRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
         }
-      }, 100);
+      }, 200);
     }
   }, [foundWords]);
 
@@ -307,7 +307,7 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
       
       {/* Meanings (Bottom) */}
       {foundWords.length > 0 && (
-        <div id="glosario-conceptos" style={{ marginTop: "2rem", borderTop: "2px solid var(--border-color)", paddingTop: "2rem" }}>
+        <div ref={glosarioRef} id="glosario-conceptos" style={{ marginTop: "2rem", borderTop: "2px solid var(--border-color)", paddingTop: "2rem" }}>
           <h4 style={{ fontSize: "1.2rem", fontWeight: 900, color: "var(--accent-primary)", marginBottom: "1.5rem" }}>
             📚 Concepto Encontrado
           </h4>

@@ -1,14 +1,25 @@
+import sys
+
+partial2_content = """\
 "use client";
 import React, { useState } from "react";
 import ExamHint from "./ExamHint";
 
 const QuestionBlock = ({ question, children, answer, hint }: { question?: React.ReactNode, children?: React.ReactNode, answer: React.ReactNode, hint?: string }) => {
   const [showAnswer, setShowAnswer] = useState(false);
+  const [userAnswer, setUserAnswer] = useState("");
   return (
     <div className="card" style={{ padding: "2rem", borderRadius: "12px", border: "1px solid var(--border-color)", background: "var(--bg-card)" }}>
       {question && <p style={{ fontWeight: "bold", color: "var(--text-primary)", marginBottom: "1rem" }}>{question}</p>}
       {children}
-      <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", marginTop: "1rem" }}>
+      <textarea 
+        placeholder="Escribe tu respuesta o razonamiento aquí..." 
+        value={userAnswer}
+        onChange={e => setUserAnswer(e.target.value)}
+        style={{ width: "100%", minHeight: "80px", padding: "1rem", borderRadius: "8px", border: "1px solid var(--border-color)", background: "var(--bg-primary)", color: "var(--text-primary)", marginBottom: "1rem", fontFamily: "inherit", resize: "vertical" }}
+        spellCheck={false}
+      />
+      <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
         <button 
           onClick={() => setShowAnswer(!showAnswer)}
           style={{ padding: "0.5rem 1rem", borderRadius: "8px", background: showAnswer ? "var(--bg-secondary)" : "var(--accent-primary)", color: showAnswer ? "var(--text-primary)" : "white", border: "1px solid var(--border-color)", fontWeight: "bold", cursor: "pointer", transition: "all 0.2s" }}
@@ -243,3 +254,7 @@ export default function PartialExam2() {
     </section>
   );
 }
+"""
+
+with open("/home/usuario/Documentos/sistemas_operativos_website/app/components/PartialExam2.tsx", "w") as f:
+    f.write(partial2_content)

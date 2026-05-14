@@ -37,7 +37,7 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
   }, [clues, size]);
 
   const toggleHint = (num: number) => {
-    setActiveHints(prev => 
+    setActiveHints(prev =>
       prev.includes(num) ? prev.filter(n => n !== num) : [...prev, num]
     );
   };
@@ -50,10 +50,21 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
     setUserGrid(newGrid);
   };
 
+  const solveClue = (c: Clue) => {
+    const newGrid = [...userGrid];
+    for (let i = 0; i < c.answer.length; i++) {
+      const row = c.direction === "down" ? c.row + i : c.row;
+      const col = c.direction === "across" ? c.col + i : c.col;
+      if (!newGrid[row]) newGrid[row] = [];
+      newGrid[row][col] = c.answer[i].toUpperCase();
+    }
+    setUserGrid(newGrid);
+  };
+
   const isCorrect = (r: number, c: number) => {
     const char = userGrid[r]?.[c];
     if (!char || char === "") return null;
-    
+
     const cluesPassing = clues.filter(cl => {
       if (cl.direction === "across") {
         return r === cl.row && c >= cl.col && c < cl.col + cl.answer.length;
@@ -91,12 +102,12 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "3.5rem", justifyContent: "center", alignItems: "flex-start" }}>
         {/* Crossword Grid */}
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: `repeat(${size}, 1fr)`, 
-          gap: "4px", 
-          background: "var(--border-color)", 
-          padding: "15px", 
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${size}, 1fr)`,
+          gap: "4px",
+          background: "var(--border-color)",
+          padding: "15px",
           borderRadius: "16px",
           width: "fit-content",
           boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
@@ -155,25 +166,46 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
                       <div style={{ fontSize: "0.95rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
                         <strong style={{ color: "var(--accent-primary)", fontSize: "1.1rem", marginRight: "0.6rem" }}>{c.number}</strong> {c.clue}
                       </div>
-                      {c.hint && (
-                        <button 
-                          onClick={() => toggleHint(c.number)}
-                          style={{ 
-                            background: activeHints.includes(c.number) ? "rgba(251, 191, 36, 0.2)" : "var(--bg-primary)", 
-                            border: `1px solid ${activeHints.includes(c.number) ? "#f59e0b" : "var(--border-color)"}`,
+                      <div style={{ display: "flex", gap: "0.5rem" }}>
+                        {c.hint && (
+                          <button
+                            onClick={() => toggleHint(c.number)}
+                            style={{
+                              background: activeHints.includes(c.number) ? "rgba(251, 191, 36, 0.2)" : "var(--bg-primary)",
+                              border: `1px solid ${activeHints.includes(c.number) ? "#f59e0b" : "var(--border-color)"}`,
+                              borderRadius: "8px",
+                              padding: "0.4rem 0.8rem",
+                              fontSize: "0.75rem",
+                              fontWeight: 800,
+                              color: activeHints.includes(c.number) ? "#b45309" : "var(--text-muted)",
+                              cursor: "pointer",
+                              transition: "all 0.2s",
+                              whiteSpace: "nowrap"
+                            }}
+                          >
+                            {activeHints.includes(c.number) ? "💡 Ocultar" : "💡 Pista"}
+                          </button>
+                        )}
+                        <button
+                          onClick={() => solveClue(c)}
+                          style={{
+                            background: "var(--bg-primary)",
+                            border: "1px solid var(--border-color)",
                             borderRadius: "8px",
                             padding: "0.4rem 0.8rem",
                             fontSize: "0.75rem",
                             fontWeight: 800,
-                            color: activeHints.includes(c.number) ? "#b45309" : "var(--text-muted)",
+                            color: "var(--text-muted)",
                             cursor: "pointer",
                             transition: "all 0.2s",
                             whiteSpace: "nowrap"
                           }}
+                          onMouseOver={(e) => { e.currentTarget.style.background = "var(--border-color)"; e.currentTarget.style.color = "var(--text-primary)"; }}
+                          onMouseOut={(e) => { e.currentTarget.style.background = "var(--bg-primary)"; e.currentTarget.style.color = "var(--text-muted)"; }}
                         >
-                          {activeHints.includes(c.number) ? "💡 Ocultar" : "💡 Pista"}
+                          👀 Ver
                         </button>
-                      )}
+                      </div>
                     </div>
                     {activeHints.includes(c.number) && (
                       <div style={{ marginTop: "0.8rem", padding: "0.8rem", background: "rgba(251, 191, 36, 0.05)", borderRadius: "8px", fontSize: "0.85rem", color: "#b45309", borderLeft: "3px solid #fbbf24", animation: "fadeIn 0.3s ease" }}>
@@ -193,7 +225,7 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
           )}
         </div>
       </div>
-      
+
       <p style={{ marginTop: "2rem", fontSize: "0.85rem", color: "var(--text-muted)", textAlign: "center" }}>
         Haz clic en las celdas para escribir. Las letras correctas se marcarán en verde automáticamente.
       </p>

@@ -423,27 +423,92 @@ export function Chapter1_2() {
     {
       id: "lote", title: "Sistemas por Lotes", color: "#6366f1", icon: <span style={{ fontSize: "2rem" }}>📦</span>,
       shortDesc: "Procesan trabajos sin interacción del usuario, uno tras otro.",
-      content: <><p>Los <strong>sistemas por lotes</strong> agrupan tareas similares y las ejecutan secuencialmente sin intervención del usuario. Fueron los primeros SO.</p><p style={{ marginTop: "1rem" }}>Ejemplos: IBM OS/360. Se usan aún en bancos para procesamiento nocturno de transacciones.</p></>
+      content: (
+        <>
+          <p>Los <strong>sistemas por lotes (Batch Systems)</strong> agrupan tareas similares (trabajos o jobs) y las ejecutan secuencialmente sin intervención manual del usuario. Fueron los primeros sistemas operativos, diseñados para maximizar el uso del procesador central evitando los tiempos muertos que causa la interacción humana.</p>
+          <div style={{ marginTop: "1rem", background: "rgba(99, 102, 241, 0.1)", padding: "1rem", borderRadius: "8px", borderLeft: "3px solid #6366f1" }}>
+            <strong>Características principales:</strong>
+            <ul style={{ margin: "0.5rem 0 0 1.5rem", padding: 0, lineHeight: 1.6 }}>
+              <li><strong>Ejecución desatendida:</strong> El usuario envía el trabajo y regresa después por los resultados.</li>
+              <li><strong>Alta eficiencia:</strong> Ideal para tareas repetitivas y masivas.</li>
+              <li><strong>Sin interacción:</strong> Ausencia de interacción con el usuario durante la ejecución.</li>
+            </ul>
+          </div>
+          <p style={{ marginTop: "1rem" }}><strong>Ejemplos históricos y actuales:</strong> IBM OS/360. Aunque parecen obsoletos, hoy en día sus principios se aplican en el procesamiento nocturno de transacciones bancarias, renderizado masivo de video y análisis de Big Data en centros de datos modernos.</p>
+        </>
+      )
     },
     {
       id: "tiempo-real", title: "Tiempo Real (RTOS)", color: "#ef4444", icon: <span style={{ fontSize: "2rem" }}>⏱️</span>,
       shortDesc: "Garantizan respuestas en tiempos exactos y predecibles.",
-      content: <><p>Un <strong>RTOS</strong> garantiza que las tareas críticas se completen dentro de plazos estrictos. Un fallo temporal puede ser catastrófico.</p><p style={{ marginTop: "1rem" }}>Ejemplos: VxWorks, FreeRTOS. Usos: control de tráfico aéreo, equipos médicos, sistemas de misiles.</p></>
+      content: (
+        <>
+          <p>Un sistema operativo de <strong>Tiempo Real (RTOS)</strong> está diseñado para aplicaciones donde el procesamiento de datos debe ocurrir dentro de un lapso de tiempo muy estricto y predecible. Un fallo en cumplir el plazo (<em>deadline</em>) se considera un fallo total del sistema, pudiendo tener consecuencias catastróficas.</p>
+          <div style={{ marginTop: "1rem", background: "rgba(239, 68, 68, 0.1)", padding: "1rem", borderRadius: "8px", borderLeft: "3px solid #ef4444" }}>
+            <strong>Clasificación interna:</strong>
+            <ul style={{ margin: "0.5rem 0 0 1.5rem", padding: 0, lineHeight: 1.6 }}>
+              <li><strong>Hard Real-Time (Estricto):</strong> No toleran retrasos (ej. control de frenos ABS en autos, marcapasos, sistemas de misiles).</li>
+              <li><strong>Soft Real-Time (Flexible):</strong> Toleran retrasos menores, degradando la calidad sin causar un fallo crítico (ej. streaming de video en vivo, videojuegos).</li>
+            </ul>
+          </div>
+          <p style={{ marginTop: "1rem" }}><strong>Ejemplos:</strong> VxWorks (usado en los rovers de Marte de la NASA), QNX, FreeRTOS. Usos comunes: sistemas de aviónica, robótica industrial, y equipos médicos de soporte vital.</p>
+        </>
+      )
     },
     {
       id: "red", title: "Sistemas de Red", color: "#0ea5e9", icon: <span style={{ fontSize: "2rem" }}>🌐</span>,
       shortDesc: "Permiten compartir recursos entre máquinas en red.",
-      content: <><p>Un <strong>SO de red</strong> permite que las máquinas compartan archivos, impresoras y otros recursos. El usuario sabe que está accediendo a recursos remotos.</p><p style={{ marginTop: "1rem" }}>Ejemplos: Windows Server, Linux con Samba/NFS.</p></>
+      content: (
+        <>
+          <p>Un <strong>SO de red</strong> permite que diferentes computadoras independientes se comuniquen y compartan recursos (como archivos, impresoras, bases de datos o poder de cómputo) a través de una red local (LAN) o extensa (WAN). En este modelo, el usuario es consciente de que los recursos no están en su máquina local, sino en un servidor remoto o red.</p>
+          <div style={{ marginTop: "1rem", background: "rgba(14, 165, 233, 0.1)", padding: "1rem", borderRadius: "8px", borderLeft: "3px solid #0ea5e9" }}>
+            <strong>Ventajas clave:</strong>
+            <ul style={{ margin: "0.5rem 0 0 1.5rem", padding: 0, lineHeight: 1.6 }}>
+              <li><strong>Administración centralizada:</strong> Gestión de usuarios y políticas de seguridad desde un solo lugar.</li>
+              <li><strong>Respaldo de datos:</strong> Almacenamiento y backups consolidados en servidores robustos.</li>
+              <li><strong>Escalabilidad:</strong> Facilidad para añadir nuevos clientes y recursos a la red.</li>
+            </ul>
+          </div>
+          <p style={{ marginTop: "1rem" }}><strong>Ejemplos:</strong> Windows Server, distribuciones Linux configuradas con Samba o NFS, Novell NetWare. Son la columna vertebral de las intranets corporativas, oficinas e instituciones educativas.</p>
+        </>
+      )
     },
     {
-      id: "distribuido", title: "Distribuidos", color: "#16a34a", icon: <span style={{ fontSize: "2rem" }}>🔗</span>,
+      id: "distribuido", title: "Sistemas Distribuidos", color: "#16a34a", icon: <span style={{ fontSize: "2rem" }}>🔗</span>,
       shortDesc: "Múltiples máquinas actúan como una sola de forma transparente.",
-      content: <><p>Un <strong>SO distribuido</strong> hace que una colección de computadoras aparezca ante el usuario como un único sistema coherente. La distribución es transparente.</p><p style={{ marginTop: "1rem" }}>Ejemplos: Amoeba, Google&apos;s Borg. Base de los sistemas cloud modernos.</p></>
+      content: (
+        <>
+          <p>A diferencia de un SO de red, un <strong>SO Distribuido</strong> coordina las operaciones de múltiples computadoras separadas físicamente para que parezcan un único sistema coherente y potente frente al usuario final. La distribución de los datos y el procesamiento es completamente transparente; el usuario no sabe (ni necesita saber) en qué nodo físico se está ejecutando su tarea.</p>
+          <div style={{ marginTop: "1rem", background: "rgba(22, 163, 74, 0.1)", padding: "1rem", borderRadius: "8px", borderLeft: "3px solid #16a34a" }}>
+            <strong>Características fundamentales:</strong>
+            <ul style={{ margin: "0.5rem 0 0 1.5rem", padding: 0, lineHeight: 1.6 }}>
+              <li><strong>Transparencia:</strong> Oculta la complejidad física y la ubicación del hardware al usuario.</li>
+              <li><strong>Tolerancia a fallos:</strong> Si un nodo (computadora) cae, el sistema redirige la carga y sigue funcionando (alta disponibilidad).</li>
+              <li><strong>Balanceo de carga:</strong> Distribuye el trabajo masivo de forma equitativa entre todos los nodos.</li>
+            </ul>
+          </div>
+          <p style={{ marginTop: "1rem" }}><strong>Ejemplos y evolución:</strong> Amoeba y Plan 9 fueron pioneros en este campo. Hoy en día, estos conceptos son la base de los modernos ecosistemas de <strong>Cloud Computing</strong> (ej. Kubernetes, Apache Hadoop) y las inmensas infraestructuras de gigantes tecnológicos como Google (Borg) y Amazon AWS.</p>
+        </>
+      )
     },
     {
       id: "movil", title: "Sistemas Móviles", color: "#f59e0b", icon: <span style={{ fontSize: "2rem" }}>📱</span>,
       shortDesc: "Optimizados para hardware limitado con interfaz táctil.",
-      content: <><p>Los <strong>SO móviles</strong> gestionan dispositivos con restricciones de batería, CPU y RAM. Priorizan la interfaz táctil y la conectividad.</p><p style={{ marginTop: "1rem" }}>Ejemplos: Android (kernel Linux modificado), iOS (basado en Darwin/XNU).</p><DidYouKnow>La primera versión del Kernel Linux liberada por Linus Torvalds en 1991 tenía apenas <strong>10,239 líneas de código</strong>. Hoy, el kernel de Android cuenta con más de <strong>30 millones</strong> de líneas.</DidYouKnow></>
+      content: (
+        <>
+          <p>Los <strong>sistemas operativos móviles</strong> están diseñados específicamente para dispositivos portátiles como smartphones, tablets y wearables. Deben lidiar con restricciones únicas de hardware (tamaño, calor) y paradigmas de usabilidad que no aplican a los equipos de escritorio.</p>
+          <div style={{ marginTop: "1rem", background: "rgba(245, 158, 11, 0.1)", padding: "1rem", borderRadius: "8px", borderLeft: "3px solid #f59e0b" }}>
+            <strong>Prioridades de diseño:</strong>
+            <ul style={{ margin: "0.5rem 0 0 1.5rem", padding: 0, lineHeight: 1.6 }}>
+              <li><strong>Gestión extrema de energía:</strong> Maximizar la duración de la batería suspendiendo procesos en segundo plano agresivamente.</li>
+              <li><strong>Interfaces Touch-first:</strong> Diseñados desde cero para la interacción táctil, biometría y mediante gestos fluidos.</li>
+              <li><strong>Conectividad constante y sensores:</strong> Transiciones fluidas entre redes celulares/Wi-Fi y gestión nativa de GPS, acelerómetros y cámaras.</li>
+            </ul>
+          </div>
+          <p style={{ marginTop: "1rem" }}><strong>Ejemplos:</strong> Android (basado en un kernel Linux altamente modificado), iOS (basado en el núcleo Darwin/XNU de Apple), HarmonyOS.</p>
+          <DidYouKnow>La primera versión del Kernel Linux liberada por Linus Torvalds en 1991 tenía apenas <strong>10,239 líneas de código</strong>. Hoy, el kernel de Android cuenta con más de <strong>30 millones</strong> de líneas, gestionando desde el enfoque de una lente fotográfica microscópica hasta los complejos algoritmos de IA embebidos en el dispositivo.</DidYouKnow>
+        </>
+      )
     },
   ];
   const activeData = classifications.find(c => c.id === activeModal);
@@ -575,7 +640,7 @@ export function Chapter2_1() {
         </SectionText>
 
         <DidYouKnow>
-          Un proceso <strong>Zombi</strong> no consume memoria ni CPU. Solo ocupa un espacio mínimo en la tabla de procesos del kernel esperando que su padre lea su estado de salida. Sin embargo, si un sistema genera miles de zombis, podría agotar los PIDs disponibles, impidiendo que se inicien nuevos programas.
+          Un procesador moderno realiza un <strong>Cambio de Contexto</strong> entre distintos procesos miles de veces por segundo. Este intercambio es tan increíblemente rápido que nos da la ilusión óptica de que cientos de programas (navegador, música, chat) se están ejecutando simultáneamente, ¡incluso si tu procesador solo tuviera un núcleo real!
         </DidYouKnow>
       </div>
 
@@ -599,15 +664,17 @@ export function Chapter2_1() {
       />
 
       <Crossword
-        title="Crucigrama: Gestión de Procesos"
-        size={10}
+        title="Crucigrama: Introducción a Procesos"
+        size={13}
         clues={[
-          { number: 1, direction: "across", row: 8, col: 3, answer: "PCB", clue: "Bloque de Control de Proceso (siglas).", hint: "Process Control Block." },
-          { number: 2, direction: "across", row: 3, col: 2, answer: "ZOMBI", clue: "Proceso que terminó pero sigue en la tabla.", hint: "No ha sido 'enterrado' por su padre con wait()." },
-          { number: 3, direction: "down", row: 4, col: 7, answer: "READY", clue: "Estado en que el proceso espera la CPU.", hint: "Listo en inglés." },
-          { number: 4, direction: "down", row: 2, col: 3, answer: "FORK", clue: "Llamada al sistema para crear procesos.", hint: "Suena a 'tenedor' en inglés." },
-          { number: 5, direction: "across", row: 5, col: 3, answer: "KERNEL", clue: "Núcleo del sistema operativo.", hint: "El corazón del SO." },
-          { number: 6, direction: "down", row: 5, col: 4, answer: "EXEC", clue: "Llamada para cargar un nuevo programa.", hint: "Abreviatura de ejecutar en inglés." }
+          { number: 1, direction: "down", row: 0, col: 3, answer: "TEXTO", clue: "Segmento de memoria que contiene las instrucciones y el código máquina puro.", hint: "La sección que la CPU lee y ejecuta." },
+          { number: 2, direction: "down", row: 1, col: 8, answer: "PILA", clue: "Segmento de memoria LIFO usado para variables locales y contexto de funciones.", hint: "En inglés se le conoce como Stack." },
+          { number: 3, direction: "down", row: 2, col: 6, answer: "HEAP", clue: "Segmento de memoria dinámica (montículo) solicitada en tiempo de ejecución.", hint: "Se llena con malloc() o new." },
+          { number: 4, direction: "across", row: 4, col: 1, answer: "PROGRAMA", clue: "Conjunto de instrucciones pasivas almacenadas en un archivo de disco.", hint: "Hasta que no se carga en memoria, no es activo." },
+          { number: 4, direction: "down", row: 4, col: 1, answer: "PROCESO", clue: "Es la instancia de un programa de forma activa, cargado en la memoria RAM.", hint: "El concepto principal de este capítulo." },
+          { number: 5, direction: "across", row: 7, col: 0, answer: "PCB", clue: "Bloque de Control de Proceso (siglas). El 'DNI' del proceso en el Kernel.", hint: "Process Control Block (task_struct en Linux)." },
+          { number: 6, direction: "across", row: 9, col: 0, answer: "ESTADO", clue: "La condición actual en la que se encuentra un proceso (Nuevo, Listo, Bloqueado...).", hint: "Es uno de los valores fundamentales guardados en el PCB." },
+          { number: 7, direction: "down", row: 9, col: 4, answer: "DATA", clue: "Segmento de memoria que almacena las variables globales y estáticas.", hint: "Suele agruparse junto al BSS." }
         ]}
       />
 
@@ -970,7 +1037,8 @@ Proceso PID=2000, PPID=1999`;
 
 export function Chapter2_5() {
   return (
-    <section id="wait" className="chapter-section animate-fadeInUp">
+    <>
+      <section id="wait" className="chapter-section animate-fadeInUp">
       <ChapterHeader num="2.5" title="Sistema de llamada wait()" subtitle="Sincronización padre-hijo y gestión de estado de terminación." />
 
       <SectionText>
@@ -1036,9 +1104,11 @@ export function Chapter2_5() {
         "WTERMSIG(*stat_loc): Si el proceso hijo terminó por una señal, obtiene el número de dicha señal."
       ]} />
 
-      <div id="waitpid" style={{ marginTop: "3rem", marginBottom: "2rem" }}>
-        <h3 style={{ fontSize: "1.3rem", fontWeight: 800, color: "var(--accent-primary)", marginBottom: "1rem", borderBottom: "2px solid rgba(155, 28, 46, 0.1)", paddingBottom: "0.5rem", display: "inline-block" }}>2.5.1 Uso de waitpid()</h3>
-        <SectionText>
+    </section>
+
+    <section id="waitpid" className="chapter-section animate-fadeInUp">
+      <ChapterHeader num="2.5.1" title="Sistema de llamada waitpid()" subtitle="Control avanzado de espera y llamadas no bloqueantes." />
+      <SectionText>
           Cuando se requiere esperar por un proceso hijo específico, o se necesita un control más fino del comportamiento de espera, se debe utilizar la función <code>waitpid()</code>. Esta llamada suspende la ejecución del proceso actual hasta que el proceso hijo especificado finaliza o hasta que ocurre un evento controlado por las opciones proporcionadas.
         </SectionText>
 
@@ -1079,46 +1149,46 @@ export function Chapter2_5() {
             El uso correcto de <code>wait()</code> y <code>waitpid()</code> es esencial para: sincronizar procesos padre e hijo, recuperar códigos de terminación, evitar la propagación de procesos zombi en la tabla del sistema, e implementar eficientemente servidores concurrentes y gestores de tareas.
           </p>
         </div>
-      </div>
 
       <div style={{ marginTop: "3rem" }}>
         <MiniQuiz
           title="Test: Análisis y Espera de Procesos"
           questions={[
             {
-              question: "¿Qué sucede si se invoca wait() y el proceso no tiene procesos hijos?",
+              question: "¿Qué efecto principal tiene invocar la llamada wait() en un proceso padre?",
               options: [
-                "Se bloquea infinitamente esperando a que se cree un proceso hijo.",
-                "Retorna -1 inmediatamente y establece la variable errno en ECHILD.",
-                "Retorna 0 y continúa la ejecución.",
-                "Genera un error de segmentación (Segmentation fault)."
+                "Crea un nuevo proceso hijo de forma concurrente.",
+                "Suspende la ejecución del proceso padre hasta que un hijo termina o se detiene.",
+                "Asigna de inmediato más memoria RAM al proceso hijo en ejecución.",
+                "Finaliza la ejecución del proceso padre para que el hijo tome el control."
               ],
               correct: 1,
-              explanation: "La llamada wait() verifica la existencia de hijos; si no hay procesos hijos (vivos ni zombis) a los cuales esperar, falla y retorna -1 inmediatamente indicando ECHILD.",
-              hint: "Recuerda que el Kernel debe retornar un error si intentas esperar por algo que no existe."
+              explanation: "El texto menciona claramente que 'La llamada wait() suspende la ejecución del proceso padre hasta que se cumple una de estas condiciones: un hijo termina, un hijo es detenido, o el llamador recibe una señal'.",
+              hint: "Busca la opción relacionada con 'suspender la ejecución' o 'pausar'."
             },
             {
-              question: "¿Qué macro se utiliza para evaluar si un proceso hijo terminó de forma normal?",
+              question: "¿Cuál de las siguientes es una razón ESENCIAL para utilizar correctamente wait() o waitpid()?",
               options: [
-                "WEXITSTATUS",
-                "WIFSIGNALED",
-                "WTERMSIG",
-                "WIFEXITED"
+                "Optimizar el consumo de la tarjeta de red.",
+                "Evitar la propagación de procesos zombi en la tabla del sistema.",
+                "Modificar el código fuente de un programa en tiempo real.",
+                "Acelerar la frecuencia de reloj del procesador."
               ],
-              correct: 3,
-              explanation: "WIFEXITED evalúa a verdadero si la terminación fue voluntaria y normal. Si es verdadera, posteriormente se puede usar WEXITSTATUS para extraer el código de salida de 8 bits.",
-              hint: "Busca la macro que suena a 'Si el proceso ha Salido' (If Exited)."
+              correct: 1,
+              explanation: "El recuadro de 'Importancia del uso correcto' destaca que es esencial para evitar la propagación de procesos zombi, sincronizar padre-hijo y recuperar códigos de terminación.",
+              hint: "Piensa en el 'monstruo' informático que se crea cuando un padre no espera a su hijo."
             },
             {
-              question: "En la función waitpid(), ¿qué efecto tiene usar el valor -1 en el parámetro pid?",
+              question: "¿Qué ventaja principal ofrece la función waitpid() sobre la llamada clásica wait()?",
               options: [
-                "Espera a un hijo cuyo PID sea exactamente -1.",
-                "Retorna un error si hay hijos huérfanos.",
-                "Espera por cualquier proceso hijo, actuando igual que la función wait() clásica.",
-                "Establece la opción WNOHANG para que sea no bloqueante."
+                "Permite esperar por un hijo específico (mediante su PID) y usar banderas como WNOHANG para que sea no bloqueante.",
+                "Permite ejecutar programas compilados en otros lenguajes de programación.",
+                "Es la única forma de que el padre pueda enviar mensajes de texto al hijo.",
+                "Garantiza que el proceso hijo nunca consuma memoria RAM."
               ],
-              correct: 2,
-              explanation: "Cuando el parámetro pid es -1, waitpid() se comporta de manera equivalente a wait(), esperando por la terminación de cualquier hijo sin importar su PID."
+              correct: 0,
+              explanation: "El texto explica que waitpid() se usa cuando se requiere 'esperar por un proceso hijo específico' o tener un control más fino usando banderas modificadoras (options).",
+              hint: "Revisa la sección '2.5.1 Uso de waitpid()' y para qué sirve el parámetro pid y options."
             }
           ]}
         />
@@ -1126,6 +1196,7 @@ export function Chapter2_5() {
 
 
     </section>
+    </>
   );
 }
 
