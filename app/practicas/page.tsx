@@ -22,11 +22,11 @@ export default function PracticasPage() {
         "4. El proceso padre debe esperar a sus dos hijos usando waitpid()."
       ],
       codeTitle: "arbol_procesos.c",
-      code: `#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+      code: `<span class="code-inc">#include &lt;stdio.h&gt;</span>
+<span class="code-inc">#include &lt;stdlib.h&gt;</span>
+<span class="code-inc">#include &lt;unistd.h&gt;</span>
+<span class="code-inc">#include &lt;sys/types.h&gt;</span>
+<span class="code-inc">#include &lt;sys/wait.h&gt;</span>
 
 void crear_arbol(int nivel_actual, int nivel_max) {
     if (nivel_actual >= nivel_max) return;
@@ -84,10 +84,10 @@ Padre: 1235 -> Hijo: 1238 (Nivel 2)`
         "5. El padre lee el resultado y muestra ambos factoriales."
       ],
       codeTitle: "factorial_pipe.c",
-      code: `#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
+      code: `<span class="code-inc">#include &lt;stdio.h&gt;</span>
+<span class="code-inc">#include &lt;stdlib.h&gt;</span>
+<span class="code-inc">#include &lt;unistd.h&gt;</span>
+<span class="code-inc">#include &lt;sys/wait.h&gt;</span>
 
 int main(int argc, char *argv[]){
     if (argc != 3) {
@@ -152,15 +152,15 @@ int main(int argc, char *argv[]){
       ],
       codeTitle: "password_cracker.c",
       code: `#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <semaphore.h>
-#include <sys/mman.h>
-#include <sys/wait.h>
-#include <crypt.h>
-#include <time.h>
+<span class="code-inc">#include &lt;stdio.h&gt;</span>
+<span class="code-inc">#include &lt;stdlib.h&gt;</span>
+<span class="code-inc">#include &lt;string.h&gt;</span>
+<span class="code-inc">#include &lt;unistd.h&gt;</span>
+<span class="code-inc">#include &lt;semaphore.h&gt;</span>
+<span class="code-inc">#include &lt;sys/mman.h&gt;</span>
+<span class="code-inc">#include &lt;sys/wait.h&gt;</span>
+<span class="code-inc">#include &lt;crypt.h&gt;</span>
+<span class="code-inc">#include &lt;time.h&gt;</span>
 
 #define PASS_LEN 11
 
@@ -242,13 +242,13 @@ int main(void) {
         "5. Manejar el flujo asíncrono usando la bandera IPC_NOWAIT."
       ],
       codeTitle: "usuarios_msg.c",
-      code: `#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
-#include <sys/msg.h>
-#include <utmp.h>
+      code: `<span class="code-inc">#include &lt;stdio.h&gt;</span>
+<span class="code-inc">#include &lt;stdlib.h&gt;</span>
+<span class="code-inc">#include &lt;string.h&gt;</span>
+<span class="code-inc">#include &lt;time.h&gt;</span>
+<span class="code-inc">#include &lt;unistd.h&gt;</span>
+<span class="code-inc">#include &lt;sys/msg.h&gt;</span>
+<span class="code-inc">#include &lt;utmp.h&gt;</span>
 
 struct msgbuf {
     long mtype;
@@ -335,12 +335,12 @@ cat /proc/sys/kernel/sem`,
         "5. Asegurar el cierre de descriptores de archivo con close() al finalizar."
       ],
       codeTitle: "matriz_fifo.c",
-      code: `#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <time.h>
+      code: `<span class="code-inc">#include &lt;stdio.h&gt;</span>
+<span class="code-inc">#include &lt;stdlib.h&gt;</span>
+<span class="code-inc">#include &lt;unistd.h&gt;</span>
+<span class="code-inc">#include &lt;fcntl.h&gt;</span>
+<span class="code-inc">#include &lt;sys/stat.h&gt;</span>
+<span class="code-inc">#include &lt;time.h&gt;</span>
 
 #define MAX 8
 #define FIFO "mi_fifo"
