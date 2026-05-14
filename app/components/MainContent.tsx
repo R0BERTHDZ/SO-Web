@@ -9,7 +9,7 @@ import CreditsSection from "./CreditsSection";
 import Hero from "./Hero";
 import UnitReview1 from "./UnitReview1";
 import UnitReview2 from "./UnitReview2";
-import UnitReview3 from "./UnitReview3";
+import GlobalEvaluation from "./GlobalEvaluation";
 import UnitReviewMinishell from "./UnitReviewMinishell";
 import MinishellProject from "./MinishellProject";
 import PartialExam2 from "./PartialExam2";
@@ -39,12 +39,12 @@ const TOPICS: { id: string; label: string; component: React.ReactNode }[] = [
   { id: "sysv-shm",           label: "3.3 Memoria Compartida",               component: <Chapter3_3_1 /> },
   { id: "sysv-msg",           label: "3.4 Colas de Mensajes",                component: <Chapter3_3_2 /> },
   { id: "sysv-ipcs",          label: "3.5 Comandos del Sistema",             component: <Chapter3_3_3 /> },
-  { id: "repaso-unidad3",     label: "🧠 Repaso: Unidad 3",                 component: <UnitReview3 /> },
+  { id: "repaso-unidad3",     label: "🧠 Repaso: Unidad 3",                 component: <GlobalEvaluation /> },
   { id: "minishell",          label: "🚀 Proyecto: Minishell",               component: <MinishellProject /> },
   { id: "repaso-minishell",   label: "🧠 Repaso: Minishell",                component: <UnitReviewMinishell /> },
   { id: "examen-parcial2",    label: "📝 Examen: 2do Parcial",               component: <PartialExam2 /> },
   { id: "examen-parcial3",    label: "📝 Examen: 3er Parcial",               component: <PartialExam3 /> },
-  { id: "ejercicios",         label: "Práctica Global",                      component: <UnitReview3 /> },
+  { id: "ejercicios",         label: "Práctica Global",                      component: <GlobalEvaluation /> },
   { id: "creditos",             label: "Créditos",                            component: <CreditsSection /> },
 ];
 
