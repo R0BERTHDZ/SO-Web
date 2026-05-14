@@ -17,35 +17,35 @@ import PartialExam3 from "./PartialExam3";
 
 // Ordered list of all topics — this controls the prev/next flow
 const TOPICS: { id: string; label: string; component: React.ReactNode }[] = [
-  { id: "intro-so",          label: "1.1 ¿Qué es un SO?",                  component: <Chapter1_1 /> },
-  { id: "clasificacion",      label: "1.2 Clasificación de SO",             component: <Chapter1_2 /> },
-  { id: "arranque",           label: "1.3 Proceso de Arranque",             component: <Chapter1_3 /> },
-  { id: "repaso-unidad1",     label: "🧠 Repaso: Unidad 1",                 component: <UnitReview1 /> },
-  { id: "procesos-conceptos",   label: "2.1 Conceptos de Procesos",           component: <Chapter2_1 /> },
-  { id: "crear-procesos",       label: "2.2 Crear Procesos (fork)",           component: <Chapter2_2 /> },
-  { id: "identificar-procesos", label: "2.4 Identificar Procesos",            component: <Chapter2_3 /> },
-  { id: "wait",                 label: "2.5 Sistema de llamada wait()",        component: <Chapter2_5 /> },
-  { id: "waitpid",              label: "2.5.1 Uso de waitpid()",              component: <Chapter2_5 /> },
-  { id: "exit",                 label: "2.6 _exit() y exit()",                component: <Chapter2_6 /> },
-  { id: "zombi",                label: "2.7 Estado Zombi",                    component: <Chapter2_7 /> },
-  { id: "hilos",                label: "2.8 Hilos (Threads)",                 component: <Chapter2_8 /> },
-  { id: "creacion-hilos",       label: "2.8.1 Creación de Hilos",             component: <Chapter2_8_1 /> },
-  { id: "repaso-unidad2",       label: "🧠 Repaso: Unidad 2",                 component: <UnitReview2 /> },
-  { id: "ipc-intro",          label: "3.1 Introducción IPC",                component: <Chapter3_Intro /> },
-  { id: "ipc-pipes",          label: "3.1.1 Tuberías (Pipes)",               component: <Chapter3_1_1 /> },
-  { id: "ipc-fifo",           label: "3.1.2 Tuberías (FIFO)",                component: <Chapter3_1_2 /> },
-  { id: "sysv-keys",          label: "3.2.1 Llaves (ftok)",                  component: <Chapter3_2_1 /> },
-  { id: "sysv-sem",           label: "3.2.2 Semáforos System V",             component: <Chapter3_2_2 /> },
-  { id: "sysv-shm",           label: "3.3 Memoria Compartida",               component: <Chapter3_3_1 /> },
-  { id: "sysv-msg",           label: "3.4 Colas de Mensajes",                component: <Chapter3_3_2 /> },
-  { id: "sysv-ipcs",          label: "3.5 Comandos del Sistema",             component: <Chapter3_3_3 /> },
-  { id: "repaso-unidad3",     label: "🧠 Repaso: Unidad 3",                 component: <GlobalEvaluation /> },
-  { id: "minishell",          label: "🚀 Proyecto: Minishell",               component: <MinishellProject /> },
-  { id: "repaso-minishell",   label: "🧠 Repaso: Minishell",                component: <UnitReviewMinishell /> },
-  { id: "examen-parcial2",    label: "📝 Examen: 2do Parcial",               component: <PartialExam2 /> },
-  { id: "examen-parcial3",    label: "📝 Examen: 3er Parcial",               component: <PartialExam3 /> },
-  { id: "ejercicios",         label: "Práctica Global",                      component: <GlobalEvaluation /> },
-  { id: "creditos",             label: "Créditos",                            component: <CreditsSection /> },
+  { id: "intro-so", label: "1.1 ¿Qué es un SO?", component: <Chapter1_1 /> },
+  { id: "clasificacion", label: "1.2 Clasificación de SO", component: <Chapter1_2 /> },
+  { id: "arranque", label: "1.3 Proceso de Arranque", component: <Chapter1_3 /> },
+  { id: "repaso-unidad1", label: "🧠 Repaso: Unidad 1", component: <UnitReview1 /> },
+  { id: "procesos-conceptos", label: "2.1 Conceptos de Procesos", component: <Chapter2_1 /> },
+  { id: "crear-procesos", label: "2.2 Crear Procesos (fork)", component: <Chapter2_2 /> },
+  { id: "identificar-procesos", label: "2.4 Identificar Procesos", component: <Chapter2_3 /> },
+  { id: "wait", label: "2.5 Sistema de llamada wait()", component: <Chapter2_5 /> },
+  { id: "waitpid", label: "2.5.1 Uso de waitpid()", component: <Chapter2_5 /> },
+  { id: "exit", label: "2.6 _exit() y exit()", component: <Chapter2_6 /> },
+  { id: "zombi", label: "2.7 Estado Zombi", component: <Chapter2_7 /> },
+  { id: "hilos", label: "2.8 Hilos (Threads)", component: <Chapter2_8 /> },
+  { id: "creacion-hilos", label: "2.8.1 Creación de Hilos", component: <Chapter2_8_1 /> },
+  { id: "repaso-unidad2", label: "🧠 Repaso: Unidad 2", component: <UnitReview2 /> },
+  { id: "ipc-intro", label: "3.1 Introducción IPC", component: <Chapter3_Intro /> },
+  { id: "ipc-pipes", label: "3.1.1 Tuberías (Pipes)", component: <Chapter3_1_1 /> },
+  { id: "ipc-fifo", label: "3.1.2 Tuberías (FIFO)", component: <Chapter3_1_2 /> },
+  { id: "sysv-keys", label: "3.2.1 Llaves (ftok)", component: <Chapter3_2_1 /> },
+  { id: "sysv-sem", label: "3.2.2 Semáforos System V", component: <Chapter3_2_2 /> },
+  { id: "sysv-shm", label: "3.3 Memoria Compartida", component: <Chapter3_3_1 /> },
+  { id: "sysv-msg", label: "3.4 Colas de Mensajes", component: <Chapter3_3_2 /> },
+  { id: "sysv-ipcs", label: "3.5 Comandos del Sistema", component: <Chapter3_3_3 /> },
+  { id: "repaso-unidad3", label: "🧠 Repaso: Unidad 3", component: <GlobalEvaluation /> },
+  { id: "minishell", label: "🚀 Proyecto: Minishell", component: <MinishellProject /> },
+  { id: "repaso-minishell", label: "🧠 Repaso: Minishell", component: <UnitReviewMinishell /> },
+  { id: "examen-parcial2", label: "📝 Examen: 2do Parcial", component: <PartialExam2 /> },
+  { id: "examen-parcial3", label: "📝 Examen: 3er Parcial", component: <PartialExam3 /> },
+  { id: "ejercicios", label: "Práctica Global", component: <GlobalEvaluation /> },
+  { id: "creditos", label: "Créditos", component: <CreditsSection /> },
 ];
 
 const ALIAS: Record<string, string> = {
@@ -120,19 +120,19 @@ export default function MainContent() {
   return (
     <>
       <Hero />
-      
+
       <div id="study-material" style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 1.5rem", display: "flex", gap: "2.5rem", alignItems: "stretch", paddingTop: "2rem", paddingBottom: "5rem" }}>
-        
+
         {/* Mobile Overlay */}
-        <div 
-          className={`mobile-overlay ${isMobileMenuOpen ? "open" : ""}`} 
+        <div
+          className={`mobile-overlay ${isMobileMenuOpen ? "open" : ""}`}
           style={{ cursor: "pointer" }}
           onClick={() => setIsMobileMenuOpen(false)}
         />
 
         {/* Mobile Menu Button - ONLY VISIBLE ON MOBILE VIA CSS */}
-        <button 
-          className="sidebar-toggle-btn" 
+        <button
+          className="sidebar-toggle-btn"
           onClick={(e) => {
             e.preventDefault();
             setIsMobileMenuOpen(true);
@@ -146,30 +146,30 @@ export default function MainContent() {
 
         {/* Sidebar Wrapper */}
         <div className={`sidebar-wrapper ${isMobileMenuOpen ? "open" : ""}`}>
-          <div style={{ 
-            display: "flex", 
-            justifyContent: "space-between", 
-            alignItems: "center", 
-            padding: "1.5rem", 
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "1.5rem",
             borderBottom: "1px solid var(--border-color)",
             marginBottom: "0.5rem",
             background: "var(--bg-primary)"
           }} className="mobile-only-close">
-             <h3 style={{ fontSize: "1.2rem", fontWeight: 800, margin: 0, color: "var(--accent-primary)", letterSpacing: "-0.02em" }}>Menú del Curso</h3>
-             <button 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              style={{ 
-                background: "var(--bg-secondary)", 
-                border: "1px solid var(--border-color)", 
-                width: "32px", 
-                height: "32px", 
-                borderRadius: "50%", 
-                display: "flex", 
-                alignItems: "center", 
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 800, margin: 0, color: "var(--accent-primary)", letterSpacing: "-0.02em" }}>Menú del Curso</h3>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                background: "var(--bg-secondary)",
+                border: "1px solid var(--border-color)",
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
                 justifyContent: "center",
-                fontSize: "1.2rem", 
-                cursor: "pointer", 
-                color: "var(--text-primary)" 
+                fontSize: "1.2rem",
+                cursor: "pointer",
+                color: "var(--text-primary)"
               }}>×</button>
           </div>
           <Sidebar active={activeId} setActive={(id: string) => navigate(id)} />
@@ -181,7 +181,7 @@ export default function MainContent() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
             <h2 style={{ fontSize: "1.5rem", fontWeight: 700 }}>Material de Estudio</h2>
             <button style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "none", border: "none", color: "var(--accent-primary)", fontWeight: 700, cursor: "pointer", fontSize: "0.9rem" }}>
-              Descargar Tema PDF
+
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -198,7 +198,7 @@ export default function MainContent() {
           {/* Navigation buttons at the bottom */}
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "5rem", paddingTop: "2rem", borderTop: "1px solid var(--border-color)" }}>
             {currentIndex > 0 ? (
-              <button 
+              <button
                 onClick={() => navigate(TOPICS[currentIndex - 1].id)}
                 style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.5rem" }}
               >
@@ -208,7 +208,7 @@ export default function MainContent() {
             ) : <div />}
 
             {currentIndex < TOPICS.length - 1 ? (
-              <button 
+              <button
                 onClick={() => navigate(TOPICS[currentIndex + 1].id)}
                 style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.5rem" }}
               >
