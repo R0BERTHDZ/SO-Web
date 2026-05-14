@@ -196,16 +196,15 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
           <div 
             style={{ 
               display: "grid", 
-              gridTemplateColumns: `repeat(${size}, clamp(28px, 8vw, 36px))`, 
-              gap: "2px", 
-              background: "var(--bg-primary)", 
-              padding: "8px", 
+              gridTemplateColumns: `repeat(${size}, clamp(36px, 9vw, 44px))`, 
+              gap: "3px", 
+              background: "var(--border-color)", 
+              padding: "10px", 
               borderRadius: "12px",
               userSelect: "none",
               touchAction: "none",
-              border: "1px solid var(--border-color)",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-              width: "max-content"
+              width: "max-content",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
             }}
             onMouseLeave={() => { setIsSelecting(false); setSelectedCells([]); }}
             onTouchMove={handleTouchMove}
@@ -223,8 +222,8 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
                   onMouseUp={handleMouseUp}
                   onTouchStart={(e) => handleTouchStart(e, r, c)}
                   style={{
-                    width: "clamp(28px, 8vw, 36px)",
-                    height: "clamp(28px, 8vw, 36px)",
+                    width: "clamp(36px, 9vw, 44px)",
+                    height: "clamp(36px, 9vw, 44px)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -238,9 +237,9 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
                       : foundColor 
                         ? foundColor 
                         : "var(--text-primary)",
-                    borderRadius: "4px",
-                    fontSize: "clamp(0.7rem, 3.5vw, 1rem)",
-                    fontWeight: 800,
+                    borderRadius: "6px",
+                    fontSize: "clamp(1rem, 5vw, 1.2rem)",
+                    fontWeight: 900,
                     cursor: "pointer",
                     transition: "all 0.1s ease",
                     border: foundColor ? `1px solid ${foundColor}` : "1px solid var(--border-color)",

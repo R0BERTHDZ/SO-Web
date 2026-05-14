@@ -117,20 +117,20 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
           <div 
             style={{ 
               display: "grid", 
-              gridTemplateColumns: `repeat(${size}, clamp(32px, 8vw, 44px))`, 
-              gap: "2px", 
+              gridTemplateColumns: `repeat(${size}, clamp(38px, 10vw, 48px))`, 
+              gap: "3px", 
               background: "var(--border-color)", 
-              padding: "4px", 
-              borderRadius: "8px", 
+              padding: "6px", 
+              borderRadius: "12px", 
               width: "max-content"
             }}
           >
             {grid.map((row, r) => row.map((cell, c) => (
-              <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(32px, 8vw, 44px)", height: "clamp(32px, 8vw, 44px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "4px", overflow: "hidden" }}>
+              <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(38px, 10vw, 48px)", height: "clamp(38px, 10vw, 48px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "6px", overflow: "hidden" }}>
                 {cell !== "#" && (
                   <>
                     {getNumber(r, c) && (
-                      <span style={{ position: "absolute", top: "2px", left: "4px", fontSize: "clamp(8px, 2vw, 10px)", fontWeight: "900", zIndex: 1, color: "var(--accent-primary)", opacity: 0.8 }}>
+                      <span style={{ position: "absolute", top: "2px", left: "4px", fontSize: "clamp(9px, 2.5vw, 11px)", fontWeight: "900", zIndex: 1, color: "var(--accent-primary)", opacity: 0.8 }}>
                         {getNumber(r, c)}
                       </span>
                     )}
@@ -144,7 +144,7 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
                         height: "100%",
                         border: "none",
                         textAlign: "center",
-                        fontSize: "clamp(1rem, 4vw, 1.3rem)",
+                        fontSize: "clamp(1.1rem, 5vw, 1.4rem)",
                         fontWeight: "900",
                         textTransform: "uppercase",
                         background: isCorrect(r, c) === true ? "rgba(16,185,129,0.15)" : isCorrect(r, c) === false ? "rgba(239,68,68,0.15)" : "transparent",
