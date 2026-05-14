@@ -19,6 +19,8 @@ export default function Hero() {
     return () => window.removeEventListener("os_progress_update", updateProgress);
   }, []);
 
+  const [isRoot, setIsRoot] = useState(false);
+
   const totalChapters = 2;
   const progressPercent = Math.min(100, Math.round((completedQuizzes.length / totalChapters) * 100));
 
@@ -46,28 +48,32 @@ export default function Hero() {
             </p>
           </div>
 
-          <div style={{ border: "1px solid var(--border-color)", borderRadius: "20px", padding: "2rem", background: "var(--bg-card)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
+          <div style={{ border: `1px solid ${isRoot ? "var(--accent-primary)" : "var(--border-color)"}`, borderRadius: "20px", padding: "2rem", background: "var(--bg-card)", boxShadow: isRoot ? "0 10px 40px rgba(155, 28, 46, 0.15)" : "0 10px 30px rgba(0,0,0,0.03)", transition: "all 0.3s ease" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.2rem", alignItems: "center" }}>
-              <div style={{ fontWeight: 800, fontSize: "1.3rem", color: "var(--text-primary)" }}>Nivel de Acceso: Root</div>
-              <div style={{ color: "white", fontWeight: 800, background: "var(--accent-primary)", padding: "0.4rem 1rem", borderRadius: "10px", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(155,28,46,0.3)" }}>{progressPercent}% COMPLETE</div>
+              <div style={{ fontWeight: 800, fontSize: "1.3rem", color: isRoot ? "var(--accent-primary)" : "var(--text-primary)" }}>
+                {isRoot ? "⚠️ Acceso: SUPERUSUARIO (ROOT)" : "Nivel de Acceso: Estudiante"}
+              </div>
+              <div style={{ color: "white", fontWeight: 800, background: isRoot ? "#ef4444" : "var(--accent-primary)", padding: "0.4rem 1rem", borderRadius: "10px", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", transition: "all 0.3s" }}>
+                {isRoot ? "SYSTEM ROOT" : `${progressPercent}% COMPLETE`}
+              </div>
             </div>
             <div style={{ height: "12px", background: "var(--bg-primary)", borderRadius: "6px", marginBottom: "2rem", overflow: "hidden", border: "1px solid var(--border-color)" }}>
-              <div style={{ width: `${progressPercent}%`, height: "100%", background: "linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-blue) 100%)", borderRadius: "6px", transition: "width 1.5s cubic-bezier(0.4, 0, 0.2, 1)", boxShadow: "var(--glow-primary)" }}></div>
+              <div style={{ width: `${progressPercent}%`, height: "100%", background: isRoot ? "linear-gradient(90deg, #ef4444 0%, #7f1d1d 100%)" : "linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-blue) 100%)", borderRadius: "6px", transition: "width 1.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease", boxShadow: isRoot ? "0 0 15px rgba(239, 68, 68, 0.4)" : "var(--glow-primary)" }}></div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {[
-                { label: "TEORÍA", val: "82%", color: "var(--accent-primary)" },
-                { label: "PRÁCTICAS", val: "45%", color: "var(--accent-blue)" }
+                { label: "KERNEL PERMISSIONS", val: isRoot ? "OVERRIDE" : "READ-ONLY", color: isRoot ? "#ef4444" : "var(--accent-primary)" },
+                { label: "PRÁCTICAS", val: isRoot ? "DEBUG MODE" : "PENDIENTES", color: isRoot ? "#f59e0b" : "var(--accent-blue)" }
               ].map(stat => (
-                <div key={stat.label} style={{ background: "var(--bg-secondary)", padding: "1.2rem 1rem", borderRadius: "14px", textAlign: "center", border: "1px solid var(--border-color)", transition: "transform 0.3s ease" }}>
+                <div key={stat.label} style={{ background: "var(--bg-secondary)", padding: "1.2rem 1rem", borderRadius: "14px", textAlign: "center", border: "1px solid var(--border-color)", transition: "all 0.3s ease" }}>
                   <div style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "1.5px", color: "var(--text-muted)", marginBottom: "0.5rem" }}>{stat.label}</div>
-                  <div style={{ fontWeight: 900, color: stat.color, fontSize: "1.4rem", letterSpacing: "-0.02em" }}>{stat.val}</div>
+                  <div style={{ fontWeight: 900, color: stat.color, fontSize: "1.1rem", letterSpacing: "-0.02em" }}>{stat.val}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <QuickCommand />
+          <QuickCommand isRoot={isRoot} setIsRoot={setIsRoot} />
         </div>
 
         {/* Right Column: Active Lesson & System Monitor */}

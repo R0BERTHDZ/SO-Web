@@ -1,10 +1,15 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
-export default function QuickCommand() {
+interface QuickCommandProps {
+  isRoot: boolean;
+  setIsRoot: (val: boolean) => void;
+}
+
+export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>(["Bienvenido al Shell del Dashboard.", "Escribe 'help' para ver los comandos disponibles."]);
-  const [isRoot, setIsRoot] = useState(false);
+  const [mode, setMode] = useState<"IDLE" | "PASSWORD">("IDLE");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -15,22 +20,36 @@ export default function QuickCommand() {
 
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const cleanInput = input.trim();
+    if (!cleanInput && mode === "IDLE") return;
 
-    const cmd = input.toLowerCase().trim();
+    if (mode === "PASSWORD") {
+      if (input === "root" || input === "admin") {
+        setIsRoot(true);
+        setHistory([...history, "********", "Autenticación exitosa. Cambiando a superusuario (root)...", "⚠️ Advertencia: ¡Con un gran poder conlleva una gran responsabilidad!"]);
+      } else {
+        setHistory([...history, "********", "su: Fallo de autenticación. Inténtelo de nuevo."]);
+      }
+      setMode("IDLE");
+      setInput("");
+      return;
+    }
+
+    const cmd = cleanInput.toLowerCase();
     const prompt = isRoot ? "root@so:#" : "user@so:~$";
-    const newHistory = [...history, `${prompt} ${input}`];
+    const newHistory = [...history, `${prompt} ${cleanInput}`];
 
     switch (cmd) {
       case "su root":
       case "sudo su":
       case "su":
         if (!isRoot) {
-          setIsRoot(true);
-          newHistory.push("Autenticación exitosa. Cambiando a superusuario (root)...");
-          newHistory.push("⚠️ Advertencia: ¡Con un gran poder conlleva una gran responsabilidad!");
+          setHistory([...newHistory, "Contraseña:"]);
+          setMode("PASSWORD");
+          setInput("");
+          return;
         } else {
-          newHistory.push("Ya eres root.");
+          newHistory.push("Ya eres superusuario.");
         }
         break;
       case "exit":
@@ -62,7 +81,6 @@ export default function QuickCommand() {
         if (cmd.startsWith("goto ")) {
           const target = cmd.replace("goto ", "").trim();
           newHistory.push(`Navegando a: ${target}...`);
-          // Dispatch navigation event
           const mapping: Record<string, string> = {
             "1.1": "intro-so",
             "1.2": "clasificacion",
@@ -92,16 +110,17 @@ export default function QuickCommand() {
   return (
     <div style={{
       background: "#0f172a",
-      borderRadius: "12px",
-      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: "16px",
+      border: `2px solid ${isRoot ? "#ef4444" : "rgba(255,255,255,0.1)"}`,
       padding: "1rem",
-      color: "#38bdf8",
+      color: isRoot ? "#f87171" : "#38bdf8",
       fontFamily: "'JetBrains Mono', monospace",
       fontSize: "0.85rem",
-      height: "200px",
+      height: "220px",
       display: "flex",
       flexDirection: "column",
-      boxShadow: "inset 0 2px 10px rgba(0,0,0,0.5)"
+      boxShadow: isRoot ? "0 0 20px rgba(239, 68, 68, 0.2)" : "inset 0 2px 10px rgba(0,0,0,0.5)",
+      transition: "all 0.3s ease"
     }}>
       <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", marginBottom: "0.5rem", scrollBehavior: "smooth" }}>
         {history.map((line, i) => (
@@ -109,14 +128,17 @@ export default function QuickCommand() {
         ))}
       </div>
       <form onSubmit={handleCommand} style={{ display: "flex", alignItems: "center", gap: "0.5rem", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "0.5rem" }}>
-        <span style={{ color: isRoot ? "#ef4444" : "#10b981", fontWeight: isRoot ? "bold" : "normal" }}>
-          {isRoot ? "root@so:#" : "user@so:~$"}
-        </span>
+        {mode === "IDLE" && (
+          <span style={{ color: isRoot ? "#ef4444" : "#10b981", fontWeight: isRoot ? "bold" : "normal" }}>
+            {isRoot ? "root@so:#" : "user@so:~$"}
+          </span>
+        )}
         <input
-          type="text"
+          type={mode === "PASSWORD" ? "password" : "text"}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           autoFocus
+          placeholder={mode === "PASSWORD" ? "Ingresa contraseña..." : ""}
           style={{
             background: "none",
             border: "none",
