@@ -9,7 +9,6 @@ interface QuickCommandProps {
 export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>(["Bienvenido al Shell del Dashboard.", "Escribe 'help' para ver los comandos disponibles."]);
-  const [mode, setMode] = useState<"IDLE" | "PASSWORD">("IDLE");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,19 +20,7 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanInput = input.trim();
-    if (!cleanInput && mode === "IDLE") return;
-
-    if (mode === "PASSWORD") {
-      if (input === "root" || input === "admin") {
-        setIsRoot(true);
-        setHistory([...history, "********", "Autenticación exitosa. Cambiando a superusuario (root)...", "⚠️ Advertencia: ¡Con un gran poder conlleva una gran responsabilidad!"]);
-      } else {
-        setHistory([...history, "********", "su: Fallo de autenticación. Inténtelo de nuevo."]);
-      }
-      setMode("IDLE");
-      setInput("");
-      return;
-    }
+    if (!cleanInput) return;
 
     const cmd = cleanInput.toLowerCase();
     const prompt = isRoot ? "root@so:#" : "user@so:~$";
@@ -43,11 +30,11 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
       case "su root":
       case "sudo su":
       case "su":
+      case "sudo":
         if (!isRoot) {
-          setHistory([...newHistory, "Contraseña:"]);
-          setMode("PASSWORD");
-          setInput("");
-          return;
+          setIsRoot(true);
+          newHistory.push("Autenticación exitosa. Cambiando a superusuario (root)...");
+          newHistory.push("⚠️ Advertencia: ¡Privilegios de administrador activados!");
         } else {
           newHistory.push("Ya eres superusuario.");
         }
@@ -76,6 +63,14 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
         break;
       case "info":
         newHistory.push("Plataforma Educativa de Sistemas Operativos v2.0", "Desarrollado con Next.js y React.", "Corriendo en modo interactivo.");
+        break;
+      case "reboot":
+      case "shutdown":
+        if (isRoot) {
+          newHistory.push("Reiniciando sistema simulado...", "Cargando módulos del kernel...", "Listo.");
+        } else {
+          newHistory.push("error: Permiso denegado. Se requiere ser root.");
+        }
         break;
       default:
         if (cmd.startsWith("goto ")) {
@@ -111,7 +106,7 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
     <div style={{
       background: "#0f172a",
       borderRadius: "16px",
-      border: `2px solid ${isRoot ? "#ef4444" : "rgba(255,255,255,0.1)"}`,
+      border: `2px solid ${isRoot ? "var(--accent-primary)" : "rgba(255,255,255,0.1)"}`,
       padding: "1rem",
       color: isRoot ? "#f87171" : "#38bdf8",
       fontFamily: "'JetBrains Mono', monospace",
@@ -119,7 +114,7 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
       height: "220px",
       display: "flex",
       flexDirection: "column",
-      boxShadow: isRoot ? "0 0 20px rgba(239, 68, 68, 0.2)" : "inset 0 2px 10px rgba(0,0,0,0.5)",
+      boxShadow: isRoot ? "0 0 20px rgba(155, 28, 46, 0.2)" : "inset 0 2px 10px rgba(0,0,0,0.5)",
       transition: "all 0.3s ease"
     }}>
       <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", marginBottom: "0.5rem", scrollBehavior: "smooth" }}>
@@ -128,17 +123,14 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
         ))}
       </div>
       <form onSubmit={handleCommand} style={{ display: "flex", alignItems: "center", gap: "0.5rem", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "0.5rem" }}>
-        {mode === "IDLE" && (
-          <span style={{ color: isRoot ? "#ef4444" : "#10b981", fontWeight: isRoot ? "bold" : "normal" }}>
-            {isRoot ? "root@so:#" : "user@so:~$"}
-          </span>
-        )}
+        <span style={{ color: isRoot ? "#ef4444" : "#10b981", fontWeight: isRoot ? "bold" : "normal" }}>
+          {isRoot ? "root@so:#" : "user@so:~$"}
+        </span>
         <input
-          type={mode === "PASSWORD" ? "password" : "text"}
+          type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           autoFocus
-          placeholder={mode === "PASSWORD" ? "Ingresa contraseña..." : ""}
           style={{
             background: "none",
             border: "none",

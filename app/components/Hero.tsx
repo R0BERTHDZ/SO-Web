@@ -49,7 +49,9 @@ export default function Hero() {
 
           <div style={{ border: "1px solid var(--border-color)", borderRadius: "20px", padding: "2rem", background: "var(--bg-card)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.2rem", alignItems: "center" }}>
-              <div style={{ fontWeight: 800, fontSize: "1.3rem", color: "var(--text-primary)" }}>Nivel de Acceso: Root</div>
+              <div style={{ fontWeight: 800, fontSize: "1.3rem", color: isRoot ? "var(--accent-primary)" : "var(--text-primary)", transition: "color 0.3s" }}>
+                Nivel de Acceso: Root
+              </div>
               <div style={{ color: "white", fontWeight: 800, background: "var(--accent-primary)", padding: "0.4rem 1rem", borderRadius: "10px", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(155,28,46,0.3)" }}>{progressPercent}% COMPLETE</div>
             </div>
             <div style={{ height: "12px", background: "var(--bg-primary)", borderRadius: "6px", marginBottom: "2rem", overflow: "hidden", border: "1px solid var(--border-color)" }}>
