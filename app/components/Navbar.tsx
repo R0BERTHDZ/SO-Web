@@ -35,27 +35,31 @@ export default function Navbar() {
     }}>
       <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         
-        {/* Mobile menu toggle */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <button 
-            className="mobile-menu-btn" 
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: "var(--accent-primary)" }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-          
-          <button onClick={() => window.scrollTo({top:0, behavior:"smooth"})} style={{ display: "flex", alignItems: "center", gap: "0.6rem", background: "none", border: "none", cursor: "pointer" }}>
-            <div>
-              <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 700, fontSize: "1.2rem", color: "var(--accent-primary)", letterSpacing: "-0.5px" }}>
+        {/* Mobile View: Toggle + Title + ThemeToggle */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }} className="mobile-header">
+          <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
+            <button 
+              className="mobile-menu-btn" 
+              onClick={() => setMenuOpen(!menuOpen)}
+              style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: "var(--accent-primary)" }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+            
+            <button onClick={() => window.scrollTo({top:0, behavior:"smooth"})} style={{ display: "flex", alignItems: "center", gap: "0.6rem", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
+              <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 800, fontSize: "clamp(1rem, 4vw, 1.2rem)", color: "var(--accent-primary)", letterSpacing: "-0.5px" }}>
                 Sistemas Operativos
               </div>
-            </div>
-          </button>
+            </button>
+          </div>
+
+          <div style={{ display: "none" }} className="mobile-theme-toggle">
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Desktop Nav */}
@@ -107,6 +111,8 @@ export default function Navbar() {
         @media (max-width: 768px) { 
           .desktop-nav { display: none !important; } 
           .mobile-menu-btn { display: block !important; }
+          .mobile-theme-toggle { display: block !important; }
+          .mobile-header { width: 100% !important; justify-content: space-between !important; }
         }
       `}</style>
     </nav>

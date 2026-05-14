@@ -153,6 +153,29 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
     setSelectedCells([]);
   };
 
+  const handleTouchStart = (e: React.TouchEvent, r: number, c: number) => {
+    setIsSelecting(true);
+    setSelectedCells([{ r, c }]);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isSelecting) return;
+    
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (!element) return;
+
+    const dataCoords = element.getAttribute("data-coords");
+    if (dataCoords) {
+      const [r, c] = dataCoords.split("-").map(Number);
+      handleMouseEnter(r, c);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    handleMouseUp();
+  };
+
   const isCellSelected = (r: number, c: number) => 
     selectedCells.some(cell => cell.r === r && cell.c === c);
 
@@ -162,27 +185,31 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
   };
 
   return (
-    <div className="card" style={{ padding: "2rem", marginBottom: "3rem", background: "var(--bg-card)", borderRadius: "16px", boxShadow: "0 10px 25px rgba(0,0,0,0.05)", border: "1px solid var(--border-color)" }}>
+    <div className="card" style={{ padding: "1.5rem", marginBottom: "3rem", background: "var(--bg-card)", borderRadius: "16px", boxShadow: "0 10px 25px rgba(0,0,0,0.05)", border: "1px solid var(--border-color)" }}>
       <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--accent-primary)", marginBottom: "1.5rem", textAlign: "center" }}>
         🔍 {title}
       </h3>
       
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "3rem", justifyContent: "center", alignItems: "flex-start", marginBottom: "2rem" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center", alignItems: "flex-start", marginBottom: "2rem" }}>
         {/* Grid (Left) */}
         <div 
           style={{ 
             display: "grid", 
             gridTemplateColumns: `repeat(${size}, 1fr)`, 
-            gap: "4px", 
+            gap: "2px", 
             background: "var(--bg-primary)", 
-            padding: "12px", 
+            padding: "8px", 
             borderRadius: "12px",
             userSelect: "none",
             touchAction: "none",
             border: "1px solid var(--border-color)",
-            boxShadow: "0 4px 15px rgba(0,0,0,0.05)"
+            boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
+            maxWidth: "100%",
+            overflow: "auto"
           }}
           onMouseLeave={() => { setIsSelecting(false); setSelectedCells([]); }}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {grid.map((row, r) => row.map((char, c) => {
             const foundColor = getCellFoundColor(r, c);
@@ -190,12 +217,14 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
             return (
               <div
                 key={`${r}-${c}`}
+                data-coords={`${r}-${c}`}
                 onMouseDown={() => handleMouseDown(r, c)}
                 onMouseEnter={() => handleMouseEnter(r, c)}
                 onMouseUp={handleMouseUp}
+                onTouchStart={(e) => handleTouchStart(e, r, c)}
                 style={{
-                  width: "36px",
-                  height: "36px",
+                  width: "clamp(24px, 8vw, 36px)",
+                  height: "clamp(24px, 8vw, 36px)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -209,8 +238,8 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
                     : foundColor 
                       ? foundColor 
                       : "var(--text-primary)",
-                  borderRadius: "6px",
-                  fontSize: "1rem",
+                  borderRadius: "4px",
+                  fontSize: "clamp(0.7rem, 3.5vw, 1rem)",
                   fontWeight: 800,
                   cursor: "pointer",
                   transition: "all 0.1s ease",

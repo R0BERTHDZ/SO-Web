@@ -29,9 +29,9 @@ export default function ZombieActivity() {
   };
 
   return (
-    <div className="card animate-fadeInUp" style={{ padding: "2.5rem", borderRadius: "16px", background: "linear-gradient(135deg, #2a0808 0%, #1a1a1a 100%)", color: "white", marginTop: "4rem", marginBottom: "2rem", border: "1px solid rgba(239, 68, 68, 0.2)", boxShadow: "0 10px 30px rgba(239, 68, 68, 0.1)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-        <h3 style={{ color: "#ef4444", margin: 0, display: "flex", alignItems: "center", gap: "0.8rem", fontSize: "1.4rem", fontWeight: 800 }}>
+    <div className="card animate-fadeInUp" style={{ padding: "clamp(1.5rem, 5vw, 2.5rem)", borderRadius: "16px", background: "linear-gradient(135deg, #2a0808 0%, #1a1a1a 100%)", color: "white", marginTop: "3rem", marginBottom: "2rem", border: "1px solid rgba(239, 68, 68, 0.2)", boxShadow: "0 10px 30px rgba(239, 68, 68, 0.1)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
+        <h3 style={{ color: "#ef4444", margin: 0, display: "flex", alignItems: "center", gap: "0.8rem", fontSize: "clamp(1.2rem, 5vw, 1.4rem)", fontWeight: 800 }}>
           <span>🧟</span> Actividad: Laboratorio de Zombis
         </h3>
         <button 
@@ -41,7 +41,7 @@ export default function ZombieActivity() {
             border: `1px solid ${showHint ? "#f59e0b" : "rgba(255,255,255,0.1)"}`,
             borderRadius: "8px",
             padding: "0.4rem 0.8rem",
-            fontSize: "0.8rem",
+            fontSize: "0.75rem",
             fontWeight: 800,
             color: showHint ? "#fbbf24" : "#d4d4d4",
             cursor: "pointer",
@@ -53,33 +53,33 @@ export default function ZombieActivity() {
       </div>
 
       {showHint && (
-        <div style={{ marginBottom: "1.5rem", padding: "1rem 1.2rem", background: "rgba(251, 191, 36, 0.1)", borderRadius: "10px", borderLeft: "4px solid #fbbf24", fontSize: "0.95rem", color: "#fbbf24", animation: "fadeIn 0.3s ease" }}>
+        <div style={{ marginBottom: "1.5rem", padding: "1rem 1.2rem", background: "rgba(251, 191, 36, 0.1)", borderRadius: "10px", borderLeft: "4px solid #fbbf24", fontSize: "clamp(0.85rem, 4vw, 0.95rem)", color: "#fbbf24", animation: "fadeIn 0.3s ease" }}>
           <strong>Pista:</strong> Recuerda que wait() 'espera' por el hijo, 'init' es el padre de todos, y la 'Z' viene de la primera letra de la palabra que define este estado.
         </div>
       )}
-      <p style={{ color: "#d4d4d4", lineHeight: 2.2, fontSize: "1.15rem", margin: 0 }}>
-        Un proceso zombi surge cuando un hijo termina pero su proceso padre no ejecuta <select value={answers.q1} onChange={(e) => handleSelect("q1", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.3rem 0.5rem", fontSize: "1.05rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center" }}>
+      <p style={{ color: "#d4d4d4", lineHeight: "clamp(2, 6vw, 2.4)", fontSize: "clamp(1rem, 4.5vw, 1.15rem)", margin: 0 }}>
+        Un proceso zombi surge cuando un hijo termina pero su proceso padre no ejecuta <select value={answers.q1} onChange={(e) => handleSelect("q1", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.2rem 0.4rem", fontSize: "1rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center", margin: "0 0.2rem" }}>
           <option value="" disabled>___</option>
           <option value="fork">fork()</option>
           <option value="wait">wait()</option>
           <option value="exit">exit()</option>
         </select> para recoger su estado de salida. 
         <br/><br/>
-        Aunque el zombi ya no consume tiempo de CPU, es peligroso porque sigue ocupando una entrada en la <select value={answers.q2} onChange={(e) => handleSelect("q2", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.3rem 0.5rem", fontSize: "1.05rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center" }}>
+        Aunque el zombi ya no consume tiempo de CPU, es peligroso porque sigue ocupando una entrada en la <select value={answers.q2} onChange={(e) => handleSelect("q2", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.2rem 0.4rem", fontSize: "1rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center", margin: "0 0.2rem" }}>
           <option value="" disabled>___</option>
           <option value="ram">memoria RAM</option>
           <option value="disco">caché de disco</option>
           <option value="tabla">tabla de procesos</option>
         </select>.
         <br/><br/>
-        Si el padre muere antes que el hijo, el hijo no se vuelve zombi; se vuelve huérfano y es adoptado inmediatamente por <select value={answers.q3} onChange={(e) => handleSelect("q3", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.3rem 0.5rem", fontSize: "1.05rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center" }}>
+        Si el padre muere antes que el hijo, el hijo no se vuelve zombi; se vuelve huérfano y es adoptado inmediatamente por <select value={answers.q3} onChange={(e) => handleSelect("q3", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.2rem 0.4rem", fontSize: "1rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center", margin: "0 0.2rem" }}>
           <option value="" disabled>___</option>
           <option value="init">PID 1 (init/systemd)</option>
           <option value="kernel">el Kernel</option>
           <option value="bash">bash</option>
         </select> quien lo limpiará. 
         <br/><br/>
-        Para buscar y observar zombis en tu sistema Linux desde la terminal, puedes usar el comando <code>ps -el | grep</code> <select value={answers.q4} onChange={(e) => handleSelect("q4", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.3rem 0.5rem", fontSize: "1.05rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center" }}>
+        Para buscar y observar zombis en tu sistema Linux desde la terminal, puedes usar el comando <code>ps -el | grep</code> <select value={answers.q4} onChange={(e) => handleSelect("q4", e.target.value)} style={{ background: "#ef4444", color: "white", border: "none", borderRadius: "6px", padding: "0.2rem 0.4rem", fontSize: "1rem", fontWeight: "bold", cursor: "pointer", outline: "none", appearance: "none", textAlign: "center", margin: "0 0.2rem" }}>
           <option value="" disabled>_</option>
           <option value="X">X</option>
           <option value="Z">Z</option>
@@ -99,7 +99,9 @@ export default function ZombieActivity() {
             fontWeight: "bold",
             borderRadius: "8px",
             cursor: "pointer",
-            transition: "all 0.2s ease"
+            transition: "all 0.2s ease",
+            width: "100%",
+            maxWidth: "300px"
           }}
           onMouseOver={(e) => e.currentTarget.style.filter = "brightness(1.1)"}
           onMouseOut={(e) => e.currentTarget.style.filter = "brightness(1)"}

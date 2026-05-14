@@ -56,6 +56,8 @@ export default function FillInBlanks({ title, items }: FillInBlanksProps) {
             <span>{item.textBefore}</span>
             <input 
               type="text" 
+              inputMode="text"
+              autoCapitalize="none"
               value={answers[item.id] || ""}
               onChange={(e) => {
                 setAnswers({...answers, [item.id]: e.target.value});
@@ -67,10 +69,10 @@ export default function FillInBlanks({ title, items }: FillInBlanksProps) {
                 color: showResults ? (isCorrect(item.id) ? "var(--accent-green)" : "var(--accent-red)") : "var(--text-primary)",
                 borderRadius: "8px",
                 padding: "0.3rem 0.6rem",
-                width: Math.max(120, item.answer.length * 12) + "px",
+                width: `clamp(100px, 30vw, ${Math.max(120, item.answer.length * 12)}px)`,
                 textAlign: "center",
                 fontWeight: "bold",
-                fontSize: "1rem",
+                fontSize: "clamp(0.9rem, 4vw, 1rem)",
                 outline: "none",
                 fontFamily: "monospace"
               }}

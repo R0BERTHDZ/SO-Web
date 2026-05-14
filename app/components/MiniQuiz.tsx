@@ -108,19 +108,19 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
   const q = questions[current];
 
   return (
-    <div className="card" style={{ marginBottom: "2rem", border: "1px solid var(--border-color)", background: "var(--bg-card)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", borderBottom: "1px solid var(--border-color)", paddingBottom: "1rem" }}>
+    <div className="card" style={{ marginBottom: "2rem", border: "1px solid var(--border-color)", background: "var(--bg-card)", padding: "clamp(1rem, 5vw, 2.5rem)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", borderBottom: "1px solid var(--border-color)", paddingBottom: "1rem", flexWrap: "wrap", gap: "1rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
           <span style={{ fontSize: "1.5rem" }}>📝</span>
-          <h4 style={{ color: "var(--accent-primary)", fontWeight: 800, margin: 0, fontSize: "1.2rem" }}>{title}</h4>
+          <h4 style={{ color: "var(--accent-primary)", fontWeight: 800, margin: 0, fontSize: "clamp(1rem, 4vw, 1.2rem)" }}>{title}</h4>
         </div>
-        <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)", fontWeight: 700, background: "var(--bg-primary)", padding: "0.3rem 0.8rem", borderRadius: "20px" }}>
-          Pregunta {current + 1} de {questions.length} (Racha: {score})
+        <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700, background: "var(--bg-primary)", padding: "0.3rem 0.8rem", borderRadius: "20px" }}>
+          {current + 1} / {questions.length} (Score: {score})
         </div>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
-        <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--text-primary)", flex: 1 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem", flexDirection: "column" }}>
+        <div style={{ fontSize: "clamp(1rem, 4.5vw, 1.1rem)", fontWeight: 600, color: "var(--text-primary)", flex: 1 }}>
           {q.question}
         </div>
         {q.hint && !showResult && (
@@ -131,7 +131,7 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
               border: `1px solid ${showHint ? "#f59e0b" : "var(--border-color)"}`,
               borderRadius: "8px",
               padding: "0.4rem 0.8rem",
-              fontSize: "0.8rem",
+              fontSize: "0.75rem",
               fontWeight: 800,
               color: showHint ? "#b45309" : "var(--text-secondary)",
               cursor: "pointer",
@@ -149,11 +149,11 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
       {showHint && !showResult && (
         <div style={{ 
           marginBottom: "1.5rem", 
-          padding: "1rem 1.5rem", 
+          padding: "1rem 1.2rem", 
           background: "rgba(251, 191, 36, 0.05)", 
           borderRadius: "12px", 
           borderLeft: "4px solid #fbbf24",
-          fontSize: "0.9rem",
+          fontSize: "0.85rem",
           color: "var(--text-secondary)",
           fontStyle: "italic",
           animation: "fadeIn 0.3s ease"
@@ -162,7 +162,7 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
         </div>
       )}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", marginBottom: "1.5rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.5rem" }}>
         {q.options.map((opt, idx) => {
           let bg = "var(--bg-secondary)";
           let border = "1px solid var(--border-color)";
@@ -190,7 +190,7 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
               disabled={showResult}
               onClick={() => handleSelect(idx)}
               style={{
-                padding: "1.1rem 1.5rem",
+                padding: "clamp(0.8rem, 3vw, 1.1rem) clamp(1rem, 4vw, 1.5rem)",
                 borderRadius: "12px",
                 background: bg,
                 border: border,
@@ -199,29 +199,29 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
                 cursor: showResult ? "default" : "pointer",
                 transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
                 fontWeight: (showResult && idx === q.correct) || (selected === idx) ? 700 : 500,
-                fontSize: "1rem",
+                fontSize: "clamp(0.9rem, 3.8vw, 1rem)",
                 boxShadow: !showResult && selected === idx ? "0 4px 12px rgba(0,0,0,0.05)" : "none"
               }}
             >
-              <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+              <div style={{ display: "flex", gap: "0.8rem", alignItems: "flex-start" }}>
                 <span style={{ 
-                  width: "22px", 
-                  height: "22px", 
-                  minWidth: "22px", 
+                  width: "20px", 
+                  height: "20px", 
+                  minWidth: "20px", 
                   borderRadius: "50%", 
                   border: `2px solid ${idx === q.correct && showResult ? "var(--accent-green)" : (selected === idx ? "var(--accent-primary)" : "var(--border-color)")}`,
                   background: (idx === q.correct && showResult) ? "var(--accent-green)" : (selected === idx ? "var(--accent-primary)" : "transparent"),
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "0.75rem",
+                  fontSize: "0.7rem",
                   fontWeight: 900,
                   color: (selected === idx) || (idx === q.correct && showResult) ? "white" : "var(--text-muted)",
                   marginTop: "2px"
                 }}>
                   {showResult && idx === q.correct ? "✓" : String.fromCharCode(65 + idx)}
                 </span>
-                <span>{opt}</span>
+                <span style={{ lineHeight: 1.4 }}>{opt}</span>
               </div>
             </button>
           );
@@ -229,11 +229,11 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
       </div>
 
       {showResult && (
-        <div style={{ animation: "fadeIn 0.3s ease", background: selected === q.correct ? "rgba(16,185,129,0.05)" : "rgba(239,68,68,0.05)", padding: "1.5rem", borderRadius: "12px", borderLeft: selected === q.correct ? "4px solid var(--accent-green)" : "4px solid var(--accent-red)" }}>
-          <div style={{ fontWeight: 800, fontSize: "1.1rem", color: selected === q.correct ? "var(--accent-green)" : "var(--accent-red)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            {selected === q.correct ? "✅ ¡Respuesta Correcta!" : "❌ Respuesta Incorrecta"}
+        <div style={{ animation: "fadeIn 0.3s ease", background: selected === q.correct ? "rgba(16,185,129,0.05)" : "rgba(239,68,68,0.05)", padding: "1.2rem", borderRadius: "12px", borderLeft: selected === q.correct ? "4px solid var(--accent-green)" : "4px solid var(--accent-red)" }}>
+          <div style={{ fontWeight: 800, fontSize: "1rem", color: selected === q.correct ? "var(--accent-green)" : "var(--accent-red)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            {selected === q.correct ? "✅ Correcto" : "❌ Incorrecto"}
           </div>
-          <div style={{ fontSize: "1rem", color: "var(--text-secondary)", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+          <div style={{ fontSize: "0.95rem", color: "var(--text-secondary)", marginBottom: "1.2rem", lineHeight: 1.5 }}>
             {q.explanation}
           </div>
           <div style={{ textAlign: "right" }}>
@@ -243,8 +243,9 @@ export default function MiniQuiz({ questions, title, nextSectionId }: { question
               style={{ 
                 background: selected === q.correct ? "var(--accent-green)" : "var(--accent-primary)", 
                 borderColor: selected === q.correct ? "var(--accent-green)" : "var(--accent-primary)", 
-                padding: "0.8rem 2rem", 
-                fontSize: "1.05rem" 
+                padding: "0.7rem 1.5rem", 
+                fontSize: "1rem",
+                width: "100%"
               }}
             >
               {selected !== q.correct ? "Finalizar Intento" : (current + 1 >= questions.length ? "Finalizar Mini-Examen 🏆" : "Siguiente Pregunta ➔")}

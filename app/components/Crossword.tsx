@@ -42,12 +42,33 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
     );
   };
 
+  const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
+
   const handleChange = (r: number, c: number, val: string) => {
     if (val.length > 1) val = val[val.length - 1];
     const newGrid = [...userGrid];
     if (!newGrid[r]) newGrid[r] = [];
     newGrid[r][c] = val.toUpperCase();
     setUserGrid(newGrid);
+
+    // Auto-advance to next cell
+    if (val !== "") {
+      const currentClue = clues.find(cl => {
+        if (cl.direction === "across") {
+          return r === cl.row && c >= cl.col && c < cl.col + cl.answer.length;
+        } else {
+          return c === cl.col && r >= cl.row && r < cl.row + cl.answer.length;
+        }
+      });
+
+      if (currentClue) {
+        const nr = currentClue.direction === "down" ? r + 1 : r;
+        const nc = currentClue.direction === "across" ? c + 1 : c;
+        if (nr < size && nc < size && grid[nr][nc] !== "#") {
+          inputRefs.current[`${nr}-${nc}`]?.focus();
+        }
+      }
+    }
   };
 
   const solveClue = (c: Clue) => {
@@ -95,35 +116,38 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
   });
 
   return (
-    <div className="card" style={{ padding: "2.5rem", marginBottom: "4rem", background: "var(--bg-card)", borderRadius: "24px", boxShadow: "0 15px 40px rgba(0,0,0,0.08)", border: "1px solid var(--border-color)" }}>
+    <div className="card" style={{ padding: "1.5rem", marginBottom: "4rem", background: "var(--bg-card)", borderRadius: "24px", boxShadow: "0 15px 40px rgba(0,0,0,0.08)", border: "1px solid var(--border-color)" }}>
       <h3 style={{ fontSize: "1.6rem", fontWeight: 900, color: "var(--text-primary)", marginBottom: "2rem", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.8rem" }}>
         <span style={{ background: "var(--accent-primary)", color: "white", padding: "0.5rem", borderRadius: "12px", display: "flex" }}>🧩</span> {title}
       </h3>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "3.5rem", justifyContent: "center", alignItems: "flex-start" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center", alignItems: "flex-start" }}>
         {/* Crossword Grid */}
         <div style={{
           display: "grid",
           gridTemplateColumns: `repeat(${size}, 1fr)`,
-          gap: "4px",
+          gap: "2px",
           background: "var(--border-color)",
-          padding: "15px",
-          borderRadius: "16px",
+          padding: "8px",
+          borderRadius: "12px",
           width: "fit-content",
           boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-          border: "1px solid var(--border-color)"
+          border: "1px solid var(--border-color)",
+          maxWidth: "100%",
+          overflow: "auto"
         }}>
           {grid.map((row, r) => row.map((cell, c) => (
-            <div key={`${r}-${c}`} style={{ position: "relative", width: "44px", height: "44px", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "8px", overflow: "hidden" }}>
+            <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(30px, 8vw, 44px)", height: "clamp(30px, 8vw, 44px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "4px", overflow: "hidden" }}>
               {cell !== "#" && (
                 <>
                   {getNumber(r, c) && (
-                    <span style={{ position: "absolute", top: "4px", left: "6px", fontSize: "10px", fontWeight: "900", zIndex: 1, color: "var(--accent-primary)", opacity: 0.8 }}>
+                    <span style={{ position: "absolute", top: "2px", left: "4px", fontSize: "clamp(8px, 2vw, 10px)", fontWeight: "900", zIndex: 1, color: "var(--accent-primary)", opacity: 0.8 }}>
                       {getNumber(r, c)}
                     </span>
                   )}
                   <input
                     type="text"
+                    ref={el => { inputRefs.current[`${r}-${c}`] = el; }}
                     value={userGrid[r]?.[c] || ""}
                     onChange={(e) => handleChange(r, c, e.target.value)}
                     style={{
@@ -131,7 +155,7 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
                       height: "100%",
                       border: "none",
                       textAlign: "center",
-                      fontSize: "1.3rem",
+                      fontSize: "clamp(1rem, 4vw, 1.3rem)",
                       fontWeight: "900",
                       textTransform: "uppercase",
                       background: isCorrect(r, c) === true ? "rgba(16,185,129,0.15)" : isCorrect(r, c) === false ? "rgba(239,68,68,0.15)" : "transparent",
@@ -152,7 +176,7 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
         </div>
 
         {/* Clues */}
-        <div style={{ flex: 1, minWidth: "300px", display: "flex", flexDirection: "column", gap: "2.5rem" }}>
+        <div style={{ flex: 1, minWidth: "280px", display: "flex", flexDirection: "column", gap: "2rem" }}>
           {["across", "down"].map(dir => (
             <div key={dir}>
               <h4 style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--text-primary)", marginBottom: "1.2rem", display: "flex", alignItems: "center", gap: "0.6rem", textTransform: "uppercase", letterSpacing: "1px" }}>

@@ -68,7 +68,11 @@ export default function MatchPairs({ pairs, title }: { pairs: Pair[]; title: str
           <p style={{ fontSize: "1rem", margin: 0, opacity: 0.9 }}>Has completado todas las relaciones correctamente.</p>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))", 
+          gap: "1.5rem" 
+        }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
             {leftItems.map((item) => {
               const isMatched = matched.includes(item.id);
@@ -83,17 +87,18 @@ export default function MatchPairs({ pairs, title }: { pairs: Pair[]; title: str
                     onClick={() => setSelectedLeft(isSelected ? null : item.id)}
                     style={{
                       width: "100%",
-                      padding: "1.1rem",
+                      padding: "clamp(0.8rem, 3vw, 1.1rem)",
                       borderRadius: "12px",
                       border: `2px solid ${isMatched ? pairColor : isSelected ? "var(--accent-primary)" : "var(--border-color)"}`,
                       background: isMatched ? `${pairColor}10` : isSelected ? "rgba(155,28,46,0.05)" : "var(--bg-secondary)",
                       color: isMatched ? pairColor : isSelected ? "var(--accent-primary)" : "var(--text-primary)",
                       fontWeight: isSelected || isMatched ? 800 : 600,
+                      fontSize: "clamp(0.85rem, 3.5vw, 1rem)",
                       textAlign: "center",
                       cursor: isMatched ? "default" : "pointer",
                       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                       boxShadow: isMatched ? `0 4px 12px ${pairColor}15` : "none",
-                      paddingRight: hasHint && !isMatched ? "3rem" : "1.1rem"
+                      paddingRight: hasHint && !isMatched ? "3rem" : "clamp(0.8rem, 3vw, 1.1rem)"
                     }}
                   >
                     {item.text}
@@ -159,12 +164,12 @@ export default function MatchPairs({ pairs, title }: { pairs: Pair[]; title: str
                   disabled={isMatched}
                   onClick={() => setSelectedRight(isSelected ? null : item.id)}
                   style={{
-                    padding: "1.1rem",
+                    padding: "clamp(0.8rem, 3vw, 1.1rem)",
                     borderRadius: "12px",
                     border: `2px solid ${isMatched ? pairColor : isSelected ? "var(--accent-primary)" : "var(--border-color)"}`,
                     background: isMatched ? `${pairColor}10` : isSelected ? "rgba(155,28,46,0.05)" : "var(--bg-secondary)",
                     color: isMatched ? pairColor : isSelected ? "var(--accent-primary)" : "var(--text-secondary)",
-                    fontSize: "0.9rem",
+                    fontSize: "clamp(0.8rem, 3.2vw, 0.9rem)",
                     fontWeight: isMatched ? 700 : 500,
                     textAlign: "center",
                     cursor: isMatched ? "default" : "pointer",
