@@ -399,11 +399,11 @@ int main(void) {
       <ChapterHeader 
         num="PROYECTO" 
         title="Minishell: Proyecto Final 3er Parcial" 
-        subtitle="Un intérprete de comandos robusto que utiliza el API nativo de Linux para gestionar el sistema." 
+        subtitle="Una mini terminal propia hecha en C que permite manejar archivos, ver información del sistema y más." 
       />
 
       <SectionText>
-        Este proyecto representa la culminación del curso de Sistemas Operativos, integrando la gestión de procesos, manipulación de archivos a bajo nivel, inspección del hardware y protocolos de red en una aplicación de consola profesional.
+        Este es el proyecto final del curso. Construimos nuestra propia terminal (como la que usas en Linux) desde cero en lenguaje C. Puede listar archivos, moverse entre carpetas, mostrar la memoria del equipo, ver quién está conectado y mucho más.
       </SectionText>
 
       {/* CATEGORÍA 1: ARCHIVOS */}
@@ -415,12 +415,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema de Archivos"
           cmd="ls" 
-          context="Listado de directorios mediante flujos de datos."
-          desc="Este comando es vital para la navegación. Internamente, abre un 'stream' de directorio usando opendir() y recorre cada entrada del i-nodo mediante readdir()." 
+          context="Muestra los archivos y carpetas del directorio actual."
+          desc="Es como abrir una carpeta para ver qué hay dentro. El programa abre el directorio y lee uno por uno los nombres de los archivos que contiene." 
           params="."
           output={".  ..  minishell.c  shell  test_folder  documento.txt"}
           sysCalls={["opendir()", "readdir()", "closedir()", "struct dirent"]}
-          hint="No olvides verificar si opendir() retorna NULL antes de intentar leer. Cada entrada del directorio tiene un campo d_name que contiene el nombre del archivo."
+          hint="Primero hay que abrir la carpeta con opendir(), luego leer cada elemento con readdir() en un ciclo, y al final cerrar con closedir()."
           code={`void cmd_ls(const char *r) {
     DIR *d = opendir(r ? r : ".");
     struct dirent *e;
@@ -432,12 +432,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema de Archivos"
           cmd="cat" 
-          context="Lectura de archivos a bajo nivel mediante descriptores."
-          desc="Utiliza la llamada open() para obtener un descriptor de archivo y transfiere bloques de datos hacia la salida estándar." 
+          context="Muestra el contenido de un archivo en pantalla."
+          desc="Abre un archivo y lo imprime en pantalla, igual que cuando abres un documento de texto. Lee el archivo en pedazos y los va mostrando uno a uno." 
           params="hola.txt"
           output={"Hola mundo!\\nEste es un archivo de prueba\\nleído desde mi minishell."}
           sysCalls={["open()", "read()", "write()", "close()"]}
-          hint="Usa un buffer de tamaño fijo (ej. 1024 bytes) para leer el contenido. El ciclo while debe continuar mientras read() devuelva un valor mayor a 0."
+          hint="Lee el archivo en bloques de 1024 letras a la vez. El ciclo termina cuando ya no hay más contenido que leer."
           code={`void cmd_cat(const char *archivo) {
     int fd = open(archivo, O_RDONLY);
     char buf[1024]; ssize_t n;
@@ -449,12 +449,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema de Archivos"
           cmd="pwd" 
-          context="Ruta absoluta del directorio actual."
-          desc="Recupera la ruta completa desde la raíz hasta el directorio actual de trabajo." 
+          context="Muestra en qué carpeta estás actualmente."
+          desc="Te dice exactamente en qué parte del sistema de archivos estás parado, mostrando la ruta completa desde la raíz hasta tu carpeta actual." 
           params="Ninguno"
           output={"/home/usuario/Documentos/proyecto_minishell"}
           sysCalls={["getcwd()"]}
-          hint="getcwd() requiere un buffer y su tamaño. Si el buffer es muy pequeño, la función fallará. Asegúrate de que el buffer tenga al menos MAX_PATH bytes."
+          hint="Se necesita un espacio de memoria (buffer) donde guardar la ruta. Si la ruta es muy larga y el espacio es insuficiente, la función fallará."
           code={`void cmd_pwd(void) {
     if (getcwd(cwd_buf, sizeof(cwd_buf))) printf("%s\\n", cwd_buf);
 }`}
@@ -462,12 +462,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema de Archivos"
           cmd="cd" 
-          context="Cambio de directorio de trabajo."
-          desc="Modifica el directorio de trabajo actual del proceso de la minishell usando la llamada chdir(). Si no se provee un argumento, intenta cambiar al directorio HOME." 
+          context="Cambia la carpeta en la que estás trabajando."
+          desc="Te mueve a otra carpeta, como cuando navegas entre directorios en tu computadora. Si no escribes a dónde ir, te lleva a tu carpeta personal (HOME)." 
           params="/home/usuario"
           output={"# Directorio cambiado"}
           sysCalls={["chdir()", "getenv()"]}
-          hint="chdir() solo afecta al proceso actual. Por eso los scripts no pueden cambiar el directorio del shell padre sin usar comandos como 'source'."
+          hint="Este cambio solo afecta a tu terminal actual, no a otras ventanas o procesos abiertos al mismo tiempo."
           code={`void cmd_cd(const char *dir) {
     if (!dir) dir = getenv("HOME");
     if (chdir(dir != NULL ? dir : "/") != 0) 
@@ -477,12 +477,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema de Archivos"
           cmd="mkdir" 
-          context="Creación de nuevos directorios."
-          desc="Crea un nuevo directorio en el sistema de archivos especificando la ruta y los permisos en formato octal." 
+          context="Crea una nueva carpeta."
+          desc="Crea una carpeta nueva en la ubicación que le indiques. Al crearla, se le asignan permisos estándar para que tú puedas usarla y otros puedan verla." 
           params="nuevo_directorio"
           output={"# Directorio creado exitosamente"}
           sysCalls={["mkdir()"]}
-          hint="El segundo argumento de mkdir() es el modo (permisos). 0755 es la norma general (rwxr-xr-x) para directorios."
+          hint="El número 0755 define quién puede entrar y leer la carpeta: el dueño tiene acceso total, los demás solo pueden verla."
           code={`void cmd_mkdir(const char *nombre) {
     if (!nombre) { puts("mkdir: falta el nombre"); return; }
     if (mkdir(nombre, 0755) != 0) 
@@ -492,12 +492,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema de Archivos"
           cmd="unlink" 
-          context="Eliminación de archivos (hard links)."
-          desc="Elimina un nombre del sistema de archivos. Si ese nombre era el último enlace al archivo y ningún proceso lo tiene abierto, el archivo se elimina." 
+          context="Borra un archivo del sistema."
+          desc="Elimina un archivo. En Linux, borrar un archivo significa quitarle su nombre; si nadie más lo está usando en ese momento, el contenido también desaparece del disco." 
           params="documento.txt"
           output={"# Archivo eliminado"}
           sysCalls={["unlink()"]}
-          hint="En Unix, borrar un archivo es realmente desvincular (unlink) su nombre del inodo."
+          hint="Un archivo puede tener varios nombres (accesos directos). unlink() solo elimina uno de esos nombres, no necesariamente el contenido."
           code={`void cmd_unlink(const char *archivo) {
     if (!archivo) { puts("unlink: falta archivo"); return; }
     if (unlink(archivo) != 0) 
@@ -507,12 +507,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema de Archivos"
           cmd="rename" 
-          context="Renombrar o mover archivos."
-          desc="Cambia el nombre o la ubicación de un archivo. Equivalente al comando 'mv' en un shell estándar." 
+          context="Renombra o mueve un archivo."
+          desc="Cambia el nombre de un archivo o lo mueve a otra ubicación, igual que cuando le das clic derecho y eliges 'Renombrar'. También funciona como el comando 'mv' de Linux." 
           params="viejo.txt nuevo.txt"
           output={"# Archivo renombrado exitosamente"}
           sysCalls={["rename()"]}
-          hint="rename() realiza la operación de manera atómica, garantizando que el archivo siempre exista durante el proceso, sin quedar en un estado corrupto."
+          hint="Esta operación es segura: el archivo siempre existe durante el proceso, nunca se pierde a mitad del cambio."
           code={`void cmd_rename(const char *viejo, const char *nuevo) {
     if (!viejo || !nuevo) { puts("rename: faltan argumentos"); return; }
     if (rename(viejo, nuevo) != 0) 
@@ -530,12 +530,12 @@ int main(void) {
         <CommandDetail 
           category="Kernel"
           cmd="stat" 
-          context="Inspección detallada de metadatos de i-nodos."
-          desc="Recupera la estructura stat del kernel con detalles físicos del archivo." 
+          context="Muestra información detallada de un archivo."
+          desc="Muestra los detalles de un archivo: cuánto pesa, cuándo fue creado, quién puede abrirlo y un número único que lo identifica dentro del sistema." 
           params="shell"
           output={"Archivo: shell | Inodo: 1452637 | Tamaño: 16840 bytes | Permisos: 755"}
           sysCalls={["stat()", "struct stat"]}
-          hint="La estructura stat contiene campos como st_mode para permisos y st_size para el tamaño. Usa operadores de bits para extraer permisos específicos."
+          hint="La información viene empacada en una estructura. Hay que acceder a cada campo por separado para mostrar el tamaño, los permisos, etc."
           code={`void cmd_stat(const char *ruta) {
     struct stat st;
     if (stat(ruta, &st) == 0)
@@ -545,12 +545,12 @@ int main(void) {
         <CommandDetail 
           category="Hardware"
           cmd="free" 
-          context="Monitoreo de recursos de memoria RAM."
-          desc="Extrae la cantidad de bytes totales y libres del sistema mediante sysinfo()." 
+          context="Muestra cuánta memoria RAM tiene el equipo."
+          desc="Te dice cuánta memoria RAM tiene tu computadora en total y cuánta tiene disponible en este momento, como el administrador de tareas pero desde la terminal." 
           params="Ninguno"
           output={"RAM Total: 16384 MB | Libre: 4210 MB"}
           sysCalls={["sysinfo()", "struct sysinfo"]}
-          hint="sysinfo() devuelve valores en bytes o unidades de bloque. Divide por 1024 dos veces para obtener el valor en Megabytes (MB) para que sea más legible."
+          hint="Los valores vienen en bytes, así que hay que dividir dos veces entre 1024 para convertirlos a megabytes (MB) y que sean más fáciles de leer."
           code={`void cmd_free(void) {
     struct sysinfo si;
     sysinfo(&si);
@@ -560,12 +560,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema"
           cmd="uname" 
-          context="Información del Kernel y arquitectura."
-          desc="Identifica el SO y el hardware subyacente." 
+          context="Muestra el nombre y versión del sistema operativo."
+          desc="Te dice qué sistema operativo estás usando y qué versión del kernel tiene instalada tu equipo, junto con el tipo de procesador (32 o 64 bits)." 
           params="-a"
           output={"Linux 5.15.0-76-generic x86_64"}
           sysCalls={["uname()", "struct utsname"]}
-          hint="La estructura utsname tiene campos fijos para el nombre del sistema, la versión y la máquina. No necesitas liberar esta memoria manualmente."
+          hint="La información del sistema viene en una estructura ya lista. Solo hay que leerla e imprimirla, no hace falta liberar nada al terminar."
           code={`void cmd_uname(char **args) {
     struct utsname u; uname(&u);
     printf("%s %s %s", u.sysname, u.release, u.machine);
@@ -574,12 +574,12 @@ int main(void) {
         <CommandDetail 
           category="Kernel"
           cmd="statvfs" 
-          context="Estadísticas del sistema de archivos."
-          desc="Recupera información global sobre un sistema de archivos montado, como el tamaño de bloque, total de bloques y bloques disponibles." 
+          context="Muestra información del espacio en disco."
+          desc="Te dice cuánto espacio tiene en total tu disco duro y cómo está organizado internamente. Es útil para saber si te estás quedando sin espacio de almacenamiento." 
           params="/"
           output={"ID de bloque: 4096 | Bloques totales: 61049511"}
           sysCalls={["statvfs()", "struct statvfs"]}
-          hint="Es inmensamente útil para calcular el espacio libre general en disco sin tener que recorrer recursivamente todos los directorios."
+          hint="El disco no guarda byte por byte; usa bloques (grupos de bytes). Multiplicando el tamaño de bloque por el número de bloques obtienes el total del disco."
           code={`void cmd_statvfs(const char *ruta) {
     if (!ruta) ruta = "/";
     struct statvfs vfs;
@@ -592,12 +592,12 @@ int main(void) {
         <CommandDetail 
           category="Sistema"
           cmd="date" 
-          context="Reloj del sistema."
-          desc="Obtiene la hora actual del sistema en formato de marca de tiempo (Epoch) y la convierte a una cadena legible alfanumérica." 
+          context="Muestra la fecha y hora actual del sistema."
+          desc="Imprime la fecha y hora exacta en que ejecutas el comando. El sistema guarda el tiempo como un número gigante de segundos y luego lo convierte a un formato legible." 
           params="Ninguno"
           output={"Wed May 13 14:02:45 2026"}
           sysCalls={["time()", "ctime()"]}
-          hint="time() devuelve los segundos desde el 1 de enero de 1970, y ctime() hace todo el formateo de zona horaria y calendario por ti."
+          hint="El sistema cuenta los segundos desde el 1 de enero de 1970. La función ctime() se encarga de convertir ese número a una fecha normal que todos entendemos."
           code={`void cmd_date(void) {
     time_t t = time(NULL);
     printf("%s", ctime(&t));
@@ -614,12 +614,12 @@ int main(void) {
         <CommandDetail 
           category="Networking"
           cmd="ip" 
-          context="Resolución de direcciones IPv4 por interfaz."
-          desc="Escanea la pila de red para mostrar las direcciones IPv4 asignadas." 
+          context="Muestra las direcciones IP de tu equipo."
+          desc="Lista las tarjetas de red de tu computadora (WiFi, cable, etc.) y la dirección IP que tiene asignada cada una. Es como ver la 'identidad' de tu equipo en la red." 
           params="Ninguno"
           output={"lo         127.0.0.1\\nenp3s0     192.168.1.75\\nwlan0      192.168.1.80"}
           sysCalls={["getifaddrs()", "inet_ntoa()"]}
-          hint="getifaddrs() crea una lista enlazada. Debes usar freeifaddrs() al final para evitar fugas de memoria (memory leaks)."
+          hint="Las interfaces de red se devuelven en una lista. Hay que recorrerla completa y al final liberar la memoria que se usó para no desperdiciarla."
           code={`void cmd_ip(void) {
     struct ifaddrs *ifs, *p;
     getifaddrs(&ifs);
@@ -633,12 +633,12 @@ int main(void) {
         <CommandDetail 
           category="Networking"
           cmd="mac" 
-          context="Extracción de identificadores físicos."
-          desc="Recupera la dirección MAC de 48 bits de cada interfaz física." 
+          context="Muestra la dirección física de tus tarjetas de red."
+          desc="Cada tarjeta de red (WiFi o cable) tiene una dirección única grabada en el hardware desde fábrica, llamada dirección MAC. Este comando la muestra para cada interfaz." 
           params="Ninguno"
           output={"enp3s0     00:1a:2b:3c:4d:5e\\nwlan0      a4:b2:c1:d3:e4:f5"}
           sysCalls={["socket()", "ioctl()", "SIOCGIFHWADDR"]}
-          hint="Usa ioctl() con la bandera SIOCGIFHWADDR. El resultado se guarda en el campo sa_data de la estructura sockaddr, que debes castear a unsigned char*."
+          hint="Para leer esta información se necesita abrir una conexión de red temporal (socket) y pedirle al sistema el identificador físico de cada interfaz."
           code={`void cmd_mac(void) {
     int sock = socket(AF_INET, SOCK_DGRAM, 0);
     struct ifreq ifr;
@@ -656,12 +656,12 @@ int main(void) {
         <CommandDetail 
           category="Sesiones"
           cmd="who" 
-          context="Listar usuarios conectados."
-          desc="Lee el archivo especial utmp para determinar quién está conectado actualmente en el sistema y en qué terminales (tty/pts)." 
+          context="Muestra quién está conectado al sistema."
+          desc="Lista los usuarios que tienen una sesión activa en este momento, junto con la terminal desde donde están conectados. Útil para saber si hay más personas usando el equipo." 
           params="Ninguno"
           output={"usuario    tty7         (:0)"}
           sysCalls={["setutent()", "getutent()", "endutent()", "struct utmp"]}
-          hint="Iterar sobre registros utmp requiere abrir el archivo con setutent(), leer secuencialmente con getutent(), y cerrarlo con endutent() al terminar."
+          hint="Linux guarda un registro de las sesiones activas en un archivo especial. Hay que abrirlo, leer cada registro uno a uno, y cerrarlo al terminar."
           code={`void cmd_who(void) {
     struct utmp *u;
     setutent();
@@ -683,12 +683,12 @@ int main(void) {
         <CommandDetail 
           category="Control"
           cmd="exit" 
-          context="Terminación del proceso principal."
-          desc="Finaliza la ejecución de la minishell de manera limpia enviando el código de estado de retorno al sistema operativo o shell padre." 
+          context="Cierra la minishell."
+          desc="Termina el programa de forma ordenada, despidiéndose con un mensaje. Le avisa al sistema que todo terminó bien antes de cerrar." 
           params="Ninguno"
           output={"Hasta luego."}
           sysCalls={["exit()"]}
-          hint="Un código de estado 0 indica éxito al proceso padre. Cualquier otro número indica un error específico."
+          hint="Salir con el número 0 le indica al sistema que todo fue exitoso. Si saliera con otro número, significaría que algo salió mal."
           code={`void cmd_exit(void) {
     puts("Hasta luego.");
     exit(0);
