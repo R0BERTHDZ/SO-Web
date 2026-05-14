@@ -1,10 +1,39 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import CodeBlock from "../components/CodeBlock";
 
+const TOTAL_PRACTICAS = 6;
+
 export default function PracticasPage() {
   const [activePractica, setActivePractica] = useState<number | null>(1);
+  const [completedPracticas, setCompletedPracticas] = useState<number[]>([]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("os_completed_practicas");
+    if (stored) setCompletedPracticas(JSON.parse(stored));
+  }, []);
+
+  const navigateNext = (currentId: number) => {
+    // Mark current as completed
+    const next = Array.from(new Set([...completedPracticas, currentId]));
+    setCompletedPracticas(next);
+    localStorage.setItem("os_completed_practicas", JSON.stringify(next));
+    const practicePercent = Math.round((next.length / TOTAL_PRACTICAS) * 100);
+    localStorage.setItem("os_practice_percent", String(practicePercent));
+    window.dispatchEvent(new Event("os_progress_update"));
+
+    // Go to next practice or scroll to top
+    const nextId = currentId + 1;
+    if (nextId <= TOTAL_PRACTICAS) {
+      setActivePractica(nextId);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // All done — scroll back to top
+      setActivePractica(1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   const practicas = [
     {
@@ -488,7 +517,7 @@ int main() {
                     <CodeBlock title={p.codeTitle} code={p.code} explanation="Implementación robusta de sistemas operativos en C." output={p.output} />
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "3rem" }}>
                     <div style={{ padding: "1.5rem", background: "var(--bg-secondary)", borderRadius: "16px", border: "1px solid var(--border-color)" }}>
                       <h4 style={{ fontSize: "1rem", fontWeight: 800, color: "var(--text-primary)", marginBottom: "0.5rem" }}>📝 Conclusión Personal</h4>
                       <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6, margin: 0 }}>{p.conclusion}</p>
@@ -497,6 +526,51 @@ int main() {
                       <h4 style={{ fontSize: "1rem", fontWeight: 800, color: "var(--accent-primary)", marginBottom: "0.5rem" }}>🚀 Propuesta de Mejora</h4>
                       <p style={{ color: "var(--text-primary)", fontSize: "0.95rem", lineHeight: 1.6, margin: 0 }}>{p.improvement}</p>
                     </div>
+                  </div>
+
+                  {/* Navigation Footer */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "2rem", borderTop: "1px solid var(--border-color)" }}>
+                    {/* Completion badge */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      {completedPracticas.includes(p.id) && (
+                        <span style={{ background: "rgba(16, 185, 129, 0.1)", color: "#10b981", padding: "0.4rem 1rem", borderRadius: "20px", fontSize: "0.85rem", fontWeight: 700, border: "1px solid rgba(16, 185, 129, 0.3)" }}>
+                          ✅ Práctica completada
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Next button */}
+                    <button
+                      onClick={() => navigateNext(p.id)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.8rem",
+                        background: "var(--accent-primary)",
+                        color: "white",
+                        border: "none",
+                        padding: "1rem 2rem",
+                        borderRadius: "14px",
+                        fontWeight: 800,
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                        boxShadow: "0 8px 25px rgba(155, 28, 46, 0.3)",
+                        transition: "all 0.3s ease"
+                      }}
+                      onMouseOver={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 12px 30px rgba(155, 28, 46, 0.4)"; }}
+                      onMouseOut={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 25px rgba(155, 28, 46, 0.3)"; }}
+                    >
+                      {p.id < TOTAL_PRACTICAS ? (
+                        <>
+                          Siguiente Práctica
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </>
+                      ) : (
+                        <>
+                          🏆 Completar todas las prácticas
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               );

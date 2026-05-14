@@ -6,11 +6,14 @@ import QuickCommand from "./QuickCommand";
 export default function Hero() {
   const [isRoot, setIsRoot] = useState(false);
   const [theoryPercent, setTheoryPercent] = useState(0);
+  const [practicePercent, setPracticePercent] = useState(0);
 
   useEffect(() => {
     const updateProgress = () => {
-      const stored = parseInt(localStorage.getItem("os_theory_percent") || "0", 10);
-      setTheoryPercent(stored);
+      const theory = parseInt(localStorage.getItem("os_theory_percent") || "0", 10);
+      const practice = parseInt(localStorage.getItem("os_practice_percent") || "0", 10);
+      setTheoryPercent(theory);
+      setPracticePercent(practice);
     };
 
     updateProgress();
@@ -68,7 +71,7 @@ export default function Hero() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {[
                 { label: "TEORÍA", val: `${theoryPercent}%`, color: "var(--accent-primary)" },
-                { label: "PRÁCTICAS", val: "0%", color: "var(--accent-blue)" }
+                { label: "PRÁCTICAS", val: `${practicePercent}%`, color: "var(--accent-blue)" }
               ].map(stat => (
                 <div key={stat.label} style={{ background: "var(--bg-secondary)", padding: "1.2rem 1rem", borderRadius: "14px", textAlign: "center", border: "1px solid var(--border-color)", transition: "transform 0.3s ease" }}>
                   <div style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "1.5px", color: "var(--text-muted)", marginBottom: "0.5rem" }}>{stat.label}</div>
