@@ -54,9 +54,19 @@ const ALIAS: Record<string, string> = {
   "ipc": "ipc-intro"
 };
 
+// Content topic IDs used to track theory progress
+const THEORY_TOPIC_IDS = [
+  "intro-so", "clasificacion", "arranque",
+  "procesos-conceptos", "crear-procesos", "identificar-procesos",
+  "wait", "waitpid", "exit", "zombi", "hilos", "creacion-hilos",
+  "ipc-intro", "ipc-pipes", "ipc-fifo", "sysv-keys", "sysv-sem",
+  "sysv-shm", "sysv-msg", "sysv-ipcs"
+];
+
 export default function MainContent() {
   const [activeId, setActiveId] = useState("intro-so");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [visitedIds, setVisitedIds] = useState<Set<string>>(new Set(["intro-so"]));
 
   const resolveId = (id: string) => ALIAS[id] ?? id;
 
@@ -65,8 +75,22 @@ export default function MainContent() {
   const navigate = (id: string) => {
     const resolved = resolveId(id);
     setActiveId(resolved);
-    setIsMobileMenuOpen(false); // Auto-close on mobile
-    
+    setIsMobileMenuOpen(false);
+
+    // Track visited theory topics and update progress
+    setVisitedIds(prev => {
+      const next = new Set(prev);
+      next.add(resolved);
+      const visitedTheoryCount = THEORY_TOPIC_IDS.filter(tid => next.has(tid)).length;
+      const theoryPercent = Math.round((visitedTheoryCount / THEORY_TOPIC_IDS.length) * 100);
+      // Store as array for Hero to read
+      const visitedArray = Array.from(next);
+      localStorage.setItem("os_visited_topics", JSON.stringify(visitedArray));
+      localStorage.setItem("os_theory_percent", String(theoryPercent));
+      window.dispatchEvent(new Event("os_progress_update"));
+      return next;
+    });
+
     // Scroll logic
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });

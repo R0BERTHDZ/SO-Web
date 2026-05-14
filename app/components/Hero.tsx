@@ -4,15 +4,13 @@ import SystemMonitor from "./SystemMonitor";
 import QuickCommand from "./QuickCommand";
 
 export default function Hero() {
-  const [completedQuizzes, setCompletedQuizzes] = useState<string[]>([]);
   const [isRoot, setIsRoot] = useState(false);
+  const [theoryPercent, setTheoryPercent] = useState(0);
 
   useEffect(() => {
     const updateProgress = () => {
-      const completedStr = localStorage.getItem("os_completed_quizzes") || "[]";
-      try {
-        setCompletedQuizzes(JSON.parse(completedStr));
-      } catch (e) { }
+      const stored = parseInt(localStorage.getItem("os_theory_percent") || "0", 10);
+      setTheoryPercent(stored);
     };
 
     updateProgress();
@@ -20,16 +18,24 @@ export default function Hero() {
     return () => window.removeEventListener("os_progress_update", updateProgress);
   }, []);
 
-  const totalChapters = 2;
-  const progressPercent = Math.min(100, Math.round((completedQuizzes.length / totalChapters) * 100));
+  // Sync isRoot via localStorage so terminal and UI are always in sync
+  useEffect(() => {
+    const handleStorage = () => {
+      const rootStored = localStorage.getItem("os_is_root") === "true";
+      setIsRoot(rootStored);
+    };
+    window.addEventListener("os_root_change", handleStorage);
+    return () => window.removeEventListener("os_root_change", handleStorage);
+  }, []);
 
-  const currentLessonTitle = completedQuizzes.length === 0 ? "1. Introducción a SO" : "2. Procesos e Hilos";
-  const currentLessonDesc = completedQuizzes.length === 0 ? "Conceptos fundamentales, arquitectura básica y clasificación general." : "Implementación de un algoritmo de planificación en lenguaje C.";
-  const buttonText = completedQuizzes.length === 0 ? "Comenzar Lectura" : "Continuar Lectura";
+  const handleSetIsRoot = (val: boolean) => {
+    localStorage.setItem("os_is_root", String(val));
+    setIsRoot(val);
+    window.dispatchEvent(new Event("os_root_change"));
+  };
 
   const handleScrollToLesson = () => {
-    const targetId = completedQuizzes.length === 0 ? "intro-linux" : "procesos-conceptos";
-    window.dispatchEvent(new CustomEvent("os_navigate", { detail: targetId }));
+    window.dispatchEvent(new CustomEvent("os_navigate", { detail: "intro-so" }));
   };
 
   return (
@@ -50,16 +56,18 @@ export default function Hero() {
           <div style={{ border: "1px solid var(--border-color)", borderRadius: "20px", padding: "2rem", background: "var(--bg-card)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.2rem", alignItems: "center" }}>
               <div style={{ fontWeight: 800, fontSize: "1.3rem", color: isRoot ? "var(--accent-primary)" : "var(--text-primary)", transition: "color 0.3s" }}>
-                Nivel de Acceso: Root
+                Nivel de Acceso: {isRoot ? "⚡ ROOT" : "Root"}
               </div>
-              <div style={{ color: "white", fontWeight: 800, background: "var(--accent-primary)", padding: "0.4rem 1rem", borderRadius: "10px", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(155,28,46,0.3)" }}>{progressPercent}% COMPLETE</div>
+              <div style={{ color: "white", fontWeight: 800, background: isRoot ? "#ef4444" : "var(--accent-primary)", padding: "0.4rem 1rem", borderRadius: "10px", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(155,28,46,0.3)", transition: "background 0.3s" }}>
+                {theoryPercent}% COMPLETE
+              </div>
             </div>
             <div style={{ height: "12px", background: "var(--bg-primary)", borderRadius: "6px", marginBottom: "2rem", overflow: "hidden", border: "1px solid var(--border-color)" }}>
-              <div style={{ width: `${progressPercent}%`, height: "100%", background: "linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-blue) 100%)", borderRadius: "6px", transition: "width 1.5s cubic-bezier(0.4, 0, 0.2, 1)", boxShadow: "var(--glow-primary)" }}></div>
+              <div style={{ width: `${theoryPercent}%`, height: "100%", background: isRoot ? "linear-gradient(90deg, #ef4444, #9b1c2e)" : "linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-blue) 100%)", borderRadius: "6px", transition: "width 1s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s", boxShadow: "var(--glow-primary)" }}></div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {[
-                { label: "TEORÍA", val: "0%", color: "var(--accent-primary)" },
+                { label: "TEORÍA", val: `${theoryPercent}%`, color: "var(--accent-primary)" },
                 { label: "PRÁCTICAS", val: "0%", color: "var(--accent-blue)" }
               ].map(stat => (
                 <div key={stat.label} style={{ background: "var(--bg-secondary)", padding: "1.2rem 1rem", borderRadius: "14px", textAlign: "center", border: "1px solid var(--border-color)", transition: "transform 0.3s ease" }}>
@@ -70,7 +78,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <QuickCommand isRoot={isRoot} setIsRoot={setIsRoot} />
+          <QuickCommand isRoot={isRoot} setIsRoot={handleSetIsRoot} />
         </div>
 
         {/* Right Column: Active Lesson & System Monitor */}
@@ -84,10 +92,10 @@ export default function Hero() {
             </div>
 
             <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "1rem", lineHeight: 1.2 }}>
-              {currentLessonTitle}
+              1. Introducción a SO
             </h2>
             <p style={{ fontSize: "1.1rem", opacity: 0.8, marginBottom: "2.5rem", lineHeight: 1.6, maxWidth: "400px" }}>
-              {currentLessonDesc}
+              Conceptos fundamentales, arquitectura básica y clasificación general.
             </p>
 
             <button
@@ -110,7 +118,7 @@ export default function Hero() {
               onMouseOver={(e) => { e.currentTarget.style.transform = "scale(1.05)"; e.currentTarget.style.boxShadow = "0 10px 20px rgba(255,255,255,0.2)"; }}
               onMouseOut={(e) => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}
             >
-              {buttonText}
+              Comenzar Lectura
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
           </div>

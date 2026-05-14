@@ -35,10 +35,12 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
       case "login root":
         if (!isRoot) {
           setIsRoot(true);
-          console.log("Root access activated via terminal");
+          localStorage.setItem("os_is_root", "true");
+          window.dispatchEvent(new Event("os_root_change"));
           newHistory.push("-------------------------------------------");
-          newHistory.push("ACCESO ROOT ACTIVADO");
+          newHistory.push("✅ ACCESO ROOT ACTIVADO");
           newHistory.push("Privilegios de administrador concedidos.");
+          newHistory.push("Prompt: root@so:#");
           newHistory.push("-------------------------------------------");
         } else {
           newHistory.push("Ya tienes privilegios de superusuario.");
@@ -47,6 +49,8 @@ export default function QuickCommand({ isRoot, setIsRoot }: QuickCommandProps) {
       case "exit":
         if (isRoot) {
           setIsRoot(false);
+          localStorage.setItem("os_is_root", "false");
+          window.dispatchEvent(new Event("os_root_change"));
           newHistory.push("Sesión de superusuario terminada. Regresando a usuario normal.");
         } else {
           newHistory.push("Cerrando sesión de terminal...");
