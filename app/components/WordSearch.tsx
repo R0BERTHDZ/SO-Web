@@ -196,15 +196,16 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
           <div 
             style={{ 
               display: "grid", 
-              gridTemplateColumns: `repeat(${size}, clamp(36px, 9vw, 44px))`, 
-              gap: "3px", 
+              gridTemplateColumns: `repeat(${size}, clamp(36px, 9.5vw, 48px))`, 
+              gap: "4px", 
               background: "var(--border-color)", 
-              padding: "10px", 
-              borderRadius: "12px",
+              padding: "12px", 
+              borderRadius: "16px",
               userSelect: "none",
               touchAction: "none",
               width: "max-content",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
+              boxShadow: "0 10px 40px rgba(0,0,0,0.15)",
+              margin: "0 auto"
             }}
             onMouseLeave={() => { setIsSelecting(false); setSelectedCells([]); }}
             onTouchMove={handleTouchMove}
@@ -222,28 +223,30 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
                   onMouseUp={handleMouseUp}
                   onTouchStart={(e) => handleTouchStart(e, r, c)}
                   style={{
-                    width: "clamp(36px, 9vw, 44px)",
-                    height: "clamp(36px, 9vw, 44px)",
+                    width: "clamp(36px, 9.5vw, 48px)",
+                    height: "clamp(36px, 9.5vw, 48px)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     background: isSelected 
                       ? "var(--accent-primary)" 
                       : foundColor 
-                        ? `${foundColor}25` 
-                        : "var(--bg-secondary)",
+                        ? foundColor 
+                        : "var(--bg-card)",
                     color: isSelected 
                       ? "white" 
                       : foundColor 
-                        ? foundColor 
+                        ? "white" 
                         : "var(--text-primary)",
-                    borderRadius: "6px",
-                    fontSize: "clamp(1rem, 5vw, 1.2rem)",
+                    borderRadius: "8px",
+                    fontSize: "clamp(1.1rem, 5.5vw, 1.3rem)",
                     fontWeight: 900,
                     cursor: "pointer",
-                    transition: "all 0.1s ease",
-                    border: foundColor ? `1px solid ${foundColor}` : "1px solid var(--border-color)",
-                    boxShadow: foundColor ? `0 2px 8px ${foundColor}15` : "none"
+                    transition: "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+                    border: "1px solid var(--border-color)",
+                    boxShadow: foundColor ? `0 4px 12px ${foundColor}40` : isSelected ? "0 4px 12px rgba(155, 28, 46, 0.3)" : "none",
+                    transform: isSelected ? "scale(1.05)" : "scale(1)",
+                    zIndex: isSelected ? 10 : 1
                   }}
                 >
                   {char}

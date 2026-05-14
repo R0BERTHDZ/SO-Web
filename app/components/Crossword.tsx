@@ -117,16 +117,30 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
           <div 
             style={{ 
               display: "grid", 
-              gridTemplateColumns: `repeat(${size}, clamp(38px, 10vw, 48px))`, 
-              gap: "3px", 
+              gridTemplateColumns: `repeat(${size}, clamp(38px, 10.5vw, 54px))`, 
+              gap: "4px", 
               background: "var(--border-color)", 
-              padding: "6px", 
-              borderRadius: "12px", 
-              width: "max-content"
+              padding: "12px", 
+              borderRadius: "16px", 
+              width: "max-content",
+              boxShadow: "0 10px 40px rgba(0,0,0,0.15)",
+              margin: "0 auto"
             }}
           >
             {grid.map((row, r) => row.map((cell, c) => (
-              <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(38px, 10vw, 48px)", height: "clamp(38px, 10vw, 48px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "6px", overflow: "hidden" }}>
+              <div key={`${r}-${c}`} style={{ 
+                position: "relative", 
+                width: "clamp(38px, 10.5vw, 54px)", 
+                height: "clamp(38px, 10.5vw, 54px)", 
+                background: cell === "#" ? "transparent" : "var(--bg-card)", 
+                borderRadius: "8px", 
+                overflow: "hidden",
+                border: cell === "#" ? "none" : "1px solid var(--border-color)",
+                boxShadow: focused?.r === r && focused?.c === c ? "0 4px 12px rgba(155, 28, 46, 0.2)" : "none",
+                transform: focused?.r === r && focused?.c === c ? "scale(1.05)" : "scale(1)",
+                zIndex: focused?.r === r && focused?.c === c ? 10 : 1,
+                transition: "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+              }}>
                 {cell !== "#" && (
                   <>
                     {getNumber(r, c) && (
