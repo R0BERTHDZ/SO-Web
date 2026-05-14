@@ -190,17 +190,9 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
         🔍 {title}
       </h3>
       
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center", alignItems: "flex-start", marginBottom: "2rem" }}>
+      <div className="game-container-flex">
         {/* Grid Container for Scrolling */}
-        <div style={{ 
-          maxWidth: "100%", 
-          overflowX: "auto", 
-          padding: "10px",
-          background: "var(--bg-secondary)",
-          borderRadius: "16px",
-          border: "1px solid var(--border-color)",
-          boxShadow: "inset 0 2px 10px rgba(0,0,0,0.05)"
-        }}>
+        <div className="game-grid-scroll">
           <div 
             style={{ 
               display: "grid", 
@@ -213,8 +205,7 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
               touchAction: "none",
               border: "1px solid var(--border-color)",
               boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-              width: "max-content",
-              margin: "0 auto"
+              width: "max-content"
             }}
             onMouseLeave={() => { setIsSelecting(false); setSelectedCells([]); }}
             onTouchMove={handleTouchMove}
@@ -263,8 +254,8 @@ export default function WordSearch({ title, items, size = 10 }: WordSearchProps)
           </div>
         </div>
 
-        {/* Word List (Right) */}
-        <div style={{ flex: 1, minWidth: "250px" }}>
+        {/* Word List (Right/Bottom) */}
+        <div className="game-clues-container">
           <h4 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1.5rem", color: "var(--text-secondary)", borderBottom: "1px solid var(--border-color)", paddingBottom: "0.5rem" }}>
             Palabras a encontrar:
           </h4>

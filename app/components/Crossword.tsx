@@ -29,7 +29,9 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
       for (let i = 0; i < c.answer.length; i++) {
         const r = c.direction === "down" ? c.row + i : c.row;
         const col = c.direction === "across" ? c.col + i : c.col;
-        g[r][col] = "";
+        if (r < size && col < size) {
+          g[r][col] = "";
+        }
       }
     });
     setGrid(g);
@@ -51,7 +53,7 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
     newGrid[r][c] = val.toUpperCase();
     setUserGrid(newGrid);
 
-    // Auto-advance to next cell
+    // Auto-advance
     if (val !== "") {
       const currentClue = clues.find(cl => {
         if (cl.direction === "across") {
@@ -69,17 +71,6 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
         }
       }
     }
-  };
-
-  const solveClue = (c: Clue) => {
-    const newGrid = [...userGrid];
-    for (let i = 0; i < c.answer.length; i++) {
-      const row = c.direction === "down" ? c.row + i : c.row;
-      const col = c.direction === "across" ? c.col + i : c.col;
-      if (!newGrid[row]) newGrid[row] = [];
-      newGrid[row][col] = c.answer[i].toUpperCase();
-    }
-    setUserGrid(newGrid);
   };
 
   const isCorrect = (r: number, c: number) => {
@@ -120,146 +111,121 @@ export default function Crossword({ title, clues, size }: CrosswordProps) {
       <h3 style={{ fontSize: "1.6rem", fontWeight: 900, color: "var(--text-primary)", marginBottom: "2rem", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.8rem" }}>
         <span style={{ background: "var(--accent-primary)", color: "white", padding: "0.5rem", borderRadius: "12px", display: "flex" }}>🧩</span> {title}
       </h3>
-
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center", alignItems: "flex-start" }}>
-        {/* Crossword Grid Container */}
-        <div style={{ 
-          maxWidth: "100%", 
-          overflowX: "auto", 
-          padding: "10px",
-          background: "var(--bg-secondary)",
-          borderRadius: "16px",
-          border: "1px solid var(--border-color)",
-          boxShadow: "inset 0 2px 10px rgba(0,0,0,0.05)"
-        }}>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${size}, clamp(32px, 8vw, 44px))`,
-            gap: "2px",
-            background: "var(--border-color)",
-            padding: "4px",
-            borderRadius: "8px",
-            width: "max-content",
-            margin: "0 auto"
-          }}>
-          {grid.map((row, r) => row.map((cell, c) => (
-            <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(32px, 8vw, 44px)", height: "clamp(32px, 8vw, 44px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "4px", overflow: "hidden" }}>
-              {cell !== "#" && (
-                <>
-                  {getNumber(r, c) && (
-                    <span style={{ position: "absolute", top: "2px", left: "4px", fontSize: "clamp(8px, 2vw, 10px)", fontWeight: "900", zIndex: 1, color: "var(--accent-primary)", opacity: 0.8 }}>
-                      {getNumber(r, c)}
-                    </span>
-                  )}
-                  <input
-                    type="text"
-                    ref={el => { inputRefs.current[`${r}-${c}`] = el; }}
-                    value={userGrid[r]?.[c] || ""}
-                    onChange={(e) => handleChange(r, c, e.target.value)}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      border: "none",
-                      textAlign: "center",
-                      fontSize: "clamp(1rem, 4vw, 1.3rem)",
-                      fontWeight: "900",
-                      textTransform: "uppercase",
-                      background: isCorrect(r, c) === true ? "rgba(16,185,129,0.15)" : isCorrect(r, c) === false ? "rgba(239,68,68,0.15)" : "transparent",
-                      color: isCorrect(r, c) === true ? "var(--accent-green)" : isCorrect(r, c) === false ? "var(--accent-red)" : "var(--text-primary)",
-                      outline: "none",
-                      transition: "all 0.2s"
-                    }}
-                    onFocus={() => setFocused({ r, c })}
-                    onBlur={() => setFocused(null)}
-                  />
-                  {focused?.r === r && focused?.c === c && (
-                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "3px", background: "var(--accent-primary)" }}></div>
-                  )}
-                </>
-              )}
-            </div>
-          )))}
+      
+      <div className="game-container-flex">
+        <div className="game-grid-scroll">
+          <div 
+            style={{ 
+              display: "grid", 
+              gridTemplateColumns: `repeat(${size}, clamp(32px, 8vw, 44px))`, 
+              gap: "2px", 
+              background: "var(--border-color)", 
+              padding: "4px", 
+              borderRadius: "8px", 
+              width: "max-content"
+            }}
+          >
+            {grid.map((row, r) => row.map((cell, c) => (
+              <div key={`${r}-${c}`} style={{ position: "relative", width: "clamp(32px, 8vw, 44px)", height: "clamp(32px, 8vw, 44px)", background: cell === "#" ? "transparent" : "var(--bg-secondary)", borderRadius: "4px", overflow: "hidden" }}>
+                {cell !== "#" && (
+                  <>
+                    {getNumber(r, c) && (
+                      <span style={{ position: "absolute", top: "2px", left: "4px", fontSize: "clamp(8px, 2vw, 10px)", fontWeight: "900", zIndex: 1, color: "var(--accent-primary)", opacity: 0.8 }}>
+                        {getNumber(r, c)}
+                      </span>
+                    )}
+                    <input
+                      type="text"
+                      ref={el => { inputRefs.current[`${r}-${c}`] = el; }}
+                      value={userGrid[r]?.[c] || ""}
+                      onChange={(e) => handleChange(r, c, e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        border: "none",
+                        textAlign: "center",
+                        fontSize: "clamp(1rem, 4vw, 1.3rem)",
+                        fontWeight: "900",
+                        textTransform: "uppercase",
+                        background: isCorrect(r, c) === true ? "rgba(16,185,129,0.15)" : isCorrect(r, c) === false ? "rgba(239,68,68,0.15)" : "transparent",
+                        color: isCorrect(r, c) === true ? "var(--accent-green)" : isCorrect(r, c) === false ? "var(--accent-red)" : "var(--text-primary)",
+                        outline: "none",
+                        transition: "all 0.2s"
+                      }}
+                      onFocus={() => setFocused({ r, c })}
+                      onBlur={() => setFocused(null)}
+                    />
+                    {focused?.r === r && focused?.c === c && (
+                      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "3px", background: "var(--accent-primary)" }}></div>
+                    )}
+                  </>
+                )}
+              </div>
+            )))}
           </div>
         </div>
 
-        {/* Clues */}
-        <div style={{ flex: 1, minWidth: "280px", display: "flex", flexDirection: "column", gap: "2rem" }}>
-          {["across", "down"].map(dir => (
-            <div key={dir}>
-              <h4 style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--text-primary)", marginBottom: "1.2rem", display: "flex", alignItems: "center", gap: "0.6rem", textTransform: "uppercase", letterSpacing: "1px" }}>
-                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent-primary)" }}></span>
-                {dir === "across" ? "Horizontales" : "Verticales"}
-              </h4>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {clues.filter(c => c.direction === dir).map(c => (
-                  <div key={c.number} style={{ background: "var(--bg-secondary)", padding: "1rem", borderRadius: "12px", border: "1px solid var(--border-color)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
-                      <div style={{ fontSize: "0.95rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                        <strong style={{ color: "var(--accent-primary)", fontSize: "1.1rem", marginRight: "0.6rem" }}>{c.number}</strong> {c.clue}
-                      </div>
-                      <div style={{ display: "flex", gap: "0.5rem" }}>
-                        {c.hint && (
-                          <button
-                            onClick={() => toggleHint(c.number)}
-                            style={{
-                              background: activeHints.includes(c.number) ? "rgba(251, 191, 36, 0.2)" : "var(--bg-primary)",
-                              border: `1px solid ${activeHints.includes(c.number) ? "#f59e0b" : "var(--border-color)"}`,
-                              borderRadius: "8px",
-                              padding: "0.4rem 0.8rem",
-                              fontSize: "0.75rem",
-                              fontWeight: 800,
-                              color: activeHints.includes(c.number) ? "#b45309" : "var(--text-muted)",
-                              cursor: "pointer",
-                              transition: "all 0.2s",
-                              whiteSpace: "nowrap"
-                            }}
-                          >
-                            {activeHints.includes(c.number) ? "💡 Ocultar" : "💡 Pista"}
-                          </button>
-                        )}
-                        <button
-                          onClick={() => solveClue(c)}
-                          style={{
-                            background: "var(--bg-primary)",
-                            border: "1px solid var(--border-color)",
-                            borderRadius: "8px",
-                            padding: "0.4rem 0.8rem",
-                            fontSize: "0.75rem",
-                            fontWeight: 800,
-                            color: "var(--text-muted)",
-                            cursor: "pointer",
-                            transition: "all 0.2s",
-                            whiteSpace: "nowrap"
-                          }}
-                          onMouseOver={(e) => { e.currentTarget.style.background = "var(--border-color)"; e.currentTarget.style.color = "var(--text-primary)"; }}
-                          onMouseOut={(e) => { e.currentTarget.style.background = "var(--bg-primary)"; e.currentTarget.style.color = "var(--text-muted)"; }}
-                        >
-                          👀 Ver
-                        </button>
-                      </div>
+        <div className="game-clues-container">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            <div>
+              <h5 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem", color: "var(--accent-primary)", borderBottom: "1px solid var(--border-color)", paddingBottom: "0.5rem" }}>Horizontal</h5>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+                {clues.filter(cl => cl.direction === "across").map(cl => (
+                  <div key={`${cl.number}-across`} style={{ padding: "0.8rem", background: "var(--bg-secondary)", borderRadius: "12px", border: "1px solid var(--border-color)", fontSize: "0.95rem" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginBottom: "0.4rem" }}>
+                      <span style={{ fontWeight: 900, color: "var(--accent-primary)", minWidth: "25px" }}>{cl.number}.</span>
+                      <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>{cl.clue}</span>
                     </div>
-                    {activeHints.includes(c.number) && (
-                      <div style={{ marginTop: "0.8rem", padding: "0.8rem", background: "rgba(251, 191, 36, 0.05)", borderRadius: "8px", fontSize: "0.85rem", color: "#b45309", borderLeft: "3px solid #fbbf24", animation: "fadeIn 0.3s ease" }}>
-                        <strong>Pista:</strong> {c.hint}
+                    {cl.hint && (
+                      <div style={{ marginTop: "0.5rem" }}>
+                        <button onClick={() => toggleHint(cl.number)} style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: "0.75rem", fontWeight: 700, cursor: "pointer", padding: 0 }}>
+                          {activeHints.includes(cl.number) ? "Ocultar pista" : "Ver pista"}
+                        </button>
+                        {activeHints.includes(cl.number) && (
+                          <div style={{ marginTop: "0.4rem", padding: "0.5rem", background: "rgba(251, 191, 36, 0.1)", borderRadius: "8px", fontSize: "0.85rem", color: "#b45309", borderLeft: "3px solid #fbbf24" }}>
+                            {cl.hint}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
                 ))}
               </div>
             </div>
-          ))}
-
-          {allDone && (
-            <div style={{ marginTop: "1rem", padding: "1.5rem", background: "linear-gradient(135deg, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0.05) 100%)", border: "1px solid var(--accent-green)", borderRadius: "16px", textAlign: "center", color: "var(--accent-green)", fontWeight: 900, fontSize: "1.2rem", animation: "bounce 1s infinite" }}>
-              ¡Crucigrama Completado! 🏆
+            <div>
+              <h5 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem", color: "var(--accent-primary)", borderBottom: "1px solid var(--border-color)", paddingBottom: "0.5rem" }}>Vertical</h5>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+                {clues.filter(cl => cl.direction === "down").map(cl => (
+                  <div key={`${cl.number}-down`} style={{ padding: "0.8rem", background: "var(--bg-secondary)", borderRadius: "12px", border: "1px solid var(--border-color)", fontSize: "0.95rem" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginBottom: "0.4rem" }}>
+                      <span style={{ fontWeight: 900, color: "var(--accent-primary)", minWidth: "25px" }}>{cl.number}.</span>
+                      <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>{cl.clue}</span>
+                    </div>
+                    {cl.hint && (
+                      <div style={{ marginTop: "0.5rem" }}>
+                        <button onClick={() => toggleHint(cl.number)} style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: "0.75rem", fontWeight: 700, cursor: "pointer", padding: 0 }}>
+                          {activeHints.includes(cl.number) ? "Ocultar pista" : "Ver pista"}
+                        </button>
+                        {activeHints.includes(cl.number) && (
+                          <div style={{ marginTop: "0.4rem", padding: "0.5rem", background: "rgba(251, 191, 36, 0.1)", borderRadius: "8px", fontSize: "0.85rem", color: "#b45309", borderLeft: "3px solid #fbbf24" }}>
+                            {cl.hint}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
 
-      <p style={{ marginTop: "2rem", fontSize: "0.85rem", color: "var(--text-muted)", textAlign: "center" }}>
-        Haz clic en las celdas para escribir. Las letras correctas se marcarán en verde automáticamente.
-      </p>
+      {allDone && (
+        <div style={{ marginTop: "2rem", padding: "1.5rem", background: "linear-gradient(135deg, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0.05) 100%)", border: "1px solid var(--accent-green)", borderRadius: "16px", textAlign: "center", color: "var(--accent-green)", fontWeight: 900, fontSize: "1.2rem" }}>
+          ¡Increíble! Has resuelto el crucigrama correctamente. 🏆
+        </div>
+      )}
     </div>
   );
 }

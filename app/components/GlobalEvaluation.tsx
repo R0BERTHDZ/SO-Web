@@ -150,7 +150,7 @@ const globalWordSearchWords = [
 
 export default function GlobalEvaluation() {
   return (
-    <div className="review-page animate-fadeInUp" style={{ paddingBottom: "5rem" }}>
+    <div className="review-page" style={{ paddingBottom: "5rem", opacity: 1, display: "block" }}>
       <ChapterHeader 
         num="REPASO GLOBAL" 
         title="Práctica Global de Sistemas Operativos" 
@@ -167,45 +167,45 @@ export default function GlobalEvaluation() {
         flexWrap: "wrap", 
         justifyContent: "center" 
       }}>
-        <button onClick={() => document.getElementById('fill-blanks-sec')?.scrollIntoView({ behavior: 'smooth' })}
-          style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--bg-card)", border: "1px solid var(--border-color)", color: "var(--text-secondary)", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          📝 Autocompletado
-        </button>
         <button onClick={() => document.getElementById('crossword-sec')?.scrollIntoView({ behavior: 'smooth' })}
-          style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--bg-card)", border: "1px solid var(--border-color)", color: "var(--text-secondary)", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          🧩 Crucigrama
+          style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--accent-primary)", color: "white", border: "none", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem", boxShadow: "0 4px 12px rgba(155, 28, 46, 0.2)" }}>
+          🧩 Ir al Crucigrama
         </button>
         <button onClick={() => document.getElementById('wordsearch-sec')?.scrollIntoView({ behavior: 'smooth' })}
+          style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--accent-primary)", color: "white", border: "none", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem", boxShadow: "0 4px 12px rgba(155, 28, 46, 0.2)" }}>
+          🔍 Ir a la Sopa de Letras
+        </button>
+        <button onClick={() => document.getElementById('fill-blanks-sec')?.scrollIntoView({ behavior: 'smooth' })}
           style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", background: "var(--bg-card)", border: "1px solid var(--border-color)", color: "var(--text-secondary)", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          🔍 Sopa de Letras
+          📝 Ir al Autocompletado
         </button>
       </div>
 
       <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 clamp(0.5rem, 3vw, 1rem)" }}>
         
-        {/* Completar Frases */}
-        <div id="fill-blanks-sec" style={{ marginBottom: "4rem" }}>
-          <FillInBlanks 
-            title="Autocompletado: Conceptos Fundamentales" 
-            items={fillInBlanksItems} 
-          />
-        </div>
-
-        {/* Crucigrama Minishell */}
-        <div id="crossword-sec" style={{ marginBottom: "4rem" }}>
+        {/* Crucigrama Minishell - FIRST ON MOBILE TO ENSURE VISIBILITY */}
+        <div id="crossword-sec" style={{ marginBottom: "4rem", minHeight: "300px" }}>
           <Crossword 
-            title="Crucigrama: Comandos del Minishell"
+            title="Crucigrama: Comandos y Llamadas al Sistema"
             size={15}
             clues={minishellCrosswordClues}
           />
         </div>
 
         {/* Sopa de Letras */}
-        <div id="wordsearch-sec" style={{ marginBottom: "4rem" }}>
+        <div id="wordsearch-sec" style={{ marginBottom: "4rem", minHeight: "300px" }}>
           <WordSearch 
             title="Sopa de Letras: Funciones IPC y Procesos"
             items={globalWordSearchWords}
             size={12}
+          />
+        </div>
+
+        {/* Completar Frases */}
+        <div id="fill-blanks-sec" style={{ marginBottom: "4rem" }}>
+          <FillInBlanks 
+            title="Autocompletado: Conceptos Fundamentales" 
+            items={fillInBlanksItems} 
           />
         </div>
         
